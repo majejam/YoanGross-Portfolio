@@ -10,3 +10,93 @@ html,body
     width 100%
     height 100vh
     overflow hidden
+    font-family: 'Staatliches', cursive;
+    user-select none
+
+.ctn-home 
+    position absolute
+    display flex 
+    flex-flow column nowrap
+    top 50%
+    left 55%
+    transform translateY(-50%)
+
+.ctn-home h1
+    font-size 5em
+
+.ctn-home span
+    font-size 1.7em
+    margin-top -10px
+    font-family: 'Roboto Mono', monospace;
+
+.burger-menu-btn
+    position absolute 
+    top 40px 
+    right 50px
+    display flex
+    justify-content space-between 
+    align-items center
+    flex-flow column nowrap
+    height 20px
+    cursor pointer
+
+.burger-menu-btn:hover .bar-1
+    transform rotate(45deg) translateY(12px)
+
+.burger-menu-btn:hover .bar-2
+    transform translateX(30px)
+    opacity 0
+
+.burger-menu-btn:hover .bar-3
+    transform rotate(-45deg) translateY(-12px)
+
+.burger-menu-btn .bar 
+    height 2px
+    width 30px
+    background black
+    border-radius 1px
+    transition 0.3s ease all
+
+.btn-home
+    width 50px 
+    height 50px
+    border 2px black solid 
+    border-radius 100%
+    position relative
+    cursor pointer 
+
+.bar-btn
+    position absolute
+    top 50% 
+    left 50% 
+    transform translateY(-50%)
+    width 35px 
+    height 2px 
+    background black
+
+.overflow
+    width 60px 
+    height 60px
+    margin-left 80%
+    margin-top 30px 
+    overflow hidden
+
+.btn-home:hover .bar-btn
+    animation translate 1s ease 0s infinite normal forwards 
+    text-decoration none
+
+@keyframes translate {
+  0% {
+    transform: translate(0%, -50%);
+  }
+  25%{
+      transform: translate(100%, -50%);
+      }
+  26%{
+    transform: translate(-200%, -50%) scaleX(0);
+    }
+
+  100% {
+    transform: translate(0%, -50%) scaleX(1);
+  }
+}
