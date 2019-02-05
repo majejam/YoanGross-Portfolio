@@ -259,6 +259,14 @@ cube2.mesh.position.z = 25
 cube2.mesh.rotation.x = 0
 scene.add(cube2.mesh)
 
+let cube3 = {}
+cube3.mesh = new THREE.Mesh(cube.geometry, cube.material)
+cube3.mesh.position.x = 10
+cube3.mesh.position.y = 40
+cube3.mesh.position.z = 25
+cube3.mesh.rotation.x = 0
+scene.add(cube3.mesh)
+
 /**
  * Camera
  */
