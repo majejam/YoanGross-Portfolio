@@ -9,6 +9,8 @@ import CameraControls from 'camera-controls';
 CameraControls.install( { THREE: THREE } );
 
 const home_btn = document.querySelector('.btn-home')
+const inner_text = document.querySelector('.txt-slider-ctn')
+
 const createFps = require('fps-indicator');
 let fps = createFps();
 
@@ -17,12 +19,18 @@ let fps = createFps();
  * Btn home
  */
 let x = 0
+let y = 0
 home_btn.addEventListener('click', () =>
 { 
     x += 10
-    if(x == 30)
+    y += 400
+    if(x == 30){
         x = 0
+        y = 0
+    }
+
     cameraControls.moveTo(x,0,0,true )
+    inner_text.style.transform = `translateX(${-y}px)`
 
 })
 /**
@@ -56,7 +64,7 @@ window.addEventListener('resize', () =>
 /**
  * Light 
  */
-const ambientLight = new THREE.DirectionalLight(0xffffff, 3)
+const ambientLight = new THREE.DirectionalLight(0xffffff, 2)
 ambientLight.position.x = 0
 ambientLight.position.y = 1
 ambientLight.position.z = 1
@@ -73,12 +81,12 @@ globe.material = new THREE.MeshStandardMaterial({
     color: 0xfa1212, 
     flatShading: true,
     metalness: 0.5,
-    roughness: 0,
+    roughness: 1,
 })
 globe.mesh = new THREE.Mesh(globe.geometry, globe.material)
 globe.mesh.position.x = 19
 globe.mesh.position.y = 0
-globe.mesh.position.z = -3.5
+globe.mesh.position.z = -4
 scene.add(globe.mesh)
 
 let cone = {}
