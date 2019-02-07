@@ -1,18 +1,46 @@
 import * as THREE from 'three'
 
 export default class Element{
-    constructor(_options){
-
+    constructor(color, scene, type){
+        this.scene = scene 
         this.container = new THREE.Object3D()
         this.posx = 0
         this.posy = 0 
         this.posz = 0 
-        this.setDodecahedron()
-        this.setAnimation()
+        this.color = color 
+        this.type = type 
+        this.setMesh()
+        this.upDownAnimation()
+
+        
         
     }
+    setMesh()
+    {
+        if(this.type == 'Dodecahedron'){
+            this.setDodecahedron()
+        }
+        else if(this.type == 'Cone'){
 
-    setDodecahedron(){
+        }
+        else if(this.type == 'Octahedron'){
+            
+        }
+        else if(this.type == 'Tetrahedron'){
+            
+        }
+        else if(this.type == 'Dodecahedron'){
+            
+        }
+        else if(this.type == 'Dodecahedron'){
+            
+        }
+        else if(this.type == 'Dodecahedron'){
+            
+        }
+    }
+    setDodecahedron()
+    {
         this.element = {}
 
         this.element.geometry = new THREE.DodecahedronBufferGeometry(1, 1)
@@ -31,8 +59,23 @@ export default class Element{
     }
     
 
-    setAnimation()
+    upDownAnimation(increment, force)
     {
-        
+        this.element.mesh.position.y = Math.sin(increment)/force
+    }
+
+    rotateAnimation(force, axis)
+    {
+        if(axis == rotation.y)
+            this.element.mesh.rotation.y += force/1000
+        else if(axis == rotation.x)
+            this.element.mesh.rotation.y += force/1000
+        else if(axis == rotation.z)
+            this.element.mesh.rotation.y += force/1000
+    }
+
+    setScene()
+    {
+        this.scene.add(this.container)
     }
 }

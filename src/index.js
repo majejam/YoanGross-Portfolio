@@ -291,6 +291,9 @@ const cameraControls = new CameraControls(camera, renderer.domElement, false);
 
 cameraControls.dampingFactor = 0.05
 
+
+let object = new Element(0xfffeee, scene, 'Dodecahedron') 
+console.log(object)
 let nb = 0
 /**
  * Loop
