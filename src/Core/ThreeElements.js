@@ -4,23 +4,30 @@ export default class Element{
     constructor(_options){
 
         this.container = new THREE.Object3D()
-
-        this.setGlobe()
+        this.posx = 0
+        this.posy = 0 
+        this.posz = 0 
+        this.setDodecahedron()
         this.setAnimation()
         
     }
 
-    setGlobe(){
-        this.globe = {}
-        this.globe.geometry = new THREE.SphereBufferGeometry(1, 45, 45)
-        this.globe.material = new THREE.MeshStandardMaterial({
-            map: this.textureLoader.load(globeDiffuseSource),
-            normalMap: this.textureLoader.load(globeNormalSource),
-            metalnessMap: this.textureLoader.load(globeRoughtnessSource),
-            roughnessMap: this.textureLoader.load(globeRoughtnessSource) 
+    setDodecahedron(){
+        this.element = {}
+
+        this.element.geometry = new THREE.DodecahedronBufferGeometry(1, 1)
+        this.element.material = new THREE.MeshStandardMaterial({
+            color: 0xfa1212, 
+            flatShading: true,
+            metalness: 0.5,
+            roughness: 1,
         })
-        this.globe.mesh = new THREE.Mesh(this.globe.geometry, this.globe.material)
-        this.container.add(this.globe.mesh)
+
+        this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
+        this.element.mesh.position.x = 19
+        this.element.mesh.position.y = 0
+        this.element.mesh.position.z = -4
+        this.container.add(this.element.mesh)
     }
     
 
