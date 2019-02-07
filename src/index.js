@@ -4,6 +4,7 @@ import './css/reset.styl'
 
 import * as THREE from 'three'
 
+import Element from './Core/ThreeElements.js'
 
 import CameraControls from 'camera-controls';
 
