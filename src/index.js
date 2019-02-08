@@ -221,54 +221,13 @@ octa.mesh.position.z = -2.5
 octa.mesh.rotation.x = 0.5
 scene.add(octa.mesh)
 
-let tetra = {}
-tetra.geometry = new THREE.TetrahedronBufferGeometry( 0.5, 0 );
-tetra.material = new THREE.MeshStandardMaterial({
-    color: 0x8842fa, 
-    flatShading: true,
-    metalness: 0.5,
-    roughness: 1
-})
-tetra.mesh = new THREE.Mesh(tetra.geometry, tetra.material)
-tetra.mesh.position.x = 39
-tetra.mesh.position.y = 0
-tetra.mesh.position.z = -2.5
-tetra.mesh.rotation.x = 0.5
-scene.add(tetra.mesh)
+let tetra = new Element(0x3a8410, scene, 'Tetrahedron', 0.5,1, 1, 1, 39, 0, -10.5)
 let cubeObj = new Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, -1, 0, -2.5)
-//scene.add(cubeObj.container)
-console.log(cubeObj.container)
+let cubeUp = new Element(0x9b6b8e, scene, 'Cube', 1, 1, 1, 1, 0, 40, 25)
+let cubeLeft = new Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, 10, 40, 25)
 
-let cube = {}
-cube.geometry = new THREE.BoxBufferGeometry( 1, 1, 1 )
-cube.material = new THREE.MeshStandardMaterial({
-    color: 0x3a8410, 
-    flatShading: true,
-    metalness: 0.5,
-    roughness: 1,
-})
-cube.mesh = new THREE.Mesh(cube.geometry, cube.material)
-cube.mesh.position.x = -1
-cube.mesh.position.y = 0
-cube.mesh.position.z = -2.5
-cube.mesh.rotation.x = -0.5
-//scene.add(cube.mesh)
+console.log(tetra);
 
-let cube2 = {}
-cube2.mesh = new THREE.Mesh(cube.geometry, cube.material)
-cube2.mesh.position.x = 0
-cube2.mesh.position.y = 40
-cube2.mesh.position.z = 25
-cube2.mesh.rotation.x = 0
-scene.add(cube2.mesh)
-
-let cube3 = {}
-cube3.mesh = new THREE.Mesh(cube.geometry, cube.material)
-cube3.mesh.position.x = 10
-cube3.mesh.position.y = 40
-cube3.mesh.position.z = 25
-cube3.mesh.rotation.x = 0
-scene.add(cube3.mesh)
 
 /**
  * Camera
@@ -307,15 +266,13 @@ const loop = () =>
     globe.mesh.rotation.y += 0.001
     nb += 0.01
     globe.mesh.position.y = Math.sin(nb)/4
-    cubeObj.setAnimation(0.01, 0.005, true, true, true, false)
+   //tetra.setAnimation(0.01, 0.002, true, true, true, false,4)
+    cubeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    cubeUp.setAnimation(0.001, 0.002, false, true, true, false,100)
+    cubeLeft.setAnimation(0.01, 0.002, false, true, true, false,1000)
     cone.mesh.rotation.y += 0.001
     cone.mesh.position.y = -Math.sin(nb)/4
-    //cube.mesh.rotation.y -= 0.001
-    //cube.mesh.position.y = Math.sin(nb)/4
-    cube2.mesh.rotation.x += 0.001
-    cube2.mesh.rotation.y += 0.001
-    cube2.mesh.position.y = 40 + Math.sin(nb)/4
-    // Renderer40 + 
+
     renderer.render(scene, camera)
     if(hold){
         timing += 1
@@ -327,7 +284,7 @@ const loop = () =>
                 
             }, 500);
             setTimeout(() => {
-                cameraControls.moveTo(x+1,40,30,true) 
+                cameraControls.moveTo(x+1,40,28,true) 
 
             }, 1000);
             setTimeout(() => {

@@ -98,15 +98,13 @@ export default class Element{
     setTetrahedron()
     {
         this.element = {}
-
-        this.element.geometry = new THREE.DodecahedronBufferGeometry(1, 1)
+        this.element.geometry = new THREE.TetrahedronBufferGeometry(this.radius, this.definition)
         this.element.material = new THREE.MeshStandardMaterial({
-            color: 0xfa1212, 
+            color: this.color, 
             flatShading: true,
             metalness: 0.5,
             roughness: 1,
         })
-
         this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
         this.element.mesh.position.x = 19
         this.element.mesh.position.y = 0
@@ -114,10 +112,10 @@ export default class Element{
         this.container.add(this.element.mesh)
     }
 
-    upDownAnimation(force)
+    upDownAnimation(force, increment)
     {
         this.force += force
-        this.element.mesh.position.y = Math.sin(this.force)/this.increment
+        this.element.mesh.position.y = Math.sin(this.force)/increment
     }
 
     rotateAnimationX(force_rotation)
@@ -135,9 +133,9 @@ export default class Element{
         this.rotation_force = force_rotation
         this.element.mesh.rotation.z += this.rotation_force
     }
-    setAnimation(force_up,force_rot, animationUp, animationX, animationY, animationZ){
+    setAnimation(force_up,force_rot, animationUp, animationX, animationY, animationZ,increment){
         if(animationUp)
-            this.upDownAnimation(force_up)
+            this.upDownAnimation(force_up,increment)
         if(animationX)
             this.rotateAnimationX(force_rot)
         if(animationY)
