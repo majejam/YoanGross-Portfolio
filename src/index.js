@@ -355,7 +355,7 @@ const loop = () =>
 }
 loop()
 
-console.log('nathan dent');
+//console.log('nathan dent');
 
 
 function floating(el, nb){

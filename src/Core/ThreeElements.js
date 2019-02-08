@@ -1,12 +1,17 @@
 import * as THREE from 'three'
 
 export default class Element{
-    constructor(color, scene, type){
+    // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
+    constructor(color, scene, type, radius, height, definition, size, posx, posy, posz){
         this.scene = scene 
         this.container = new THREE.Object3D()
-        this.posx = 0
-        this.posy = 0 
-        this.posz = 0 
+        this.posx = posx
+        this.posy = posy
+        this.posz = posz
+        this.size = size
+        this.radius = radius
+        this.height = height 
+        this.definition = definition
         this.color = color 
         this.type = type 
         this.setMesh()
@@ -21,23 +26,53 @@ export default class Element{
             this.setDodecahedron()
         }
         else if(this.type == 'Cone'){
-
+            this.setCone()
         }
         else if(this.type == 'Octahedron'){
-            
+            this.setOctahedron()
         }
         else if(this.type == 'Tetrahedron'){
-            
+            this.setTetrahedron()
         }
-        else if(this.type == 'Dodecahedron'){
-            
+        else if(this.type == 'cube'){
+            this.setCube()
         }
-        else if(this.type == 'Dodecahedron'){
-            
-        }
-        else if(this.type == 'Dodecahedron'){
-            
-        }
+    }
+    setDodecahedron()
+    {
+        this.element = {}
+
+        this.element.geometry = new THREE.DodecahedronBufferGeometry(this.radius, this.definition)
+        this.element.material = new THREE.MeshStandardMaterial({
+            color: 0xfa1212, 
+            flatShading: true,
+            metalness: 0.5,
+            roughness: 1,
+        })
+
+        this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
+        this.element.mesh.position.x = 19
+        this.element.mesh.position.y = 0
+        this.element.mesh.position.z = -4
+        this.container.add(this.element.mesh)
+    }
+    setCone()
+    {
+        this.element = {}
+
+        this.element.geometry = new THREE.ConeBufferGeometry(this.radius, this.height, this.definition)
+        this.element.material = new THREE.MeshStandardMaterial({
+            color: 0xfa1212, 
+            flatShading: true,
+            metalness: 0.5,
+            roughness: 1,
+        })
+
+        this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
+        this.element.mesh.position.x = 19
+        this.element.mesh.position.y = 0
+        this.element.mesh.position.z = -4
+        this.container.add(this.element.mesh)
     }
     setDodecahedron()
     {
@@ -57,7 +92,24 @@ export default class Element{
         this.element.mesh.position.z = -4
         this.container.add(this.element.mesh)
     }
-    
+    setDodecahedron()
+    {
+        this.element = {}
+
+        this.element.geometry = new THREE.DodecahedronBufferGeometry(1, 1)
+        this.element.material = new THREE.MeshStandardMaterial({
+            color: 0xfa1212, 
+            flatShading: true,
+            metalness: 0.5,
+            roughness: 1,
+        })
+
+        this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
+        this.element.mesh.position.x = 19
+        this.element.mesh.position.y = 0
+        this.element.mesh.position.z = -4
+        this.container.add(this.element.mesh)
+    }
 
     upDownAnimation(increment, force)
     {
