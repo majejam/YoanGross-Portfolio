@@ -235,7 +235,9 @@ tetra.mesh.position.y = 0
 tetra.mesh.position.z = -2.5
 tetra.mesh.rotation.x = 0.5
 scene.add(tetra.mesh)
-
+let cubeObj = new Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, -1, 0, -2.5)
+//scene.add(cubeObj.container)
+console.log(cubeObj.container)
 
 let cube = {}
 cube.geometry = new THREE.BoxBufferGeometry( 1, 1, 1 )
@@ -250,7 +252,7 @@ cube.mesh.position.x = -1
 cube.mesh.position.y = 0
 cube.mesh.position.z = -2.5
 cube.mesh.rotation.x = -0.5
-scene.add(cube.mesh)
+//scene.add(cube.mesh)
 
 let cube2 = {}
 cube2.mesh = new THREE.Mesh(cube.geometry, cube.material)
@@ -291,9 +293,6 @@ const cameraControls = new CameraControls(camera, renderer.domElement, false);
 
 cameraControls.dampingFactor = 0.05
 
-
-let object = new Element(0xfffeee, scene, 'Dodecahedron') 
-console.log(object)
 let nb = 0
 /**
  * Loop
@@ -308,11 +307,11 @@ const loop = () =>
     globe.mesh.rotation.y += 0.001
     nb += 0.01
     globe.mesh.position.y = Math.sin(nb)/4
-
+    cubeObj.setAnimation(0.01, 0.005, true, true, true, false)
     cone.mesh.rotation.y += 0.001
     cone.mesh.position.y = -Math.sin(nb)/4
-    cube.mesh.rotation.y -= 0.001
-    cube.mesh.position.y = Math.sin(nb)/4
+    //cube.mesh.rotation.y -= 0.001
+    //cube.mesh.position.y = Math.sin(nb)/4
     cube2.mesh.rotation.x += 0.001
     cube2.mesh.rotation.y += 0.001
     cube2.mesh.position.y = 40 + Math.sin(nb)/4

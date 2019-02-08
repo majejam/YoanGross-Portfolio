@@ -14,11 +14,12 @@ export default class Element{
         this.definition = definition
         this.color = color 
         this.type = type 
+        this.force = 0
+        this.rotation_force = 0 
+        this.increment = 4 
         this.setMesh()
-        this.upDownAnimation()
-
         
-        
+        this.setScene()
     }
     setMesh()
     {
@@ -34,9 +35,11 @@ export default class Element{
         else if(this.type == 'Tetrahedron'){
             this.setTetrahedron()
         }
-        else if(this.type == 'cube'){
+        else if(this.type == 'Cube'){
             this.setCube()
         }
+        else 
+            return 
     }
     setDodecahedron()
     {
@@ -74,7 +77,25 @@ export default class Element{
         this.element.mesh.position.z = -4
         this.container.add(this.element.mesh)
     }
-    setDodecahedron()
+    setCube()
+    {
+        this.element = {}
+
+        this.element.geometry = new THREE.BoxBufferGeometry(this.size, this.size, this.size)
+        this.element.material = new THREE.MeshStandardMaterial({
+            color: this.color, 
+            flatShading: true,
+            metalness: 0.5,
+            roughness: 1,
+        })
+
+        this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
+        this.element.mesh.position.x = this.posx
+        this.element.mesh.position.y = this.posy
+        this.element.mesh.position.z = this.posz
+        this.container.add(this.element.mesh)
+    }
+    setTetrahedron()
     {
         this.element = {}
 
@@ -92,42 +113,46 @@ export default class Element{
         this.element.mesh.position.z = -4
         this.container.add(this.element.mesh)
     }
-    setDodecahedron()
+
+    upDownAnimation(force)
     {
-        this.element = {}
-
-        this.element.geometry = new THREE.DodecahedronBufferGeometry(1, 1)
-        this.element.material = new THREE.MeshStandardMaterial({
-            color: 0xfa1212, 
-            flatShading: true,
-            metalness: 0.5,
-            roughness: 1,
-        })
-
-        this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
-        this.element.mesh.position.x = 19
-        this.element.mesh.position.y = 0
-        this.element.mesh.position.z = -4
-        this.container.add(this.element.mesh)
+        this.force += force
+        this.element.mesh.position.y = Math.sin(this.force)/this.increment
     }
 
-    upDownAnimation(increment, force)
+    rotateAnimationX(force_rotation)
     {
-        this.element.mesh.position.y = Math.sin(increment)/force
+        this.rotation_force = force_rotation
+        this.element.mesh.rotation.x += this.rotation_force
     }
-
-    rotateAnimation(force, axis)
+    rotateAnimationY(force_rotation)
     {
-        if(axis == rotation.y)
-            this.element.mesh.rotation.y += force/1000
-        else if(axis == rotation.x)
-            this.element.mesh.rotation.y += force/1000
-        else if(axis == rotation.z)
-            this.element.mesh.rotation.y += force/1000
+        this.rotation_force = force_rotation
+        this.element.mesh.rotation.y += this.rotation_force
+    }
+    rotateAnimationZ(force_rotation)
+    {
+        this.rotation_force = force_rotation
+        this.element.mesh.rotation.z += this.rotation_force
+    }
+    setAnimation(force_up,force_rot, animationUp, animationX, animationY, animationZ){
+        if(animationUp)
+            this.upDownAnimation(force_up)
+        if(animationX)
+            this.rotateAnimationX(force_rot)
+        if(animationY)
+            this.rotateAnimationY(force_rot)
+        if(animationZ)
+            this.rotateAnimationZ(force_rot)
     }
 
     setScene()
     {
         this.scene.add(this.container)
+    }
+
+    returnObj()
+    {
+        return this.container
     }
 }
