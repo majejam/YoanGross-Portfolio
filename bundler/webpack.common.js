@@ -11,7 +11,10 @@ module.exports = {
             template: path.resolve(__dirname, '../src/index.html')
         })
     ],
-    entry: './src/index.js',
+    entry: {
+        modules: './src/modules/module.js',
+        index: './src/index.js'
+      },
     output:
     {
         filename: 'bundle.[hash].js',

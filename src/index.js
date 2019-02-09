@@ -178,34 +178,6 @@ scene.add( light );
 /**
  * Object
  */
-let globe = {}
-globe.geometry = new THREE.DodecahedronBufferGeometry(1, 1)
-globe.material = new THREE.MeshStandardMaterial({
-    color: 0xfa1212, 
-    flatShading: true,
-    metalness: 0.5,
-    roughness: 1,
-})
-globe.mesh = new THREE.Mesh(globe.geometry, globe.material)
-globe.mesh.position.x = 19
-globe.mesh.position.y = 0
-globe.mesh.position.z = -4
-scene.add(globe.mesh)
-
-let cone = {}
-cone.geometry = new THREE.ConeBufferGeometry( 0.5, 1.5, 320 );
-cone.material = new THREE.MeshStandardMaterial({
-    color: 0x3a82fa, 
-    flatShading: true,
-    metalness: 0.5,
-    roughness: 1,
-})
-cone.mesh = new THREE.Mesh(cone.geometry, cone.material)
-cone.mesh.position.x = 9
-cone.mesh.position.y = 0
-cone.mesh.position.z = -2.5
-cone.mesh.rotation.x = 0.5
-scene.add(cone.mesh)
 let octa = {}
 octa.geometry = new THREE.OctahedronBufferGeometry( 0.5, 0 );
 octa.material = new THREE.MeshStandardMaterial({
@@ -219,15 +191,15 @@ octa.mesh.position.x = 29
 octa.mesh.position.y = 0
 octa.mesh.position.z = -2.5
 octa.mesh.rotation.x = 0.5
-scene.add(octa.mesh)
+//scene.add(octa.mesh)
 
-let tetra = new Element(0x3a8410, scene, 'Tetrahedron', 0.5,1, 1, 1, 39, 0, -10.5)
+let tetra = new Element(0x3a8410, scene, 'Tetrahedron', 0.5, 1, 0, 1, 39, 0, -2.5)
 let cubeObj = new Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, -1, 0, -2.5)
 let cubeUp = new Element(0x9b6b8e, scene, 'Cube', 1, 1, 1, 1, 0, 40, 25)
 let cubeLeft = new Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, 10, 40, 25)
-
-console.log(tetra);
-
+let coneObj = new Element(0x3a82fa, scene, 'Cone', 0.5, 1.5, 320, 0, 9, 0, -2.5)
+let dodeObj = new Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 19, 0, -4)
+let octaObj = new Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29, 0, -4)
 
 /**
  * Camera
@@ -263,17 +235,26 @@ const loop = () =>
     const hasControlsUpdated = cameraControls.update( delta );
     window.requestAnimationFrame(loop)
     
-    globe.mesh.rotation.y += 0.001
     nb += 0.01
-    globe.mesh.position.y = Math.sin(nb)/4
-   //tetra.setAnimation(0.01, 0.002, true, true, true, false,4)
+    tetra.setAnimation(0.01, 0.002, true, true, true, false,4)
     cubeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     cubeUp.setAnimation(0.001, 0.002, false, true, true, false,100)
     cubeLeft.setAnimation(0.01, 0.002, false, true, true, false,1000)
-    cone.mesh.rotation.y += 0.001
-    cone.mesh.position.y = -Math.sin(nb)/4
-
+    coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    holdMouse()
     renderer.render(scene, camera)
+
+
+    
+
+}
+loop()
+
+
+
+function holdMouse(){
     if(hold){
         timing += 1
         
@@ -305,15 +286,4 @@ const loop = () =>
     }
     else 
         cursor_hold.style.opacity = '0'
-
-    
-
 }
-loop()
-
-//console.log('nathan dent');
-
-
-function floating(el, nb){
-
-}   

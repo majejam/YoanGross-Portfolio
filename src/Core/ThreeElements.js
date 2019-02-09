@@ -38,25 +38,40 @@ export default class Element{
         else if(this.type == 'Cube'){
             this.setCube()
         }
-        else 
-            return 
+
     }
-    setDodecahedron()
+    setOctahedron()
     {
         this.element = {}
-
-        this.element.geometry = new THREE.DodecahedronBufferGeometry(this.radius, this.definition)
+        this.element.geometry = new THREE.OctahedronBufferGeometry(this.radius, this.definition)
         this.element.material = new THREE.MeshStandardMaterial({
-            color: 0xfa1212, 
+            color: this.color, 
             flatShading: true,
             metalness: 0.5,
             roughness: 1,
         })
 
         this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
-        this.element.mesh.position.x = 19
-        this.element.mesh.position.y = 0
-        this.element.mesh.position.z = -4
+        this.element.mesh.position.x = this.posx
+        this.element.mesh.position.y = this.posy
+        this.element.mesh.position.z = this.posz
+        this.container.add(this.element.mesh)
+    }
+    setDodecahedron()
+    {
+        this.element = {}
+        this.element.geometry = new THREE.DodecahedronBufferGeometry(this.radius, this.definition)
+        this.element.material = new THREE.MeshStandardMaterial({
+            color: this.color, 
+            flatShading: true,
+            metalness: 0.5,
+            roughness: 1,
+        })
+
+        this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
+        this.element.mesh.position.x = this.posx
+        this.element.mesh.position.y = this.posy
+        this.element.mesh.position.z = this.posz
         this.container.add(this.element.mesh)
     }
     setCone()
@@ -65,16 +80,16 @@ export default class Element{
 
         this.element.geometry = new THREE.ConeBufferGeometry(this.radius, this.height, this.definition)
         this.element.material = new THREE.MeshStandardMaterial({
-            color: 0xfa1212, 
+            color: this.color, 
             flatShading: true,
             metalness: 0.5,
             roughness: 1,
         })
 
         this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
-        this.element.mesh.position.x = 19
-        this.element.mesh.position.y = 0
-        this.element.mesh.position.z = -4
+        this.element.mesh.position.x = this.posx
+        this.element.mesh.position.y = this.posy
+        this.element.mesh.position.z = this.posz
         this.container.add(this.element.mesh)
     }
     setCube()
@@ -106,9 +121,9 @@ export default class Element{
             roughness: 1,
         })
         this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
-        this.element.mesh.position.x = 19
-        this.element.mesh.position.y = 0
-        this.element.mesh.position.z = -4
+        this.element.mesh.position.x = this.posx
+        this.element.mesh.position.y = this.posy
+        this.element.mesh.position.z = this.posz
         this.container.add(this.element.mesh)
     }
 
@@ -147,6 +162,8 @@ export default class Element{
     setScene()
     {
         this.scene.add(this.container)
+        console.log('set scene');
+        
     }
 
     returnObj()
