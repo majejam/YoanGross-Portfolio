@@ -4,7 +4,7 @@ import './css/reset.styl'
 
 import * as THREE from 'three'
 
-import Element from './Core/ThreeElements.js'
+import * as OBJECT from './Core/ThreeElements.js'
 
 import CameraControls from 'camera-controls';
 
@@ -193,14 +193,20 @@ octa.mesh.position.z = -2.5
 octa.mesh.rotation.x = 0.5
 //scene.add(octa.mesh)
 
-let tetra = new Element(0x3a8410, scene, 'Tetrahedron', 0.5, 1, 0, 1, 39, 0, -2.5)
-let cubeObj = new Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, -1, 0, -2.5)
-let cubeUp = new Element(0x9b6b8e, scene, 'Cube', 1, 1, 1, 1, 0, 40, 25)
-let cubeLeft = new Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, 10, 40, 25)
-let coneObj = new Element(0x3a82fa, scene, 'Cone', 0.5, 1.5, 320, 0, 9, 0, -2.5)
-let dodeObj = new Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 19, 0, -4)
-let octaObj = new Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29, 0, -4)
+let tetra = new OBJECT.Element(0x3a8410, scene, 'Tetrahedron', 0.5, 1, 0, 1, 39, 0, -2.5)
+let cubeObj = new OBJECT.Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, -1, 0, -2.5)
+//let cubeUp = new OBJECT.Element(0x9b6b8e, scene, 'Cube', 1, 1, 1, 1, 0, 40, 25)
+let cubeLeft = new OBJECT.Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, 10, 40, 25)
+let coneObj = new OBJECT.Element(0x3a82fa, scene, 'Cone', 0.5, 1.5, 320, 0, 9, 0, -2.5)
+let dodeObj = new OBJECT.Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 19, 0, -4)
+let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29, 0, -4)
 
+
+/**
+ * First scene
+ */
+
+let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10)
 /**
  * Camera
  */
@@ -238,7 +244,7 @@ const loop = () =>
     nb += 0.01
     tetra.setAnimation(0.01, 0.002, true, true, true, false,4)
     cubeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
-    cubeUp.setAnimation(0.001, 0.002, false, true, true, false,100)
+    //cubeUp.setAnimation(0.001, 0.002, false, true, true, false,100)
     cubeLeft.setAnimation(0.01, 0.002, false, true, true, false,1000)
     coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)

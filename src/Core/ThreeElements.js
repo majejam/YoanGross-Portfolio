@@ -1,6 +1,6 @@
 import * as THREE from 'three'
 
-export default class Element{
+export class Element{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
     constructor(color, scene, type, radius, height, definition, size, posx, posy, posz){
         this.scene = scene 
@@ -161,9 +161,49 @@ export default class Element{
 
     setScene()
     {
-        this.scene.add(this.container)
-        console.log('set scene');
-        
+        this.scene.add(this.container)  
+    }
+
+    returnObj()
+    {
+        return this.container
+    }
+}
+
+
+export class Scene{
+    // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
+    constructor(scene, posx, posy, posz, number){
+        this.scene = scene 
+        this.color = 0xff45f4
+        this.container = new THREE.Object3D()
+        this.posx = posx
+        this.posy = posy
+        this.posz = posz
+        this.elx = this.posx
+        this.ely = this.posy 
+        this.elz = this.posz 
+        this.number = number
+        this.arrayElement = new Array()
+        this.setElements(this.number)
+        this.setScene()
+    }
+    setMesh()
+    {
+
+    }
+    setElements(number){
+        for (let index = 0; index < number; index++) {  
+            let el = new Element(this.color, this.scene, 'Cube', 1, 1, 1, 1, this.elx, this.ely, this.elz - (index * 10))
+            let el2 = el.returnObj()
+            this.arrayElement.push(el2)
+            this.container.add(el2)
+        }
+    }
+    
+    setScene()
+    {
+        this.scene.add(this.container) 
     }
 
     returnObj()
