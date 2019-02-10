@@ -230,7 +230,15 @@ const cameraControls = new CameraControls(camera, renderer.domElement, false);
 
 cameraControls.dampingFactor = 0.05
 
-let nb = 0
+let nb = 21
+
+window.addEventListener('click', () =>
+{ 
+    nb -= 10
+    cameraControls.moveTo(1,40, nb,true )
+
+
+})
 /**
  * Loop
  */
@@ -249,6 +257,7 @@ const loop = () =>
     coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    firstscene.animationPlay()
     holdMouse()
     renderer.render(scene, camera)
 

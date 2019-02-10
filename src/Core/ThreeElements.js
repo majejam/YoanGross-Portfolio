@@ -186,24 +186,28 @@ export class Scene{
         this.number = number
         this.arrayElement = new Array()
         this.setElements(this.number)
+        this.container.position.x = this.posx
+        this.container.position.y = this.posy
+        this.container.position.z = this.posz
         this.setScene()
-    }
-    setMesh()
-    {
-
     }
     setElements(number){
         for (let index = 0; index < number; index++) {  
             let el = new Element(this.color, this.scene, 'Cube', 1, 1, 1, 1, this.elx, this.ely, this.elz - (index * 10))
-            let el2 = el.returnObj()
-            this.arrayElement.push(el2)
-            this.container.add(el2)
+            this.arrayElement.push(el)
+            this.container.add(this.arrayElement[index].returnObj())
         }
     }
     
     setScene()
     {
         this.scene.add(this.container) 
+    }
+    animationPlay()
+    {
+        for (let index = 0; index < this.arrayElement.length; index++) {  
+            this.arrayElement[index].setAnimation(0.01, 0.002, true, true, true, false,4)
+        }
     }
 
     returnObj()
