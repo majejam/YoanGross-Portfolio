@@ -206,7 +206,8 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
  * First scene
  */
 
-let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10)
+let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10, 'Cube')
+let secondscene = new OBJECT.Scene(scene, 10, 40, 25, 10, 'Tetrahedron')
 /**
  * Camera
  */
@@ -230,12 +231,12 @@ const cameraControls = new CameraControls(camera, renderer.domElement, false);
 
 cameraControls.dampingFactor = 0.05
 
-let nb = 21
+let nb = 0
 
 window.addEventListener('click', () =>
 { 
     nb -= 10
-    cameraControls.moveTo(1,40, nb,true )
+    //cameraControls.moveTo(1,40, nb,true )
 
 
 })
@@ -258,6 +259,7 @@ const loop = () =>
     dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     firstscene.animationPlay()
+    secondscene.animationPlay()
     holdMouse()
     renderer.render(scene, camera)
 

@@ -173,8 +173,9 @@ export class Element{
 
 export class Scene{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
-    constructor(scene, posx, posy, posz, number){
+    constructor(scene, posx, posy, posz, number, type){
         this.scene = scene 
+        this.type = type 
         this.color = 0xff45f4
         this.container = new THREE.Object3D()
         this.posx = posx
@@ -193,8 +194,15 @@ export class Scene{
     }
     setElements(number){
         for (let index = 0; index < number; index++) {  
-            let el = new Element(this.color, this.scene, 'Cube', 1, 1, 1, 1, this.elx, this.ely, this.elz - (index * 10))
-            this.arrayElement.push(el)
+            let modulo = index % 2
+            if(modulo == 0){
+                let el = new Element(this.color, this.scene, this.type, 1, 1, 1, 1, this.elx-5, this.ely, this.elz - (index * 10))
+                this.arrayElement.push(el)
+            }
+            else{
+                let el = new Element(this.color, this.scene, this.type, 1, 1, 1, 1, this.elx+5, this.ely, this.elz - (index * 10))
+                this.arrayElement.push(el)
+            }
             this.container.add(this.arrayElement[index].returnObj())
         }
     }
@@ -203,6 +211,13 @@ export class Scene{
     {
         this.scene.add(this.container) 
     }
+
+    setPosx(){
+
+        
+        if(x == 0){this.posx -= 5}else{this.posx += 5}
+    }
+
     animationPlay()
     {
         for (let index = 0; index < this.arrayElement.length; index++) {  
