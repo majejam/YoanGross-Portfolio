@@ -211,10 +211,70 @@ export class Scene{
         }
     }
 
-    setObj(){
-        
+    
+    setScene()
+    {
+        this.scene.add(this.container) 
     }
 
+    setPosx(){
+
+        
+        if(x == 0){this.posx -= 5}else{this.posx += 5}
+    }
+
+    animationPlay()
+    {
+        for (let index = 0; index < this.arrayElement.length; index++) {  
+            this.arrayElement[index].setAnimation(0.01, 0.002, true, true, true, false,4)
+        }
+    }
+
+    returnObj()
+    {
+        return this.container
+    }
+}
+
+
+export class RandomElement{
+    // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
+    constructor(scene, posx, posy, posz, number, type, radius, height, definition, size){
+        this.scene = scene 
+        this.type = type 
+        this.color = 0xff45f4
+        this.container = new THREE.Object3D()
+        this.posx = posx 
+        this.posy = posy
+        this.posz = posz
+        this.elx = this.posx
+        this.ely = this.posy 
+        this.elz = this.posz 
+        this.radius = radius 
+        this.height = height 
+        this.definition = definition 
+        this.size = size 
+        this.number = number
+        this.arrayElement = new Array()
+        this.setElements(this.number)
+        this.container.position.x = this.posx
+        this.container.position.y = this.posy
+        this.container.position.z = this.posz
+        this.setScene()
+    }
+    setElements(number){
+        for (let index = 0; index < number; index++) {  
+            let el = new Element(this.color, this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+5, this.ely, this.elz - (index * 10))
+            this.arrayElement.push(el)
+            this.container.add(this.arrayElement[index].returnObj())
+        }
+    }
+
+    randomType(){
+        let array = ['Cube','Cone','Tetrahedron','Octahedron','Dodecahedron']
+        let random = Math.round(Math.random() * array.length)
+        return array[random]
+    }
     setScene()
     {
         this.scene.add(this.container) 
