@@ -206,6 +206,10 @@ export class Scene{
             this.container.add(this.arrayElement[index].returnObj())
         }
     }
+
+    setObj(){
+        
+    }
     
     setScene()
     {
