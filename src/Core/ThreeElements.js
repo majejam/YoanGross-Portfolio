@@ -173,7 +173,7 @@ export class Element{
 
 export class Scene{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
-    constructor(scene, posx, posy, posz, number, type){
+    constructor(scene, posx, posy, posz, number, type, radius, height, definition, size){
         this.scene = scene 
         this.type = type 
         this.color = 0xff45f4
@@ -184,6 +184,10 @@ export class Scene{
         this.elx = this.posx
         this.ely = this.posy 
         this.elz = this.posz 
+        this.radius = radius 
+        this.height = height 
+        this.definition = definition 
+        this.size = size 
         this.number = number
         this.arrayElement = new Array()
         this.setElements(this.number)
@@ -196,11 +200,11 @@ export class Scene{
         for (let index = 0; index < number; index++) {  
             let modulo = index % 2
             if(modulo == 0){
-                let el = new Element(this.color, this.scene, this.type, 1, 1, 1, 1, this.elx-5, this.ely, this.elz - (index * 10))
+                let el = new Element(this.color, this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx-5, this.ely, this.elz - (index * 10))
                 this.arrayElement.push(el)
             }
             else{
-                let el = new Element(this.color, this.scene, this.type, 1, 1, 1, 1, this.elx+5, this.ely, this.elz - (index * 10))
+                let el = new Element(this.color, this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+5, this.ely, this.elz - (index * 10))
                 this.arrayElement.push(el)
             }
             this.container.add(this.arrayElement[index].returnObj())
@@ -210,7 +214,7 @@ export class Scene{
     setObj(){
         
     }
-    
+
     setScene()
     {
         this.scene.add(this.container) 
