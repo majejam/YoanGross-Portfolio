@@ -279,13 +279,6 @@ export class RandomElement{
     {
         this.scene.add(this.container) 
     }
-
-    setPosx(){
-
-        
-        if(x == 0){this.posx -= 5}else{this.posx += 5}
-    }
-
     animationPlay()
     {
         for (let index = 0; index < this.arrayElement.length; index++) {  
