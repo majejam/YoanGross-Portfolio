@@ -130,7 +130,7 @@ export class Element{
     upDownAnimation(force, increment)
     {
         this.force += force
-        this.element.mesh.position.y = Math.sin(this.force)/increment
+        this.element.mesh.position.y = this.posy + Math.sin(this.force)/increment
     }
 
     rotateAnimationX(force_rotation)
@@ -239,17 +239,16 @@ export class Scene{
 
 export class RandomElement{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
-    constructor(scene, posx, posy, posz, number, type, radius, height, definition, size){
-        this.scene = scene 
-        this.type = type 
-        this.color = 0xff45f4
+    constructor(scene, posx, posy, posz, number, radius, height, definition, size){
+        this.scene = scene  
         this.container = new THREE.Object3D()
         this.posx = posx 
         this.posy = posy
         this.posz = posz
-        this.elx = this.posx
-        this.ely = this.posy 
-        this.elz = this.posz 
+        this.elx =  -50 + Math.random() * 100
+        this.ely = 0
+        this.elz = -(Math.random() * 100)
+        this.color = new Array(0xff45f4,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7)
         this.radius = radius 
         this.height = height 
         this.definition = definition 
@@ -261,10 +260,18 @@ export class RandomElement{
         this.container.position.y = this.posy
         this.container.position.z = this.posz
         this.setScene()
+        
     }
+
     setElements(number){
-        for (let index = 0; index < number; index++) {  
-            let el = new Element(this.color, this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+5, this.ely, this.elz - (index * 10))
+        console.log(this.color);
+        
+        for (let index = 0; index < number; index++) { 
+            this.elx =  -300 + Math.random() * 600
+            this.ely = -100 + Math.random() * 200
+            this.elz = -(Math.random() * 100) 
+            let rType = this.randomType()
+            let el = new Element(this.color[Math.floor(Math.random()* this.color.length)], this.scene, rType, this.radius, this.height, this.definition, this.size, this.elx, this.ely, this.elz)
             this.arrayElement.push(el)
             this.container.add(this.arrayElement[index].returnObj())
         }
@@ -272,18 +279,28 @@ export class RandomElement{
 
     randomType(){
         let array = ['Cube','Cone','Tetrahedron','Octahedron','Dodecahedron']
-        let random = Math.round(Math.random() * array.length)
+        let random = Math.floor(Math.random() * array.length)
+        console.log(random);
+        
+        console.log(array[random])
         return array[random]
     }
     setScene()
     {
+        console.log(this.arrayElement)
         this.scene.add(this.container) 
     }
     animationPlay()
     {
         for (let index = 0; index < this.arrayElement.length; index++) {  
-            this.arrayElement[index].setAnimation(0.01, 0.002, true, true, true, false,4)
+            this.arrayElement[index].setAnimation(0.01, 0.005, true, true, true, false,4)
         }
+    }
+    animationPlays()
+    {
+         
+        this.arrayElement[0].setAnimation(0.01, 0.002, true, true, true, false,4)
+        
     }
 
     returnObj()

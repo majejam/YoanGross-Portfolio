@@ -208,6 +208,8 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
 
 let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10, 'Cube',1,1,1,1)
 let secondscene = new OBJECT.Scene(scene, 10, 400, 25, 10, 'Cone', 0.5, 1.5, 320, 0)
+
+let random = new OBJECT.RandomElement(scene, 0, 0, -20, 200, 1, 1, 1, 1)
 /**
  * Camera
  */
@@ -260,6 +262,7 @@ const loop = () =>
     octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     firstscene.animationPlay()
     secondscene.animationPlay()
+    random.animationPlay()
     holdMouse()
     renderer.render(scene, camera)
 
