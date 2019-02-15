@@ -264,8 +264,6 @@ export class RandomElement{
     }
 
     setElements(number){
-        console.log(this.color);
-        
         for (let index = 0; index < number; index++) { 
             this.elx =  -300 + Math.random() * 600
             this.ely = -100 + Math.random() * 200
@@ -280,14 +278,10 @@ export class RandomElement{
     randomType(){
         let array = ['Cube','Cone','Tetrahedron','Octahedron','Dodecahedron']
         let random = Math.floor(Math.random() * array.length)
-        console.log(random);
-        
-        console.log(array[random])
         return array[random]
     }
     setScene()
     {
-        console.log(this.arrayElement)
         this.scene.add(this.container) 
     }
     animationPlay()
