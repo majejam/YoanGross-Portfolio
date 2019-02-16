@@ -266,7 +266,7 @@ export class RandomElement{
     setElements(number){
         for (let index = 0; index < number; index++) { 
             this.elx =  -300 + Math.random() * 600
-            this.ely = -100 + Math.random() * 200
+            this.ely = -150 + Math.random() * 300
             this.elz = -(Math.random() * 100) 
             let rType = this.randomType()
             let el = new Element(this.color[Math.floor(Math.random()* this.color.length)], this.scene, rType, this.radius, this.height, this.definition, this.size, this.elx, this.ely, this.elz)
