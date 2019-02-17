@@ -209,6 +209,7 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
 let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10, 'Cube',1,1,1,1)
 let secondscene = new OBJECT.Scene(scene, 10, 400, 25, 10, 'Cone', 0.5, 1.5, 320, 0)
 
+
 let random = new OBJECT.RandomElement(scene, 0, 0, -20, 200, 1, 1, 1, 1)
 /**
  * Camera
@@ -283,7 +284,9 @@ function holdMouse(){
 
             setTimeout(() => {
                 if(x == 0)
-                    cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz - 5,true) 
+                    cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz + 10,true)
+                    console.log(firstscene.posy);
+                     
 
                 if(x == 10)
                     cameraControls.moveTo(secondscene.posx+10,secondscene.posy,secondscene.posz - 5,true) 

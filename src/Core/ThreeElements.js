@@ -18,7 +18,6 @@ export class Element{
         this.rotation_force = 0 
         this.increment = 4 
         this.setMesh()
-        
         this.setScene()
     }
     setMesh()
@@ -176,24 +175,24 @@ export class Scene{
     constructor(scene, posx, posy, posz, number, type, radius, height, definition, size){
         this.scene = scene 
         this.type = type 
-        this.color = 0xff45f4
+        this.color = 0xff0000
         this.container = new THREE.Object3D()
         this.posx = posx
         this.posy = posy
         this.posz = posz
-        this.elx = this.posx
-        this.ely = this.posy 
-        this.elz = this.posz 
+        this.elx = 0
+        this.ely = 0
+        this.elz = 0 
         this.radius = radius 
         this.height = height 
         this.definition = definition 
         this.size = size 
         this.number = number
         this.arrayElement = new Array()
-        this.setElements(this.number)
         this.container.position.x = this.posx
         this.container.position.y = this.posy
         this.container.position.z = this.posz
+        this.setElements(this.number)
         this.setScene()
     }
     setElements(number){
@@ -214,6 +213,7 @@ export class Scene{
     
     setScene()
     {
+        console.log('scene set to container');
         this.scene.add(this.container) 
     }
 
