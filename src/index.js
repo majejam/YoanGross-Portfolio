@@ -196,7 +196,7 @@ octa.mesh.rotation.x = 0.5
 let tetra = new OBJECT.Element(0x3a8410, scene, 'Tetrahedron', 0.5, 1, 0, 1, 39, 0, -2.5)
 let cubeObj = new OBJECT.Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, -1, 0, -2.5)
 //let cubeUp = new OBJECT.Element(0x9b6b8e, scene, 'Cube', 1, 1, 1, 1, 0, 40, 25)
-let cubeLeft = new OBJECT.Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, 10, 40, 25)
+//let cubeLeft = new OBJECT.Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, 10, 40, 25)
 let coneObj = new OBJECT.Element(0x3a82fa, scene, 'Cone', 0.5, 1.5, 320, 0, 9, 0, -2.5)
 let dodeObj = new OBJECT.Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 19, 0, -4)
 let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29, 0, -4)
@@ -208,9 +208,8 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
 
 let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10, 'Cube',1,1,1,1)
 let secondscene = new OBJECT.Scene(scene, 10, 400, 25, 10, 'Cone', 0.5, 1.5, 320, 0)
+let random = new OBJECT.RandomElement(scene, 0, 0, -50, 200, 1, 1, 1, 1)
 
-
-let random = new OBJECT.RandomElement(scene, 0, 0, -20, 200, 1, 1, 1, 1)
 /**
  * Camera
  */
@@ -257,7 +256,7 @@ const loop = () =>
     tetra.setAnimation(0.01, 0.002, true, true, true, false,4)
     cubeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     //cubeUp.setAnimation(0.001, 0.002, false, true, true, false,100)
-    cubeLeft.setAnimation(0.01, 0.002, false, true, true, false,1000)
+    //cubeLeft.setAnimation(0.01, 0.002, false, true, true, false,1000)
     coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
@@ -266,14 +265,22 @@ const loop = () =>
     random.animationPlay()
     holdMouse()
     renderer.render(scene, camera)
-
-
-    
+    getAppear()
 
 }
 loop()
 
 
+function getAppear() {
+    for (let index = 0; index < firstscene.arrayElement.length; index++) {
+        if (Math.round(camera.position.z) == firstscene.arrayElement[index].element.mesh.position.z) {
+            console.log('hellolooo');
+        }
+    }
+    Math.round(camera.position.z)
+}
+
+console.log(firstscene.arrayElement[5].element.mesh.position.z);
 
 function holdMouse(){
     if(hold){
@@ -281,19 +288,16 @@ function holdMouse(){
         
         if(timing > 30){
             ctn_home.style.opacity = 0 
-
             setTimeout(() => {
                 if(x == 0)
                     cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz + 10,true)
-                    console.log(firstscene.posy);
-                     
 
                 if(x == 10)
-                    cameraControls.moveTo(secondscene.posx+10,secondscene.posy,secondscene.posz - 5,true) 
+                    cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz + 5,true) 
 
             }, 1000);
             setTimeout(() => {
-                ctn_home.style.opacity = 1 
+                ctn_home.style.opacity = 0
             }, 2000);
         }
         else{
@@ -310,4 +314,22 @@ function holdMouse(){
     }
     else 
         cursor_hold.style.opacity = '0'
+}
+let posc = 0
+let resetCamera = true
+window.addEventListener( 'wheel', onMouseWheel, false );
+function onMouseWheel( event ) {
+
+	event.preventDefault();
+    if(posc != camera.position.z && resetCamera){
+        posc = camera.position.z
+        resetCamera = false 
+    }
+    posc += event.deltaY * 0.003;
+    
+    cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
+    
+  // prevent scrolling beyond a min/max value
+  
+
 }

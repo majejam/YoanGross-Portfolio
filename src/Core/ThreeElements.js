@@ -226,7 +226,7 @@ export class Scene{
     animationPlay()
     {
         for (let index = 0; index < this.arrayElement.length; index++) {  
-            this.arrayElement[index].setAnimation(0.01, 0.002, true, true, true, false,4)
+            this.arrayElement[index].setAnimation(0.01, 0.002, true, true, true, true,4)
         }
     }
 
@@ -248,7 +248,7 @@ export class RandomElement{
         this.elx =  -50 + Math.random() * 100
         this.ely = 0
         this.elz = -(Math.random() * 100)
-        this.color = new Array(0xff45f4,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7)
+        this.color = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff)
         this.radius = radius 
         this.height = height 
         this.definition = definition 
