@@ -21,6 +21,7 @@ const home_btn = document.querySelector('.btn-home')
 const inner_text = document.querySelector('.txt-slider-ctn')
 const cursor_hold = document.querySelector('.cursor-hold')
 const sml_bar = document.querySelector('.sml-bar')
+const contentManager = document.querySelectorAll('.content-manager')
 const numerotation = document.querySelectorAll('.nb-num')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 numerotation[0].style.color = '#000000'
@@ -273,14 +274,15 @@ loop()
 
 function getAppear() {
     for (let index = 0; index < firstscene.arrayElement.length; index++) {
-        if (Math.round(camera.position.z) == firstscene.arrayElement[index].element.mesh.position.z) {
-            console.log('hellolooo');
+        let pos = Math.round(camera.position.z) - 30
+        if ( pos == firstscene.arrayElement[index].element.mesh.position.z) {
+            contentManager[index].style.opacity = 0.7
+        }
+        else{
+            contentManager[index].style.opacity = 0
         }
     }
-    Math.round(camera.position.z)
 }
-
-console.log(firstscene.arrayElement[5].element.mesh.position.z);
 
 function holdMouse(){
     if(hold){
@@ -322,10 +324,14 @@ function onMouseWheel( event ) {
 
 	event.preventDefault();
     if(posc != camera.position.z && resetCamera){
-        posc = camera.position.z
+        //posc = camera.position.z
+
         resetCamera = false 
     }
-    posc += event.deltaY * 0.003;
+    //posc += event.deltaY * 0.003;
+    if(Math.abs(event.deltaY/100) > 0.5){
+        moveForward()
+    } 
     
     cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
     
@@ -333,3 +339,7 @@ function onMouseWheel( event ) {
   
 
 }
+
+function moveForward() {
+    posc -= 10
+}   
