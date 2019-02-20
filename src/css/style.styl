@@ -71,7 +71,7 @@ html,body
 .content-container
     perspective 800px
     position absolute
-    top 50%
+    top 55%
     left 15%
     transform translateY(-50%)
     height 60% 
@@ -93,15 +93,19 @@ video
     width 100%
     z-index 1
     color black
-    transform rotate3d(0,1,0,3deg)
-    animation float 10s ease-in-out 0s infinite 
+    transform rotate3d(0,1,0,3deg) 
     will-change transform
+
+.content-left 
+    animation float-left 10s ease-in-out 0s infinite
+
+.content-right 
+    animation float-right 10s ease-in-out 0s infinite
 
 .content-para   
     font-family: 'Roboto Mono', monospace;
     font-size: 0.6em
     margin-bottom 10px
-
 
 .bar-btn
     position absolute
@@ -211,9 +215,21 @@ video
     width 100%
     height 100vh
     z-index 1000
-    display flex 
+    display none
     justify-content center 
     align-items center
+
+.big-nb
+    position absolute 
+    top -30%
+    left -25%
+    font-size 26em
+    opacity 0.3
+    color red
+    z-index -1
+    transform rotate3d(0,1,0,3deg)
+    animation float-up 7s linear 0s infinite normal forwards 
+    will-change transform
 
 .modal-box
     position absolute
@@ -246,7 +262,7 @@ video
   }
 }
 
-@keyframes float {
+@keyframes float-left {
   0% {
     transform rotate3d(0,1,0,3deg)
   }
@@ -259,5 +275,37 @@ video
 
   100% {
     transform rotate3d(0,1,0,3deg)
+  }
+}
+
+@keyframes float-right {
+  0% {
+    transform rotate3d(0,1,0,3deg)
+  }
+  33%{
+    transform rotate3d(0,1,0,2deg)
+    }
+  66%{
+    transform rotate3d(0,1,0,4deg)
+    }
+
+  100% {
+    transform rotate3d(0,1,0,3deg)
+  }
+}
+
+@keyframes float-up {
+  0% {
+    transform translateY(0%)
+  }
+  33%{
+    transform translateY(-2%)
+    }
+  66%{
+    transform translateY(2%)
+    }
+
+  100% {
+    transform translateY(0%)
   }
 }

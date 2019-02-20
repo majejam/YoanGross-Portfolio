@@ -23,11 +23,23 @@ const cursor_hold = document.querySelector('.cursor-hold')
 const sml_bar = document.querySelector('.sml-bar')
 const contentManager = document.querySelectorAll('.content-manager')
 const numerotation = document.querySelectorAll('.nb-num')
+const modalsbtn = document.querySelectorAll('.video-modal')
+const modalsctn = document.querySelectorAll('.modal-container')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 numerotation[0].style.color = '#000000'
 const createFps = require('fps-indicator')
 let fps = createFps()
 
+/**
+ * Modals 
+ */
+
+ for (let i = 0; i < modalsctn.length; i++) {
+    modalsbtn[i].addEventListener('click', (_event) =>
+    {
+        modalsctn[i].style.display = 'flex'
+    })
+ }
 /**
  * Cursor
  */
@@ -273,20 +285,22 @@ loop()
 
 
 function getAppear() {
-    for (let index = 0; index < firstscene.arrayElement.length; index++) {
-        let pos = Math.round(camera.position.z) - 30
-        if ( pos == firstscene.arrayElement[index].element.mesh.position.z) {
-            contentManager[index].style.display = 'flex'
-            setTimeout(() => {
-                contentManager[index].style.opacity = 1
-            }, 500);
-        }
-        else{
-            contentManager[index].style.opacity = 0
-            setTimeout(() => {
-                contentManager[index].style.display = 'none'
-            }, 500);
-
+    if(Math.round(camera.position.y) == firstscene.posy){
+        for (let index = 0; index < firstscene.arrayElement.length; index++) {
+            let pos = Math.round(camera.position.z) - 30
+            if ( pos == firstscene.arrayElement[index].element.mesh.position.z) {
+                contentManager[index].style.display = 'flex'
+                setTimeout(() => {
+                    contentManager[index].style.opacity = 1
+                }, 500);
+            }
+            else{
+                contentManager[index].style.opacity = 0
+                setTimeout(() => {
+                    contentManager[index].style.display = 'none'
+                }, 500);
+    
+            }
         }
     }
 }
@@ -299,13 +313,9 @@ function holdMouse(){
             ctn_home.style.opacity = 0 
             setTimeout(() => {
                 if(x == 0){
-                    cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz + 10,true)
+                    cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz+5,true)
                     posc = firstscene.posz + 5
-                    console.log(posc);
-                    
                 }
-                    
-
                 if(x == 10)
                     cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz + 5,true) 
 
@@ -329,7 +339,7 @@ function holdMouse(){
     else 
         cursor_hold.style.opacity = '0'
 }
-let posc = 0
+let posc = 10
 let resetCamera = true
 let movingScroll = true
 window.addEventListener( 'wheel', onMouseWheel, false );
@@ -341,28 +351,27 @@ function onMouseWheel( event ) {
         resetCamera = false 
     }
     //posc += event.deltaY * 0.003;
-    if((event.deltaY/100) < -0.8 && movingScroll){
-        posc -= 10
-        cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
-        movingScroll = false
-        setTimeout(() => {
-            movingScroll = true
-        }, 1000);
-        //can move
-    } 
-    if((event.deltaY/100) > 0.8 && movingScroll){
-        posc += 10
-        cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
-        movingScroll = false
-        setTimeout(() => {
-            movingScroll = true
-        }, 1000);
-        //can move
-    } 
-    
-    
+    if(camera.position.y == firstscene.posy){
+        if((event.deltaY/100) < -0.8 && movingScroll){
+            posc -= 10
+            cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
+            movingScroll = false
+            setTimeout(() => {
+                movingScroll = true
+            }, 1000);
+            //can move
+        } 
+        if((event.deltaY/100) > 0.8 && movingScroll){
+            posc += 10
+            cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
+            movingScroll = false
+            setTimeout(() => {
+                movingScroll = true
+            }, 1000);
+            //can move
+        } 
+    }
   // prevent scrolling beyond a min/max value
   
-
 }
 
