@@ -214,7 +214,7 @@ let random = new OBJECT.RandomElement(scene, 0, 0, -50, 200, 1, 1, 1, 1)
 /**
  * Camera
  */
-const camera = new THREE.PerspectiveCamera(85, sizes.width / sizes.height)
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
 camera.position.z = 0
 scene.add(camera)
 
@@ -276,10 +276,17 @@ function getAppear() {
     for (let index = 0; index < firstscene.arrayElement.length; index++) {
         let pos = Math.round(camera.position.z) - 30
         if ( pos == firstscene.arrayElement[index].element.mesh.position.z) {
-            contentManager[index].style.opacity = 0.7
+            contentManager[index].style.display = 'flex'
+            setTimeout(() => {
+                contentManager[index].style.opacity = 1
+            }, 500);
         }
         else{
             contentManager[index].style.opacity = 0
+            setTimeout(() => {
+                contentManager[index].style.display = 'none'
+            }, 500);
+
         }
     }
 }
@@ -291,8 +298,13 @@ function holdMouse(){
         if(timing > 30){
             ctn_home.style.opacity = 0 
             setTimeout(() => {
-                if(x == 0)
+                if(x == 0){
                     cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz + 10,true)
+                    posc = firstscene.posz + 5
+                    console.log(posc);
+                    
+                }
+                    
 
                 if(x == 10)
                     cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz + 5,true) 
@@ -319,27 +331,30 @@ function holdMouse(){
 }
 let posc = 0
 let resetCamera = true
+let movingScroll = true
 window.addEventListener( 'wheel', onMouseWheel, false );
 function onMouseWheel( event ) {
-
 	event.preventDefault();
     if(posc != camera.position.z && resetCamera){
         //posc = camera.position.z
-
         resetCamera = false 
     }
     //posc += event.deltaY * 0.003;
-    if(Math.abs(event.deltaY/100) > 0.5){
-        moveForward()
+    if((Math.abs(event.deltaY/100) > 0.8) && movingScroll){
+        posc -= 10
+        console.log(movingScroll);
+        setTimeout(() => {
+            movingScroll = true
+            console.log(movingScroll);
+        }, 1000);
+        cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
+        movingScroll = false
+        //can move
     } 
     
-    cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
     
   // prevent scrolling beyond a min/max value
   
 
 }
 
-function moveForward() {
-    posc -= 10
-}   

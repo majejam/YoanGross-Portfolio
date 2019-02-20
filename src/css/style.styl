@@ -13,6 +13,7 @@ html,body
     font-family: 'Staatliches', cursive;
     user-select none
 
+
 .ctn-home 
     position absolute
     display flex 
@@ -67,20 +68,39 @@ html,body
     position relative
     cursor pointer 
 
+.content-container
+    perspective 800px
+    position absolute
+    top 50%
+    left 15%
+    transform translateY(-50%)
+    height 60% 
+    width 40%
+
+video 
+    width 100%
+    height auto
+    cursor pointer
+
 .content-manager 
     position absolute
     display flex 
     flex-flow column nowrap
-    top 50%
-    left 20%
-    transform translateY(-50%)
     opacity 0
     transition 1s ease all
     font-size 2em
-    background black
-    height 60% 
-    width 40%
+    height 100% 
+    width 100%
     z-index 1
+    color black
+    transform rotate3d(0,1,0,3deg)
+    animation float 10s ease-in-out 0s infinite 
+    will-change transform
+
+.content-para   
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.6em
+    margin-bottom 10px
 
 
 .bar-btn
@@ -200,5 +220,21 @@ html,body
 
   100% {
     transform: translate(0%, -50%) scaleX(1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform rotate3d(0,1,0,3deg)
+  }
+  33%{
+    transform rotate3d(0,1,0,2deg)
+    }
+  66%{
+    transform rotate3d(0,1,0,4deg)
+    }
+
+  100% {
+    transform rotate3d(0,1,0,3deg)
   }
 }
