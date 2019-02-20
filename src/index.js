@@ -333,6 +333,7 @@ let posc = 0
 let resetCamera = true
 let movingScroll = true
 window.addEventListener( 'wheel', onMouseWheel, false );
+window.addEventListener( 'scroll', onMouseWheel, false );
 function onMouseWheel( event ) {
 	event.preventDefault();
     if(posc != camera.position.z && resetCamera){
@@ -340,15 +341,22 @@ function onMouseWheel( event ) {
         resetCamera = false 
     }
     //posc += event.deltaY * 0.003;
-    if((Math.abs(event.deltaY/100) > 0.8) && movingScroll){
+    if((event.deltaY/100) < -0.8 && movingScroll){
         posc -= 10
-        console.log(movingScroll);
-        setTimeout(() => {
-            movingScroll = true
-            console.log(movingScroll);
-        }, 1000);
         cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
         movingScroll = false
+        setTimeout(() => {
+            movingScroll = true
+        }, 1000);
+        //can move
+    } 
+    if((event.deltaY/100) > 0.8 && movingScroll){
+        posc += 10
+        cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
+        movingScroll = false
+        setTimeout(() => {
+            movingScroll = true
+        }, 1000);
         //can move
     } 
     
