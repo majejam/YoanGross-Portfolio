@@ -223,12 +223,12 @@ video
     position absolute 
     top -30%
     left -25%
-    font-size 26em
+    font-size 14em
     opacity 0.3
     color red
     z-index -1
     transform rotate3d(0,1,0,3deg)
-    animation float-up 7s linear 0s infinite normal forwards 
+    animation float-up 15s linear 0s infinite normal forwards 
     will-change transform
 
 .modal-box
@@ -296,16 +296,16 @@ video
 
 @keyframes float-up {
   0% {
-    transform translateY(0%)
+    transform translateY(0%) rotate3d(0,1,0,4deg)
   }
   33%{
-    transform translateY(-1%)
+    transform translateY(-1%) rotate3d(0,1,0,5deg)
     }
   66%{
-    transform translateY(1%)
+    transform translateY(1%) rotate3d(0,1,0,3deg)
     }
 
   100% {
-    transform translateY(0%)
+    transform translateY(0%) rotate3d(0,1,0,4deg)
   }
 }

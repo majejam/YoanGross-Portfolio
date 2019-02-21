@@ -358,7 +358,7 @@ function onMouseWheel( event ) {
             movingScroll = false
             setTimeout(() => {
                 movingScroll = true
-            }, 1000);
+            }, 1200);
             //can move
         } 
         if((event.deltaY/100) > 0.8 && movingScroll){
