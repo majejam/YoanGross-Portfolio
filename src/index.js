@@ -24,7 +24,7 @@ const sml_bar = document.querySelector('.sml-bar')
 const contentManager = document.querySelectorAll('.content-manager')
 const numerotation = document.querySelectorAll('.nb-num')
 const close_modal_btn = document.querySelectorAll('.cross-ctn')
-const modal_box_close = document.querySelectorAll('.modal-box')
+const return_home = document.querySelectorAll('.return-home')
 const modalsbtn = document.querySelectorAll('.video-modal')
 const modalsctn = document.querySelectorAll('.modal-container')
 const numerotation_bar = document.querySelectorAll('.num_bar')
@@ -32,6 +32,23 @@ numerotation[0].style.color = '#000000'
 const createFps = require('fps-indicator')
 let fps = createFps()
 
+/**
+ * Return home
+ */
+
+for (let i = 0; i < return_home.length; i++) {
+    return_home[i].addEventListener('click', (_event) =>
+    {
+        cameraControls.moveTo(x,0,0,true)
+        setTimeout(() => {
+            ctn_home.style.display = 'flex'
+        }, 1000);
+        setTimeout(() => {
+            ctn_home.style.opacity = 1
+        }, 1050);
+
+    })
+ }
 /**
  * Modals 
  */
@@ -81,7 +98,6 @@ for (let i = 0; i < numerotation.length; i++) {
     numerotation[i].addEventListener('click', (_event) =>
     {
         changeNum(i)
-        console.log('coucou');
     })
  }
 
@@ -338,8 +354,15 @@ function getAppear() {
                 setTimeout(() => {
                     contentManager[index].style.display = 'none'
                 }, 500);
-    
             }
+        }
+    }
+    else{
+        for (let index = 0; index < firstscene.arrayElement.length; index++) {
+            contentManager[index].style.opacity = 0
+            setTimeout(() => {
+                contentManager[index].style.display = 'none'
+            }, 500);
         }
     }
 }
@@ -360,7 +383,7 @@ function holdMouse(){
 
             }, 1000);
             setTimeout(() => {
-                ctn_home.style.opacity = 0
+                ctn_home.style.display = 'none'
             }, 2000);
         }
         else{
