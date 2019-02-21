@@ -143,7 +143,7 @@ video
     justify-content space-around
     align-items center
     flex-flow row nowrap
-    z-index 2
+    z-index 2000
     overflow hidden
     opacity 0.5
     transition 0.5s ease all
@@ -167,6 +167,7 @@ video
     background black
     transition 0.5s ease transform
     transform scaleX(0)
+
 .overflow
     width 60px 
     overflow hidden
@@ -174,6 +175,7 @@ video
     color #9a9a9a
     transition 1s ease all;
     transform-origin left 
+    cursor pointer
     
 .btn-home:hover .bar-btn
     animation translate 1s ease-in-out 0s infinite normal forwards 
@@ -218,6 +220,8 @@ video
     display none
     justify-content center 
     align-items center
+    opacity 0
+    transition 0.5s ease all
 
 .big-nb
     position absolute 
@@ -244,7 +248,31 @@ video
 .modal-video
     width 80%
     height auto
+
+.video-ctn 
+    position relative
     z-index 1002
+    display flex
+    justify-content center 
+    align-items center 
+
+.cross-ctn 
+    position absolute 
+    right 10% 
+    top -40px
+    width 30px
+    height 30px
+    cursor pointer
+    background url("../../static/img/cross.png")
+    background-size contain
+    opacity 0.8
+    transition 1s ease all
+
+.cross-ctn:hover
+    opacity 1
+
+
+
 
 @keyframes translate {
   0% {

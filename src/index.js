@@ -23,6 +23,8 @@ const cursor_hold = document.querySelector('.cursor-hold')
 const sml_bar = document.querySelector('.sml-bar')
 const contentManager = document.querySelectorAll('.content-manager')
 const numerotation = document.querySelectorAll('.nb-num')
+const close_modal_btn = document.querySelectorAll('.cross-ctn')
+const modal_box_close = document.querySelectorAll('.modal-box')
 const modalsbtn = document.querySelectorAll('.video-modal')
 const modalsctn = document.querySelectorAll('.modal-container')
 const numerotation_bar = document.querySelectorAll('.num_bar')
@@ -38,6 +40,19 @@ let fps = createFps()
     modalsbtn[i].addEventListener('click', (_event) =>
     {
         modalsctn[i].style.display = 'flex'
+        setTimeout(() => {
+            modalsctn[i].style.opacity = 1
+        }, 50);
+    })
+ }
+
+ for (let i = 0; i < close_modal_btn.length; i++) {
+    modalsctn[i].addEventListener('click', (_event) =>
+    {
+        modalsctn[i].style.opacity = 0
+        setTimeout(() => {
+            modalsctn[i].style.display = 'none'
+        }, 500);
     })
  }
 /**
@@ -61,11 +76,29 @@ let y = 0
 let hold = false 
 let timing = 0
 let show_cursor = false
+
+for (let i = 0; i < numerotation.length; i++) {
+    numerotation[i].addEventListener('click', (_event) =>
+    {
+        changeNum(i)
+        console.log('coucou');
+    })
+ }
+
 home_btn.addEventListener('click', () =>
 { 
+    changeNum(-10)
+})
+function changeNum(index){
     if(!hold){
-        x += 10
-        y += 400
+        if(index == -10){
+            x += 10
+            y += 400
+        }
+        else{
+            x = index * 10
+            y = 400 * index
+        }
 
         if(x == 50){
             x = 0
@@ -78,49 +111,56 @@ home_btn.addEventListener('click', () =>
         if(x == 10){
             resetColor(numerotation, '#aaaaaa')
             numerotation[1].style.color = '#000000'
-            numerotation_bar[0].style.transformOrigin = 'left'
-            numerotation_bar[0].style.transform = 'scaleX(1)'
-            setTimeout(() => {
-                numerotation_bar[0].style.transformOrigin = 'right'
-                numerotation_bar[0].style.transform = 'scaleX(0)'
-            }, 500)
+            if(index == -10){
+                numerotation_bar[0].style.transformOrigin = 'left'
+                numerotation_bar[0].style.transform = 'scaleX(1)'
+                setTimeout(() => {
+                    numerotation_bar[0].style.transformOrigin = 'right'
+                    numerotation_bar[0].style.transform = 'scaleX(0)'
+                }, 500)
+            } 
         }
         if(x == 20){
             resetColor(numerotation, '#aaaaaa')
             numerotation[2].style.color = '#000000'
-            numerotation_bar[1].style.transformOrigin = 'left'
-            numerotation_bar[1].style.transform = 'scaleX(1)'
-            setTimeout(() => {
-                numerotation_bar[1].style.transformOrigin = 'right'
-                numerotation_bar[1].style.transform = 'scaleX(0)'
-            }, 500)
+            if(index == -10){
+                numerotation_bar[1].style.transformOrigin = 'left'
+                numerotation_bar[1].style.transform = 'scaleX(1)'
+                setTimeout(() => {
+                    numerotation_bar[1].style.transformOrigin = 'right'
+                    numerotation_bar[1].style.transform = 'scaleX(0)'
+                }, 500)
+            } 
         }
         if(x == 30){
             resetColor(numerotation, '#aaaaaa')
             numerotation[3].style.color = '#000000'
-            numerotation_bar[2].style.transformOrigin = 'left'
-            numerotation_bar[2].style.transform = 'scaleX(1)'
-            setTimeout(() => {
-                numerotation_bar[2].style.transformOrigin = 'right'
-                numerotation_bar[2].style.transform = 'scaleX(0)'
-            }, 500)
+            if(index == -10){
+                numerotation_bar[2].style.transformOrigin = 'left'
+                numerotation_bar[2].style.transform = 'scaleX(1)'
+                setTimeout(() => {
+                    numerotation_bar[2].style.transformOrigin = 'right'
+                    numerotation_bar[2].style.transform = 'scaleX(0)'
+                }, 500)
+            } 
         }
         if(x == 40){
             resetColor(numerotation, '#aaaaaa')
             numerotation[4].style.color = '#000000'
-            numerotation_bar[3].style.transformOrigin = 'left'
-            numerotation_bar[3].style.transform = 'scaleX(1)'
-            setTimeout(() => {
-                numerotation_bar[3].style.transformOrigin = 'right'
-                numerotation_bar[3].style.transform = 'scaleX(0)'
-            }, 500)
+            if(index == -10){
+                numerotation_bar[3].style.transformOrigin = 'left'
+                numerotation_bar[3].style.transform = 'scaleX(1)'
+                setTimeout(() => {
+                    numerotation_bar[3].style.transformOrigin = 'right'
+                    numerotation_bar[3].style.transform = 'scaleX(0)'
+                }, 500)
+            } 
         }
     
         cameraControls.moveTo(x,0,0,true )
         inner_text.style.transform = `translateX(${-y}px)`
     }
-
-})
+}
 home_btn.addEventListener('mousedown', () =>
 { 
     setTimeout(() => {
@@ -128,7 +168,6 @@ home_btn.addEventListener('mousedown', () =>
     }, 100);
     
 })
-
 home_btn.addEventListener('mouseover', () =>
 { 
    show_cursor = true 
@@ -367,11 +406,10 @@ function onMouseWheel( event ) {
             movingScroll = false
             setTimeout(() => {
                 movingScroll = true
-            }, 1000);
+            }, 1200);
             //can move
         } 
     }
   // prevent scrolling beyond a min/max value
-  
 }
 
