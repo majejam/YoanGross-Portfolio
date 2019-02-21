@@ -69,7 +69,7 @@ for (let i = 0; i < return_home.length; i++) {
         modalsctn[i].style.opacity = 0
         setTimeout(() => {
             modalsctn[i].style.display = 'none'
-        }, 500);
+        }, 550);
     })
  }
 /**
@@ -384,7 +384,7 @@ function holdMouse(){
             }, 1000);
             setTimeout(() => {
                 ctn_home.style.display = 'none'
-            }, 2000);
+            }, 1000);
         }
         else{
             sml_bar.style.transform = `scaleX(${timing/30})`

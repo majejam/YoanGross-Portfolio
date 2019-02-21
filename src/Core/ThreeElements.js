@@ -213,7 +213,6 @@ export class Scene{
     
     setScene()
     {
-        console.log('scene set to container');
         this.scene.add(this.container) 
     }
 
