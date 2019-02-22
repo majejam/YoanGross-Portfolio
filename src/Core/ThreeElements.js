@@ -172,10 +172,10 @@ export class Element{
 
 export class Scene{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
-    constructor(scene, posx, posy, posz, number, type, radius, height, definition, size){
+    constructor(scene, posx, posy, posz, number, type, radius, height, definition, size, color){
         this.scene = scene 
         this.type = type 
-        this.color = 0xff0000
+        this.color = color
         this.container = new THREE.Object3D()
         this.posx = posx
         this.posy = posy
@@ -199,11 +199,11 @@ export class Scene{
         for (let index = 0; index < number; index++) {  
             let modulo = index % 2
             if(modulo == 0){
-                let el = new Element(this.color, this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+3, this.ely, this.elz - (index * 10))
+                let el = new Element(this.color[index], this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+3, this.ely, this.elz - (index * 10))
                 this.arrayElement.push(el)
             }
             else{
-                let el = new Element(this.color, this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+3, this.ely, this.elz - (index * 10))
+                let el = new Element(this.color[index], this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+3, this.ely, this.elz - (index * 10))
                 this.arrayElement.push(el)
             }
             this.container.add(this.arrayElement[index].returnObj())
@@ -259,7 +259,6 @@ export class RandomElement{
         this.container.position.y = this.posy
         this.container.position.z = this.posz
         this.setScene()
-        
     }
 
     setElements(number){

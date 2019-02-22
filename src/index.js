@@ -26,12 +26,13 @@ const numerotation = document.querySelectorAll('.nb-num')
 const close_modal_btn = document.querySelectorAll('.cross-ctn')
 const return_home = document.querySelectorAll('.return-home')
 const modalsbtn = document.querySelectorAll('.video-modal')
+const number_color = document.querySelectorAll('.big-nb')
 const modalsctn = document.querySelectorAll('.modal-container')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 numerotation[0].style.color = '#000000'
 const createFps = require('fps-indicator')
 let fps = createFps()
-
+let print_content = true
 /**
  * Return home
  */
@@ -273,11 +274,14 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
 /**
  * First scene
  */
-
-let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10, 'Cube',1,1,1,1)
-let secondscene = new OBJECT.Scene(scene, 10, 400, 25, 10, 'Cone', 0.5, 1.5, 320, 0)
+let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
+let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10, 'Cube',1,1,1,1, sceneColor)
+let secondscene = new OBJECT.Scene(scene, 10, 400, 25, 10, 'Cone', 0.5, 1.5, 320, 0,sceneColor)
 let random = new OBJECT.RandomElement(scene, 0, 0, -50, 200, 1, 1, 1, 1)
 
+for (let index = 0; index < number_color.length; index++) {
+    number_color[index].style.color = `#${sceneColor[index].toString(16)}`
+}
 /**
  * Camera
  */
@@ -340,7 +344,7 @@ loop()
 
 
 function getAppear() {
-    if(Math.round(camera.position.y) == firstscene.posy){
+    if(Math.round(camera.position.y) == firstscene.posy && print_content){
         for (let index = 0; index < firstscene.arrayElement.length; index++) {
             let pos = Math.round(camera.position.z) - 30
             if ( pos == firstscene.arrayElement[index].element.mesh.position.z) {
@@ -417,9 +421,16 @@ function onMouseWheel( event ) {
         if((event.deltaY/100) < -0.8 && movingScroll){
             if (posc == -60) {
                 posc = 30
+                print_content = false
+                setTimeout(() => {
+                    print_content = true
+                }, 1000);
             }
-            else
+            else{
                 posc -= 10
+                print_content = true
+            }
+
             cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
             movingScroll = false
             setTimeout(() => {
@@ -431,9 +442,16 @@ function onMouseWheel( event ) {
 
             if (posc == 30) {
                 posc = -60
+                print_content = false
+                setTimeout(() => {
+                    print_content = true
+                }, 1000);
             }
-            else
+            else{
+                print_content = true
                 posc += 10
+            }
+
             cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
             movingScroll = false
             setTimeout(() => {
