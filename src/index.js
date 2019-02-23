@@ -236,7 +236,7 @@ window.addEventListener('resize', () =>
 /**
  * Light 
  */
-const ambientLight = new THREE.DirectionalLight(0xffffff, 2)
+const ambientLight = new THREE.DirectionalLight(0xffffff, 1.2)
 ambientLight.position.x = 0
 ambientLight.position.y = 1
 ambientLight.position.z = 1
@@ -277,7 +277,7 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
 let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
 let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10, 'Cube',1,1,1,1, sceneColor)
 let secondscene = new OBJECT.Scene(scene, 10, 400, 25, 10, 'Cone', 0.5, 1.5, 320, 0,sceneColor)
-let random = new OBJECT.RandomElement(scene, 0, 0, -50, 200, 1, 1, 1, 1)
+let random = new OBJECT.RandomElement(scene, 0, 0, -50, 500, 1, 1, 1, 1)
 
 for (let index = 0; index < number_color.length; index++) {
     number_color[index].style.color = `#${sceneColor[index].toString(16)}`
@@ -310,9 +310,6 @@ let nb = 0
 window.addEventListener('click', () =>
 { 
     nb -= 10
-    //cameraControls.moveTo(1,40, nb,true )
-
-
 })
 /**
  * Loop
@@ -457,9 +454,22 @@ function onMouseWheel( event ) {
             setTimeout(() => {
                 movingScroll = true
             }, 1200);
-            //can move
         } 
     }
-  // prevent scrolling beyond a min/max value
 }
 
+
+/**
+ * To do : 
+ * Responsive touch
+ * Dom generation
+ * Better scroll with trackpad 
+ * Key control (up/down arrow)
+ * JSON implementation (lol flemme)
+ *  
+ * 
+ * IMPORTANT // PROTYPE 
+ * Implement content 
+ * Block other content not implemented (warning message)
+ * See for video optimization (youtube a/o something else)
+ */
