@@ -305,12 +305,6 @@ const cameraControls = new CameraControls(camera, renderer.domElement, false);
 
 cameraControls.dampingFactor = 0.05
 
-let nb = 0
-
-window.addEventListener('click', () =>
-{ 
-    nb -= 10
-})
 /**
  * Loop
  */
