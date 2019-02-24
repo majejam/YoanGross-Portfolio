@@ -461,7 +461,7 @@ function onMouseWheel( event ) {
  * Better scroll with trackpad 
  * Key control (up/down arrow)
  * JSON implementation (lol flemme)
- *  
+ * Lazy load
  * 
  * IMPORTANT // PROTYPE 
  * Implement content 
