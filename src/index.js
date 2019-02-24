@@ -308,6 +308,7 @@ cameraControls.dampingFactor = 0.05
 /**
  * Loop
  */
+let nb = 0
 const loop = () =>
 {
 
