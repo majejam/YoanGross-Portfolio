@@ -170,7 +170,7 @@ function changeNum(index){
             } 
         }
     
-        cameraControls.moveTo(x,0,0,true )
+        cameraControls.moveTo(x,0,0,true)
         inner_text.style.transform = `translateX(${-y}px)`
     }
 }
@@ -363,19 +363,26 @@ function holdMouse(){
         timing += 1
         
         if(timing > 30){
-            ctn_home.style.opacity = 0 
-            setTimeout(() => {
-                if(x == 0){
+            if(x == 0){
+                ctn_home.style.opacity = 0
+                setTimeout(() => {
                     cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz+5,true)
                     posc = firstscene.posz + 5
-                }
+                    setTimeout(() => {
+                        ctn_home.style.display = 'none'
+                    }, 1000);
+                /*
                 if(x == 10)
                     cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz + 5,true) 
-
-            }, 1000);
-            setTimeout(() => {
-                ctn_home.style.display = 'none'
-            }, 1000);
+                    */
+                }, 1000);
+            }
+            else{
+                ctn_home.style.color = 'red'
+                setTimeout(() => {
+                    ctn_home.style.color = 'black'
+                }, 700);
+            }
         }
         else{
             sml_bar.style.transform = `scaleX(${timing/30})`
@@ -467,6 +474,6 @@ function moveCamera(key = 0){
  * 
  * IMPORTANT // PROTYPE 
  * Implement content 
- * Block other content not implemented (warning message)
+ * Block other content not implemented (warning message) X
  * See for video optimization (youtube a/o something else)
  */
