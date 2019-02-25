@@ -473,7 +473,9 @@ function moveCamera(key = 0){
  * Lazy load
  * 
  * IMPORTANT // PROTYPE 
- * Implement content 
+ * Implement content v
+ * 
+ * 
  * Block other content not implemented (warning message) X
  * See for video optimization (youtube a/o something else)
  */
