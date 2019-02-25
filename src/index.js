@@ -467,15 +467,14 @@ function moveCamera(key = 0){
  * To do : 
  * Responsive touch
  * Dom generation
- * Better scroll with trackpad 
+ * Better scroll with trackpad X
  * Key control (up/down arrow) X
  * JSON implementation (lol flemme)
  * Lazy load
  * 
  * IMPORTANT // PROTYPE 
- * Implement content v
- * 
- * 
+ * Responsive ready 
+ * Implement content X
  * Block other content not implemented (warning message) X
  * See for video optimization (youtube a/o something else)
  */

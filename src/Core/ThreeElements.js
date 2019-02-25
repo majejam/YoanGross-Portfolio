@@ -17,6 +17,7 @@ export class Element{
         this.force = 0
         this.rotation_force = 0 
         this.increment = 4 
+        this.randforce = 0.001 + Math.random()/400
         this.setMesh()
         this.setScene()
     }
@@ -147,7 +148,7 @@ export class Element{
         this.rotation_force = force_rotation
         this.element.mesh.rotation.z += this.rotation_force
     }
-    setAnimation(force_up,force_rot, animationUp, animationX, animationY, animationZ,increment){
+    setAnimation(force_up, force_rot, animationUp, animationX, animationY, animationZ,increment){
         if(animationUp)
             this.upDownAnimation(force_up,increment)
         if(animationX)
@@ -156,6 +157,16 @@ export class Element{
             this.rotateAnimationY(force_rot)
         if(animationZ)
             this.rotateAnimationZ(force_rot)
+    }
+    setAnimationRand(force_up, animationUp, animationX, animationY, animationZ,increment){
+        if(animationUp)
+            this.upDownAnimation(force_up,increment)
+        if(animationX)
+            this.rotateAnimationX(this.randforce)
+        if(animationY)
+            this.rotateAnimationY(this.randforce)
+        if(animationZ)
+            this.rotateAnimationZ(this.randforce)
     }
 
     setScene()
@@ -225,7 +236,7 @@ export class Scene{
     animationPlay()
     {
         for (let index = 0; index < this.arrayElement.length; index++) {  
-            this.arrayElement[index].setAnimation(0.01, 0.002, true, true, true, true,4)
+            this.arrayElement[index].setAnimationRand(0.01, true, true, true, true,4)
         }
     }
 
@@ -291,7 +302,7 @@ export class RandomElement{
     animationPlays()
     {
          
-        this.arrayElement[0].setAnimation(0.01, 0.002, true, true, true, false,4)
+        this.arrayElement[0].setAnimation(100, 0.002, true, true, true, false,4)
         
     }
 
