@@ -8,11 +8,6 @@ import * as OBJECT from './Core/ThreeElements.js'
 
 import CameraControls from 'camera-controls';
 
-import Timer from 'tiny-timer'
-
- 
-let timer = new Timer()
-
 
 CameraControls.install( { THREE: THREE } );
 
@@ -27,11 +22,12 @@ const close_modal_btn = document.querySelectorAll('.cross-ctn')
 const return_home = document.querySelectorAll('.return-home')
 const modalsbtn = document.querySelectorAll('.video-modal')
 const number_color = document.querySelectorAll('.big-nb')
+const see_more = document.querySelectorAll('.see-more')
 const modalsctn = document.querySelectorAll('.modal-container')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 numerotation[0].style.color = '#000000'
 const createFps = require('fps-indicator')
-let fps = createFps()
+//let fps = createFps()
 let print_content = true
 /**
  * Return home
@@ -263,13 +259,12 @@ octa.mesh.rotation.x = 0.5
 //scene.add(octa.mesh)
 
 let tetra = new OBJECT.Element(0x3a8410, scene, 'Tetrahedron', 0.5, 1, 0, 1, 39, 0, -2.5)
-let cubeObj = new OBJECT.Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, -1, 0, -2.5)
+let cubeObj = new OBJECT.Element(0x7fff7f, scene, 'Cube', 1, 1, 1, 1, -1, 0, -2.5)
 //let cubeUp = new OBJECT.Element(0x9b6b8e, scene, 'Cube', 1, 1, 1, 1, 0, 40, 25)
 //let cubeLeft = new OBJECT.Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, 10, 40, 25)
 let coneObj = new OBJECT.Element(0x3a82fa, scene, 'Cone', 0.5, 1.5, 320, 0, 9, 0, -2.5)
 let dodeObj = new OBJECT.Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 19, 0, -4)
 let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29, 0, -4)
-
 
 /**
  * First scene
@@ -409,8 +404,17 @@ function onMouseWheel( event ) {
         resetCamera = false 
     }
     //posc += event.deltaY * 0.003;
+    moveCamera()
+}
+
+window.addEventListener('keydown', function(event) {
+    const key = event.key; 
+    moveCamera(key)
+});
+
+function moveCamera(key = 0){
     if(camera.position.y == firstscene.posy ){
-        if((event.deltaY/100) < -0.8 && movingScroll){
+        if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
             if (posc == -60) {
                 posc = 30
                 print_content = false
@@ -428,9 +432,8 @@ function onMouseWheel( event ) {
             setTimeout(() => {
                 movingScroll = true
             }, 1200);
-            //can move
         } 
-        if((event.deltaY/100) > 0.8 && movingScroll){
+        if((((event.deltaY/100) > 0.8) || key === 'ArrowDown') && movingScroll){
 
             if (posc == 30) {
                 posc = -60
@@ -453,13 +456,12 @@ function onMouseWheel( event ) {
     }
 }
 
-
 /**
  * To do : 
  * Responsive touch
  * Dom generation
  * Better scroll with trackpad 
- * Key control (up/down arrow)
+ * Key control (up/down arrow) X
  * JSON implementation (lol flemme)
  * Lazy load
  * 
