@@ -481,10 +481,11 @@ function moveCamera(key = 0){
  * Better scroll with trackpad X
  * Key control (up/down arrow) X
  * JSON implementation (lol flemme)
- * Lazy load
+ * Lazy load X
  * IMPORTANT // PROTYPE 
  * Responsive ready 
  * Implement content X
  * Block other content not implemented (warning message) X
  * See for video optimization (youtube a/o something else) X
+ * re order content 
  */
