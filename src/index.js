@@ -8,9 +8,19 @@ import * as OBJECT from './Core/ThreeElements.js'
 
 import CameraControls from 'camera-controls';
 
+import LazyLoad from "vanilla-lazyload";
 
 CameraControls.install( { THREE: THREE } );
 
+
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    var lazyLoadInstance = new LazyLoad({
+        elements_selector: ".lazy" 
+    });    
+  });
 const ctn_home = document.querySelector('.ctn-home')
 const home_btn = document.querySelector('.btn-home')
 const inner_text = document.querySelector('.txt-slider-ctn')
@@ -270,7 +280,7 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
  * First scene
  */
 let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
-let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 10, 'Cube',1,1,1,1, sceneColor)
+let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 8, 'Cube',1,1,1,1, sceneColor)
 let secondscene = new OBJECT.Scene(scene, 10, 400, 25, 10, 'Cone', 0.5, 1.5, 320, 0,sceneColor)
 let random = new OBJECT.RandomElement(scene, 0, 0, -50, 500, 1, 1, 1, 1)
 
@@ -418,12 +428,13 @@ window.addEventListener('keydown', function(event) {
     const key = event.key; 
     moveCamera(key)
 });
-
+let max_len = -40
+let min_len = 30
 function moveCamera(key = 0){
     if(camera.position.y == firstscene.posy ){
         if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
-            if (posc == -60) {
-                posc = 30
+            if (posc == max_len) {
+                posc = min_len
                 print_content = false
                 setTimeout(() => {
                     print_content = true
@@ -442,8 +453,8 @@ function moveCamera(key = 0){
         } 
         if((((event.deltaY/100) > 0.8) || key === 'ArrowDown') && movingScroll){
 
-            if (posc == 30) {
-                posc = -60
+            if (posc == min_len) {
+                posc = max_len
                 print_content = false
                 setTimeout(() => {
                     print_content = true
@@ -471,10 +482,9 @@ function moveCamera(key = 0){
  * Key control (up/down arrow) X
  * JSON implementation (lol flemme)
  * Lazy load
- * 
  * IMPORTANT // PROTYPE 
  * Responsive ready 
  * Implement content X
  * Block other content not implemented (warning message) X
- * See for video optimization (youtube a/o something else)
+ * See for video optimization (youtube a/o something else) X
  */
