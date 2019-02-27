@@ -457,8 +457,8 @@ function holdMouse(){
             cursor_hold.style.top = `${(cursor.y*100)+2}%`
         }
         else{
-            cursor_hold.style.left = `${(touchpos.x*100)-5}%`
-            cursor_hold.style.top = `${(touchpos.y*100)-5}%`
+            cursor_hold.style.left = `${(touchpos.x*100)-10}%`
+            cursor_hold.style.top = `${(touchpos.y*100)-10}%`
         }
         
     }
