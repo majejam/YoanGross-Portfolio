@@ -12,7 +12,6 @@ module.exports = {
         })
     ],
     entry: {
-        modules: './src/modules/module.js',
         index: './src/index.js'
       },
     output:

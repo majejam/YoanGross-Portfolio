@@ -34,6 +34,7 @@ const modalsbtn = document.querySelectorAll('.video-modal')
 const number_color = document.querySelectorAll('.big-nb')
 const see_more = document.querySelectorAll('.see-more')
 const modalsctn = document.querySelectorAll('.modal-container')
+const respo = document.querySelector('.responsive-msg')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 numerotation[0].style.color = '#000000'
 const createFps = require('fps-indicator')
@@ -326,7 +327,7 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
  * First scene
  */
 let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
-let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 8, 'Cube',1,1,1,1, sceneColor)
+let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 9, 'Cube',1,1,1,1, sceneColor)
 let secondscene = new OBJECT.Scene(scene, 10, 400, 25, 10, 'Cone', 0.5, 1.5, 320, 0,sceneColor)
 let random = new OBJECT.RandomElement(scene, 0, 0, -50, 500, 1, 1, 1, 1)
 
@@ -392,6 +393,7 @@ function getAppear() {
             let pos = Math.round(camera.position.z) - 30
             if ( pos == firstscene.arrayElement[index].element.mesh.position.z) {
                 contentManager[index].style.display = 'flex'
+                respo.style.display = 'block'
                 setTimeout(() => {
                     contentManager[index].style.opacity = 1
                 }, 500);
@@ -409,6 +411,7 @@ function getAppear() {
             contentManager[index].style.opacity = 0
             setTimeout(() => {
                 contentManager[index].style.display = 'none'
+                respo.style.display = 'none'
             }, 500);
         }
     }
@@ -485,13 +488,11 @@ window.addEventListener('keydown', function(event) {
     moveCamera(key)
 });
 document.addEventListener('touchstart', () =>
-{ 
-    console.log(modal_show);
-    
+{     
     if(!modal_show)
         moveCamera('ArrowUp')
 })
-let max_len = -40
+let max_len = -50
 let min_len = 30
 function moveCamera(key = 0){
     if(camera.position.y == firstscene.posy ){

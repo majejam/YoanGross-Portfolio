@@ -211,6 +211,7 @@ video
     font-family: 'Roboto Mono', monospace;
     font-size 0.7em
 
+
 .bar-btn-home
     width 100%
     height 2px
@@ -313,7 +314,37 @@ video
     opacity 1
 
 
+.credit
+    position absolute
+    bottom 10px
+    font-size 0.6em 
+    color black
+    font-family: 'Roboto Mono', monospace;
+    opacity: 0.9
+    left 50%
+    transform translateX(-50%)
+    width 100%
+    text-align center
+    z-index 10000
 
+.link_sml
+    text-decoration underline
+    font-size 1em 
+    color black
+
+.responsive-msg
+    position absolute
+    display none
+    bottom 15%
+    left 50%
+    font-size 0.6em 
+    color black
+    font-family: 'Roboto Mono', monospace;
+    opacity 0
+    transform translate(-50%,0%)
+    width 100%
+    text-align center
+    will-change opacity 
 
 @keyframes translate {
   0% {
@@ -330,7 +361,17 @@ video
     transform: translate(0%, -50%) scaleX(1);
   }
 }
-
+@keyframes blink {
+  0% {
+        opacity 0
+  }
+  50%{
+          opacity 1
+      }
+  100% {
+        opacity 0
+  }
+}
 @keyframes float-left {
   0% {
     transform rotate3d(0,1,0,3deg)
@@ -425,6 +466,9 @@ video
     .link-container 
         bottom 20px
         width 80%
+    .responsive-msg
+        animation blink 2s linear 0s 4 normal forwards 
+
     
         
 @media only screen and (max-height: 900px) and (min-width: 800px)
@@ -451,6 +495,8 @@ video
     .modal-video 
         width 90%
         height auto
+    .credit 
+        bottom 2px
 
 @media only screen and (max-width: 480px)
     h2
@@ -464,7 +510,7 @@ video
         width 90%
         height auto
     .content-container
-        transform translate(-50%, -65%)
+        transform translate(-50%, -55%)
     .big-nb 
         font-size 8em
 
@@ -482,9 +528,11 @@ video
         width 90%
         height auto
     .content-container
-        transform translate(-50%, -65%)
+        transform translate(-50%, -55%)
     .big-nb 
         font-size 8em
     .return-home
         font-size 0.7em
+    .credit 
+        bottom 2px
 
