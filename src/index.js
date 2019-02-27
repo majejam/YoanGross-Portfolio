@@ -59,24 +59,35 @@ for (let i = 0; i < return_home.length; i++) {
 /**
  * Modals 
  */
-
+let modal_show = false
  for (let i = 0; i < modalsctn.length; i++) {
     modalsbtn[i].addEventListener('click', (_event) =>
     {
+        modal_show = true
         modalsctn[i].style.display = 'flex'
         setTimeout(() => {
             modalsctn[i].style.opacity = 1
         }, 50);
+    })
+    modalsbtn[i].addEventListener('touchstart', (_event) =>
+    {
+        modal_show = true
     })
  }
 
  for (let i = 0; i < close_modal_btn.length; i++) {
     modalsctn[i].addEventListener('click', (_event) =>
     {
+        modal_show = false
         modalsctn[i].style.opacity = 0
         setTimeout(() => {
             modalsctn[i].style.display = 'none'
+            
         }, 550);
+    })
+    modalsctn[i].addEventListener('touchend', (_event) =>
+    {
+        modal_show = false
     })
  }
 /**
@@ -90,6 +101,16 @@ window.addEventListener('mousemove', (_event) =>
 {
     cursor.x = _event.clientX / sizes.width 
     cursor.y = _event.clientY / sizes.height 
+})
+
+const touchpos = {}
+touchpos.x = 0
+touchpos.y = 0
+
+window.addEventListener('touchmove', (_event) =>
+{
+    touchpos.x = _event.touches[0].clientX/sizes.width ;
+    touchpos.y = _event.touches[0].clientY/ sizes.height;    
 })
 
 /**
@@ -432,8 +453,8 @@ function holdMouse(){
             cursor_hold.style.top = `${(cursor.y*100)-2}%`
         }
         else{
-            cursor_hold.style.left = `${80}%`
-            cursor_hold.style.top = `${30}%`
+            cursor_hold.style.left = `${(touchpos.x*100)-5}%`
+            cursor_hold.style.top = `${(touchpos.y*100)-5}%`
         }
         
     }
@@ -461,9 +482,10 @@ window.addEventListener('keydown', function(event) {
 });
 document.addEventListener('touchstart', () =>
 { 
-    moveCamera('ArrowUp')
-    console.log('hello');
+    console.log(modal_show);
     
+    if(!modal_show)
+        moveCamera('ArrowUp')
 })
 let max_len = -40
 let min_len = 30
