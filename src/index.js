@@ -184,23 +184,44 @@ function changeNum(index){
         inner_text.style.transform = `translateX(${-y}px)`
     }
 }
+let screen = true
 home_btn.addEventListener('mousedown', () =>
 { 
     setTimeout(() => {
         hold = true 
     }, 100);
-    
+})
+home_btn.addEventListener('touchstart', () =>
+{ 
+    screen = false
+    show_cursor = true 
+    setTimeout(() => {
+        hold = true 
+    }, 100);
 })
 home_btn.addEventListener('mouseover', () =>
 { 
+   screen = true
    show_cursor = true 
 })
 home_btn.addEventListener('mouseout', () =>
 { 
    show_cursor = false 
 })
+home_btn.addEventListener('touchleave', () =>
+{ 
+   show_cursor = false 
+})
 home_btn.addEventListener('mouseup', () =>
 { 
+    setTimeout(() => {
+        hold = false 
+    }, 100);
+    timing = 0
+})
+home_btn.addEventListener('touchend', () =>
+{ 
+    show_cursor = false 
     setTimeout(() => {
         hold = false 
     }, 100);
@@ -371,7 +392,6 @@ function getAppear() {
 function holdMouse(){
     if(hold){
         timing += 1
-        
         if(timing > 30){
             if(x == 0){
                 ctn_home.style.opacity = 0
@@ -380,7 +400,11 @@ function holdMouse(){
                     posc = firstscene.posz + 5
                     setTimeout(() => {
                         ctn_home.style.display = 'none'
+                        cursor_hold.style.opacity = '0'
                     }, 1000);
+                    setTimeout(() => {
+                        cursor_hold.style.opacity = '0'
+                    }, 4000);
                 /*
                 if(x == 10)
                     cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz + 5,true) 
@@ -400,11 +424,18 @@ function holdMouse(){
             
     }
     else 
-    sml_bar.style.transform = `scaleX(0)`
+        sml_bar.style.transform = `scaleX(0)`
     if(show_cursor){
         cursor_hold.style.opacity = '1'
-        cursor_hold.style.left = `${(cursor.x*100)+1.5}%`
-        cursor_hold.style.top = `${(cursor.y*100)+2}%`
+        if(screen){
+            cursor_hold.style.left = `${(cursor.x*100)+1.5}%`
+            cursor_hold.style.top = `${(cursor.y*100)-2}%`
+        }
+        else{
+            cursor_hold.style.left = `${80}%`
+            cursor_hold.style.top = `${30}%`
+        }
+        
     }
     else 
         cursor_hold.style.opacity = '0'
@@ -428,6 +459,12 @@ window.addEventListener('keydown', function(event) {
     const key = event.key; 
     moveCamera(key)
 });
+document.addEventListener('touchstart', () =>
+{ 
+    moveCamera('ArrowUp')
+    console.log('hello');
+    
+})
 let max_len = -40
 let min_len = 30
 function moveCamera(key = 0){

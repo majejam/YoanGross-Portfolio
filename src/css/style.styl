@@ -77,7 +77,7 @@ html,body
 .content-container
     perspective 800px
     position absolute
-    top 53%
+    top 50%
     left 15%
     transform translateY(-50%)
     height 60% 
@@ -116,7 +116,7 @@ video
     font-family: 'Roboto Mono', monospace;
     font-size: 0.6em
     margin-top 5px
-    margin-bottom 20px
+    margin-bottom 5px
 
 .bar-btn
     position absolute
@@ -193,7 +193,8 @@ video
     display flex
     justify-content space-between
     align-items center
-    margin-top 5px
+    margin-top 20px
+    height 0
 
 .sml-btn 
     cursor pointer
@@ -206,7 +207,6 @@ video
 .date-content
     font-family: 'Roboto Mono', monospace;
     font-size 0.7em
-    margin-bottom 5px
 
 .bar-btn-home
     width 100%
@@ -375,3 +375,93 @@ video
     transform translateY(0%) rotate3d(0,1,0,4deg)
   }
 }
+
+.modal-video 
+    width 90%
+    height auto
+
+/* RESPONSIVE */
+
+@media only screen and (max-width: 1400px)
+    .big-nb
+        font-size 11em 
+        top -25%
+
+@media only screen and (max-width: 1000px)
+    .content-container
+        width 55%
+    .modal-video 
+        width 90%
+        height auto
+    .cross-ctn 
+        right 5%
+    .ctn-home 
+        left 65%
+        transform translate(-50%, -50%)
+        z-index 1000
+    .ctn-home span
+        font-size 1.2em
+    .ctn-home h1
+        font-size 3em
+    .overflow-txt
+        height 40px
+    .numerotation 
+        width 200px
+    .btn-ctn 
+        width 300px
+        margin-top 0px
+    
+
+@media only screen and (max-width: 700px)
+    .content-container
+        width 80%
+        left 50% 
+        transform translate(-50%, -50%)
+    .big-nb
+        left -2%
+    .link-container 
+        bottom 20px
+        width 80%
+    
+        
+@media only screen and (max-height: 900px) and (min-width: 800px)
+    .content-container
+        width 40%
+    .modal-video 
+        width 90%
+        height auto
+
+@media only screen and (max-height: 700px) and (min-width: 500px)
+    .content-container
+        width 60%
+        left 50% 
+        transform translate(-50%, -50%)
+    video 
+        width 50%
+    .content-para 
+        font-size: 0.4em 
+    .big-nb
+        font-size 8em 
+        left -5%
+    .date-content 
+        font-size 0.5em
+    .modal-video 
+        width 90%
+        height auto
+
+@media only screen and (max-width: 480px)
+    h2
+        font-size 1em
+    .content-para 
+        font-size: 0.5em 
+    .link-container 
+        bottom 20px
+        width 100%
+    .modal-video 
+        width 90%
+        height auto
+    .content-container
+        transform translate(-50%, -65%)
+    .big-nb 
+        font-size 8em
+
