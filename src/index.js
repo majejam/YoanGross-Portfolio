@@ -106,7 +106,11 @@ window.addEventListener('mousemove', (_event) =>
 const touchpos = {}
 touchpos.x = 0
 touchpos.y = 0
-
+window.addEventListener('touchestart', (_event) =>
+{
+    touchpos.x = _event.touches[0].clientX/sizes.width ;
+    touchpos.y = _event.touches[0].clientY/ sizes.height;    
+})
 window.addEventListener('touchmove', (_event) =>
 {
     touchpos.x = _event.touches[0].clientX/sizes.width ;
@@ -450,7 +454,7 @@ function holdMouse(){
         cursor_hold.style.opacity = '1'
         if(screen){
             cursor_hold.style.left = `${(cursor.x*100)+1.5}%`
-            cursor_hold.style.top = `${(cursor.y*100)-2}%`
+            cursor_hold.style.top = `${(cursor.y*100)+2}%`
         }
         else{
             cursor_hold.style.left = `${(touchpos.x*100)-5}%`
