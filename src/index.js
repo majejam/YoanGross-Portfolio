@@ -344,7 +344,7 @@ scene.add(camera)
 /**
  * Renderer
  */
-const renderer = new THREE.WebGLRenderer()
+const renderer = new THREE.WebGLRenderer({antialias: true})
 renderer.shadowMap.enabled = true
 renderer.setSize(sizes.width, sizes.height)
 document.body.appendChild(renderer.domElement)
@@ -540,14 +540,14 @@ function moveCamera(key = 0){
 
 /**
  * To do : 
- * Responsive touch
+ * Responsive touch X
  * Dom generation
  * Better scroll with trackpad X
  * Key control (up/down arrow) X
  * JSON implementation (lol flemme)
  * Lazy load X
  * IMPORTANT // PROTYPE 
- * Responsive ready 
+ * Responsive ready X
  * Implement content X
  * Block other content not implemented (warning message) X
  * See for video optimization (youtube a/o something else) X
