@@ -47,6 +47,8 @@ let print_content = true
 for (let i = 0; i < return_home.length; i++) {
     return_home[i].addEventListener('click', (_event) =>
     {
+        cursor_selected = false 
+        timing = 0
         cameraControls.moveTo(x,0,0,true)
         setTimeout(() => {
             ctn_home.style.display = 'flex'
@@ -382,13 +384,13 @@ const loop = () =>
     holdMouse()
     renderer.render(scene, camera)
     getAppear()
-
 }
 loop()
 
 
 function getAppear() {
     if(Math.round(camera.position.y) == firstscene.posy && print_content){
+        hold = false 
         for (let index = 0; index < firstscene.arrayElement.length; index++) {
             let pos = Math.round(camera.position.z) - 30
             if ( pos == firstscene.arrayElement[index].element.mesh.position.z) {
@@ -416,27 +418,24 @@ function getAppear() {
         }
     }
 }
-
+let cursor_selected = false 
 function holdMouse(){
     if(hold){
         timing += 1
         if(timing > 30){
-            if(x == 0){
-                ctn_home.style.opacity = 0
+            if(x == 0 && !cursor_selected){
+                ctn_home.style.opacity = '0'
+                cursor_hold.style.opacity = '0'
                 setTimeout(() => {
                     cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz+5,true)
                     posc = firstscene.posz + 5
                     setTimeout(() => {
                         ctn_home.style.display = 'none'
-                        cursor_hold.style.opacity = '0'
-                    }, 1000);
+                    }, 50);
                     setTimeout(() => {
                         cursor_hold.style.opacity = '0'
                     }, 4000);
-                /*
-                if(x == 10)
-                    cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz + 5,true) 
-                    */
+                    cursor_selected = true 
                 }, 1000);
             }
             else{
@@ -445,6 +444,7 @@ function holdMouse(){
                     ctn_home.style.color = 'black'
                 }, 700);
             }
+
         }
         else{
             sml_bar.style.transform = `scaleX(${timing/30})`
