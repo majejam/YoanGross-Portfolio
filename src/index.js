@@ -28,7 +28,6 @@ const cursor_hold = document.querySelector('.cursor-hold')
 const sml_bar = document.querySelector('.sml-bar')
 const contentManagerMotion = document.querySelectorAll('.content-manager-motion')
 const contentManager3D = document.querySelectorAll('.content-manager-3d')
-
 const numerotation = document.querySelectorAll('.nb-num')
 const close_modal_btn = document.querySelectorAll('.cross-ctn')
 const return_home = document.querySelectorAll('.return-home')
@@ -36,6 +35,7 @@ const modalsbtn = document.querySelectorAll('.video-modal')
 const number_color = document.querySelectorAll('.big-nb')
 const see_more = document.querySelectorAll('.see-more')
 const modalsctn = document.querySelectorAll('.modal-container')
+const modalsctn3d = document.querySelectorAll('.modal-container')
 const respo = document.querySelector('.responsive-msg')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 numerotation[0].style.color = '#000000'
@@ -70,6 +70,8 @@ let modal_show = false
  for (let i = 0; i < modalsctn.length; i++) {
     modalsbtn[i].addEventListener('click', (_event) =>
     {
+        console.log(modalsbtn);
+        
         modal_show = true
         modalsctn[i].style.display = 'flex'
         setTimeout(() => {
@@ -419,7 +421,7 @@ function holdMouse(){
                     cursor_selected = true 
                 }, 1000);
             }
-            if(x == 10 && !cursor_selected){
+            else if(x == 10 && !cursor_selected){
                 ctn_home.style.opacity = '0'
                 cursor_hold.style.opacity = '0'
                 selectedscene = secondscene
