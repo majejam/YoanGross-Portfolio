@@ -405,6 +405,8 @@ function holdMouse(){
                 cursor_hold.style.opacity = '0'
                 selectedscene = firstscene
                 contentSelected = contentManagerMotion
+                max_len = -50
+                min_len = 30
                 setTimeout(() => {
                     cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz+5,true)
                     posc = firstscene.posz + 5
@@ -422,6 +424,8 @@ function holdMouse(){
                 cursor_hold.style.opacity = '0'
                 selectedscene = secondscene
                 contentSelected = contentManager3D
+                max_len = 10
+                min_len = 30
                 setTimeout(() => {
                     cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz+5,true)
                     posc = secondscene.posz + 5
@@ -539,7 +543,7 @@ function moveCamera(key = 0, scene){
  * Loop
  */
 let nb = 0
-console.log(contentSelected);
+
 
 const loop = () =>
 {
