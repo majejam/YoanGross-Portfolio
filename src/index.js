@@ -26,7 +26,9 @@ const home_btn = document.querySelector('.btn-home')
 const inner_text = document.querySelector('.txt-slider-ctn')
 const cursor_hold = document.querySelector('.cursor-hold')
 const sml_bar = document.querySelector('.sml-bar')
-const contentManager = document.querySelectorAll('.content-manager')
+const contentManagerMotion = document.querySelectorAll('.content-manager-motion')
+const contentManager3D = document.querySelectorAll('.content-manager-3d')
+
 const numerotation = document.querySelectorAll('.nb-num')
 const close_modal_btn = document.querySelectorAll('.cross-ctn')
 const return_home = document.querySelectorAll('.return-home')
@@ -39,7 +41,9 @@ const numerotation_bar = document.querySelectorAll('.num_bar')
 numerotation[0].style.color = '#000000'
 const createFps = require('fps-indicator')
 //let fps = createFps()
+let selectedscene = firstscene
 let print_content = true
+let contentSelected = contentManagerMotion
 /**
  * Return home
  */
@@ -328,9 +332,9 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
 /**
  * First scene
  */
-let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
+let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939,0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
 let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 9, 'Cube',1,1,1,1, sceneColor)
-let secondscene = new OBJECT.Scene(scene, 10, 400, 25, 10, 'Cone', 0.5, 1.5, 320, 0,sceneColor)
+let secondscene = new OBJECT.Scene(scene, 10, 60, 25, 3, 'Cone', 0.5, 1.5, 320, 0,sceneColor)
 let random = new OBJECT.RandomElement(scene, 0, 0, -50, 500, 1, 1, 1, 1)
 
 for (let index = 0; index < number_color.length; index++) {
@@ -359,66 +363,39 @@ const cameraControls = new CameraControls(camera, renderer.domElement, false);
 
 cameraControls.dampingFactor = 0.05
 
-/**
- * Loop
- */
-let nb = 0
-const loop = () =>
-{
 
-    const delta = clock.getDelta();
-    const hasControlsUpdated = cameraControls.update( delta );
-    window.requestAnimationFrame(loop)
-    
-    nb += 0.01
-    tetra.setAnimation(0.01, 0.002, true, true, true, false,4)
-    cubeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
-    //cubeUp.setAnimation(0.001, 0.002, false, true, true, false,100)
-    //cubeLeft.setAnimation(0.01, 0.002, false, true, true, false,1000)
-    coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
-    dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
-    octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
-    firstscene.animationPlay()
-    secondscene.animationPlay()
-    random.animationPlay()
-    holdMouse()
-    renderer.render(scene, camera)
-    getAppear()
-}
-loop()
-
-
-function getAppear() {
-    if(Math.round(camera.position.y) == firstscene.posy && print_content){
+function getAppear(scene, content) {
+    if(Math.round(camera.position.y) == scene.posy && print_content){
         hold = false 
-        for (let index = 0; index < firstscene.arrayElement.length; index++) {
+        for (let index = 0; index < scene.arrayElement.length; index++) {
             let pos = Math.round(camera.position.z) - 30
-            if ( pos == firstscene.arrayElement[index].element.mesh.position.z) {
-                contentManager[index].style.display = 'flex'
+            if ( pos == scene.arrayElement[index].element.mesh.position.z) {
+                content[index].style.display = 'flex'
                 respo.style.display = 'block'
                 setTimeout(() => {
-                    contentManager[index].style.opacity = 1
+                    content[index].style.opacity = 1
                 }, 500);
             }
             else{
-                contentManager[index].style.opacity = 0
+                content[index].style.opacity = 0
                 setTimeout(() => {
-                    contentManager[index].style.display = 'none'
+                    content[index].style.display = 'none'
                 }, 500);
             }
         }
     }
     else{
-        for (let index = 0; index < firstscene.arrayElement.length; index++) {
-            contentManager[index].style.opacity = 0
+        for (let index = 0; index < scene.arrayElement.length; index++) {
+            content[index].style.opacity = 0
             setTimeout(() => {
-                contentManager[index].style.display = 'none'
+                content[index].style.display = 'none'
                 respo.style.display = 'none'
             }, 500);
         }
     }
 }
-let cursor_selected = false 
+let cursor_selected = false
+selectedscene = firstscene 
 function holdMouse(){
     if(hold){
         timing += 1
@@ -426,9 +403,28 @@ function holdMouse(){
             if(x == 0 && !cursor_selected){
                 ctn_home.style.opacity = '0'
                 cursor_hold.style.opacity = '0'
+                selectedscene = firstscene
+                contentSelected = contentManagerMotion
                 setTimeout(() => {
                     cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz+5,true)
                     posc = firstscene.posz + 5
+                    setTimeout(() => {
+                        ctn_home.style.display = 'none'
+                    }, 50);
+                    setTimeout(() => {
+                        cursor_hold.style.opacity = '0'
+                    }, 4000);
+                    cursor_selected = true 
+                }, 1000);
+            }
+            if(x == 10 && !cursor_selected){
+                ctn_home.style.opacity = '0'
+                cursor_hold.style.opacity = '0'
+                selectedscene = secondscene
+                contentSelected = contentManager3D
+                setTimeout(() => {
+                    cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz+5,true)
+                    posc = secondscene.posz + 5
                     setTimeout(() => {
                         ctn_home.style.display = 'none'
                     }, 50);
@@ -480,22 +476,22 @@ function onMouseWheel( event ) {
         resetCamera = false 
     }
     //posc += event.deltaY * 0.003;
-    moveCamera()
+    moveCamera(0,selectedscene)
 }
 
 window.addEventListener('keydown', function(event) {
     const key = event.key; 
-    moveCamera(key)
+    moveCamera(key,selectedscene)
 });
 document.addEventListener('touchstart', () =>
 {     
     if(!modal_show)
-        moveCamera('ArrowUp')
+        moveCamera('ArrowUp',selectedscene)
 })
 let max_len = -50
 let min_len = 30
-function moveCamera(key = 0){
-    if(camera.position.y == firstscene.posy ){
+function moveCamera(key = 0, scene){
+    if(camera.position.y == scene.posy ){
         if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
             if (posc == max_len) {
                 posc = min_len
@@ -537,6 +533,39 @@ function moveCamera(key = 0){
         } 
     }
 }
+
+
+/**
+ * Loop
+ */
+let nb = 0
+console.log(contentSelected);
+
+const loop = () =>
+{
+
+    const delta = clock.getDelta();
+    const hasControlsUpdated = cameraControls.update( delta );
+    window.requestAnimationFrame(loop)
+    
+    nb += 0.01
+    tetra.setAnimation(0.01, 0.002, true, true, true, false,4)
+    cubeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    //cubeUp.setAnimation(0.001, 0.002, false, true, true, false,100)
+    //cubeLeft.setAnimation(0.01, 0.002, false, true, true, false,1000)
+    coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    firstscene.animationPlay()
+    secondscene.animationPlay()
+    random.animationPlay()
+    holdMouse()
+    renderer.render(scene, camera)
+    //console.log(selectedscene);
+    
+    getAppear(selectedscene, contentSelected)
+}
+loop()
 
 /**
  * To do : 
