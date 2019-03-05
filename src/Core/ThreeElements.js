@@ -233,10 +233,11 @@ export class Scene{
         if(x == 0){this.posx -= 5}else{this.posx += 5}
     }
 
-    animationPlay()
+    animationPlay(animationUp, animationX, animationY, animationZ)
     {
+        //animationUp, animationX, animationY, animationZ
         for (let index = 0; index < this.arrayElement.length; index++) {  
-            this.arrayElement[index].setAnimationRand(0.01, true, true, true, true,4)
+            this.arrayElement[index].setAnimationRand(0.01, animationUp, animationX, animationY, animationZ,4)
         }
     }
 
