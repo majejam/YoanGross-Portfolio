@@ -376,13 +376,13 @@ function getAppear(scene, content) {
                 respo.style.display = 'block'
                 setTimeout(() => {
                     content[index].style.opacity = 1
-                }, 500);
+                }, 250);
             }
             else{
                 content[index].style.opacity = 0
                 setTimeout(() => {
                     content[index].style.display = 'none'
-                }, 500);
+                }, 250);
             }
         }
     }
@@ -392,7 +392,7 @@ function getAppear(scene, content) {
             setTimeout(() => {
                 content[index].style.display = 'none'
                 respo.style.display = 'none'
-            }, 500);
+            }, 250);
         }
     }
 }
