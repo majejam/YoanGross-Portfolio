@@ -28,6 +28,7 @@ const cursor_hold = document.querySelector('.cursor-hold')
 const sml_bar = document.querySelector('.sml-bar')
 const contentManagerMotion = document.querySelectorAll('.content-manager-motion')
 const contentManager3D = document.querySelectorAll('.content-manager-3d')
+const contentManagerDev = document.querySelectorAll('.content-manager-dev')
 const numerotation = document.querySelectorAll('.nb-num')
 const close_modal_btn = document.querySelectorAll('.cross-ctn')
 const return_home = document.querySelectorAll('.return-home')
@@ -337,6 +338,7 @@ let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29
 let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939,0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
 let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 9, 'Cube',1,1,1,1, sceneColor)
 let secondscene = new OBJECT.Scene(scene, 10, 60, 25, 3, 'Cone', 0.5, 1.5, 320, 0,sceneColor)
+let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, 6, 'Dodecahedron', 0.5, 1.5, 1, 0,sceneColor)
 let random = new OBJECT.RandomElement(scene, 0, 0, -50, 500, 1, 1, 1, 1)
 
 for (let index = 0; index < number_color.length; index++) {
@@ -431,6 +433,25 @@ function holdMouse(){
                 setTimeout(() => {
                     cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz+5,true)
                     posc = secondscene.posz + 5
+                    setTimeout(() => {
+                        ctn_home.style.display = 'none'
+                    }, 50);
+                    setTimeout(() => {
+                        cursor_hold.style.opacity = '0'
+                    }, 4000);
+                    cursor_selected = true 
+                }, 1000);
+            }
+            else if(x == 20 && !cursor_selected){
+                ctn_home.style.opacity = '0'
+                cursor_hold.style.opacity = '0'
+                selectedscene = thirdscene
+                contentSelected = contentManagerDev
+                max_len = -20
+                min_len = 30
+                setTimeout(() => {
+                    cameraControls.moveTo(thirdscene.posx,thirdscene.posy,thirdscene.posz+5,true)
+                    posc = thirdscene.posz + 5
                     setTimeout(() => {
                         ctn_home.style.display = 'none'
                     }, 50);
