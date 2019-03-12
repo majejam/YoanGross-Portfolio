@@ -351,7 +351,7 @@ for (let index = 0; index < number_color.length; index++) {
 /**
  * Camera
  */
-const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
+const camera = new THREE.PerspectiveCamera(85, sizes.width / sizes.height)
 camera.position.z = 0
 scene.add(camera)
 

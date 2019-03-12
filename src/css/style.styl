@@ -227,6 +227,18 @@ video
     transform rotate(90deg)
     font-size 2em
     cursor pointer
+    margin-top 3px
+    display flex
+
+.dumb-btn span
+    margin-left 1px
+    transition 0.3s ease all  
+
+.dumb-btn:hover span:nth-child(odd)
+    transform translateY(3px)
+.dumb-btn:hover span:nth-child(even)
+    transform translateY(-3px)
+
 .circle-1
     animation loading-forward 3s ease-in-out 0s infinite reverse  
 .circle-2
@@ -284,6 +296,9 @@ video
     font-size 1.7em
     margin-top -10px
     font-family: 'Roboto Mono', monospace;
+
+.inner-dumb
+    display block 
 
 .cursor-hold
     position absolute 
