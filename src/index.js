@@ -26,6 +26,7 @@ const home_btn = document.querySelector('.btn-home')
 const inner_text = document.querySelector('.txt-slider-ctn')
 const cursor_hold = document.querySelector('.cursor-hold')
 const sml_bar = document.querySelector('.sml-bar')
+const dumb_btn = document.querySelector('.dumb-btn')
 const contentManagerMotion = document.querySelectorAll('.content-manager-motion')
 const contentManager3D = document.querySelectorAll('.content-manager-3d')
 const contentManagerDev = document.querySelectorAll('.content-manager-dev')
@@ -220,6 +221,9 @@ function changeNum(index){
     }
 }
 let screen = true
+dumb_btn.addEventListener('click', () => {
+    seeMenu()
+})
 home_btn.addEventListener('mousedown', () =>
 { 
     setTimeout(() => {
@@ -400,74 +404,76 @@ function getAppear(scene, content) {
 }
 let cursor_selected = false
 selectedscene = firstscene 
+function seeMenu(){
+    if(x == 0 && !cursor_selected){
+        ctn_home.style.opacity = '0'
+        cursor_hold.style.opacity = '0'
+        selectedscene = firstscene
+        contentSelected = contentManagerMotion
+        max_len = -50
+        min_len = 30
+        setTimeout(() => {
+            cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz+5,true)
+            posc = firstscene.posz + 5
+            setTimeout(() => {
+                ctn_home.style.display = 'none'
+            }, 50);
+            setTimeout(() => {
+                cursor_hold.style.opacity = '0'
+            }, 4000);
+            cursor_selected = true 
+        }, 1000);
+    }
+    else if(x == 10 && !cursor_selected){
+        ctn_home.style.opacity = '0'
+        cursor_hold.style.opacity = '0'
+        selectedscene = secondscene
+        contentSelected = contentManager3D
+        max_len = 10
+        min_len = 30
+        setTimeout(() => {
+            cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz+5,true)
+            posc = secondscene.posz + 5
+            setTimeout(() => {
+                ctn_home.style.display = 'none'
+            }, 50);
+            setTimeout(() => {
+                cursor_hold.style.opacity = '0'
+            }, 4000);
+            cursor_selected = true 
+        }, 1000);
+    }
+    else if(x == 20 && !cursor_selected){
+        ctn_home.style.opacity = '0'
+        cursor_hold.style.opacity = '0'
+        selectedscene = thirdscene
+        contentSelected = contentManagerDev
+        max_len = -20
+        min_len = 30
+        setTimeout(() => {
+            cameraControls.moveTo(thirdscene.posx,thirdscene.posy,thirdscene.posz+5,true)
+            posc = thirdscene.posz + 5
+            setTimeout(() => {
+                ctn_home.style.display = 'none'
+            }, 50);
+            setTimeout(() => {
+                cursor_hold.style.opacity = '0'
+            }, 4000);
+            cursor_selected = true 
+        }, 1000);
+    }
+    else{
+        ctn_home.style.color = 'red'
+        setTimeout(() => {
+            ctn_home.style.color = 'black'
+        }, 700);
+    }
+}
 function holdMouse(){
     if(hold){
         timing += 1
         if(timing > 30){
-            if(x == 0 && !cursor_selected){
-                ctn_home.style.opacity = '0'
-                cursor_hold.style.opacity = '0'
-                selectedscene = firstscene
-                contentSelected = contentManagerMotion
-                max_len = -50
-                min_len = 30
-                setTimeout(() => {
-                    cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz+5,true)
-                    posc = firstscene.posz + 5
-                    setTimeout(() => {
-                        ctn_home.style.display = 'none'
-                    }, 50);
-                    setTimeout(() => {
-                        cursor_hold.style.opacity = '0'
-                    }, 4000);
-                    cursor_selected = true 
-                }, 1000);
-            }
-            else if(x == 10 && !cursor_selected){
-                ctn_home.style.opacity = '0'
-                cursor_hold.style.opacity = '0'
-                selectedscene = secondscene
-                contentSelected = contentManager3D
-                max_len = 10
-                min_len = 30
-                setTimeout(() => {
-                    cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz+5,true)
-                    posc = secondscene.posz + 5
-                    setTimeout(() => {
-                        ctn_home.style.display = 'none'
-                    }, 50);
-                    setTimeout(() => {
-                        cursor_hold.style.opacity = '0'
-                    }, 4000);
-                    cursor_selected = true 
-                }, 1000);
-            }
-            else if(x == 20 && !cursor_selected){
-                ctn_home.style.opacity = '0'
-                cursor_hold.style.opacity = '0'
-                selectedscene = thirdscene
-                contentSelected = contentManagerDev
-                max_len = -20
-                min_len = 30
-                setTimeout(() => {
-                    cameraControls.moveTo(thirdscene.posx,thirdscene.posy,thirdscene.posz+5,true)
-                    posc = thirdscene.posz + 5
-                    setTimeout(() => {
-                        ctn_home.style.display = 'none'
-                    }, 50);
-                    setTimeout(() => {
-                        cursor_hold.style.opacity = '0'
-                    }, 4000);
-                    cursor_selected = true 
-                }, 1000);
-            }
-            else{
-                ctn_home.style.color = 'red'
-                setTimeout(() => {
-                    ctn_home.style.color = 'black'
-                }, 700);
-            }
-
+            seeMenu()
         }
         else{
             sml_bar.style.transform = `scaleX(${timing/30})`
@@ -497,7 +503,7 @@ let movingScroll = true
 window.addEventListener( 'wheel', onMouseWheel, false );
 window.addEventListener( 'scroll', onMouseWheel, false );
 function onMouseWheel( event ) {
-    event.preventDefault();
+    //event.preventDefault();
     if(posc != camera.position.z && resetCamera){
         //posc = camera.position.z
         resetCamera = false 
