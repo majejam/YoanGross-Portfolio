@@ -101,6 +101,16 @@ let modal_show = false
         modal_show = false
     })
  }
+ function closeModals(){
+    modal_show = false
+    for (let i = 0; i < modalsctn.length; i++) {
+        modalsctn[i].style.opacity = 0
+        setTimeout(() => {
+            modalsctn[i].style.display = 'none'
+        }, 550);
+     }
+ }
+
 /**
  * Cursor
  */
@@ -513,7 +523,7 @@ function onMouseWheel( event ) {
 }
 
 window.addEventListener('keydown', function(event) {
-    const key = event.key; 
+    const key = event.key;
     moveCamera(key,selectedscene)
 });
 document.addEventListener('touchstart', () =>
@@ -524,6 +534,7 @@ document.addEventListener('touchstart', () =>
 let max_len = -50
 let min_len = 30
 function moveCamera(key = 0, scene){
+    closeModals() 
     if(camera.position.y == scene.posy ){
         if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
             if (posc == max_len) {
