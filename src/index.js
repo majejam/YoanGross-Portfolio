@@ -53,17 +53,20 @@ let contentSelected = contentManagerMotion
 for (let i = 0; i < return_home.length; i++) {
     return_home[i].addEventListener('click', (_event) =>
     {
-        cursor_selected = false 
-        timing = 0
-        cameraControls.moveTo(x,0,0,true)
-        setTimeout(() => {
-            ctn_home.style.display = 'flex'
-        }, 1000);
-        setTimeout(() => {
-            ctn_home.style.opacity = 1
-        }, 1050);
+        returnFonction()
 
     })
+ }
+ function returnFonction(){
+    cursor_selected = false 
+    timing = 0
+    cameraControls.moveTo(x,0,0,true)
+    setTimeout(() => {
+        ctn_home.style.display = 'flex'
+    }, 1000);
+    setTimeout(() => {
+        ctn_home.style.opacity = 1
+    }, 1050);
  }
 /**
  * Modals 
@@ -72,8 +75,6 @@ let modal_show = false
  for (let i = 0; i < modalsctn.length; i++) {
     modalsbtn[i].addEventListener('click', (_event) =>
     {
-        console.log(modalsbtn);
-        
         modal_show = true
         modalsctn[i].style.display = 'flex'
         setTimeout(() => {
@@ -158,72 +159,91 @@ home_btn.addEventListener('click', () =>
 { 
     changeNum(-10)
 })
+function transitionHome(index, orientation){
+    if(orientation == 'right'){
+        numerotation_bar[index].style.transformOrigin = 'right'
+        numerotation_bar[index].style.transform = 'scaleX(1)'
+        setTimeout(() => {
+            numerotation_bar[index].style.transformOrigin = 'left'
+            numerotation_bar[index].style.transform = 'scaleX(0)'
+        }, 500)
+    }
+    if(orientation == 'left'){
+        numerotation_bar[index].style.transformOrigin = 'left'
+        numerotation_bar[index].style.transform = 'scaleX(1)'
+        setTimeout(() => {
+            numerotation_bar[index].style.transformOrigin = 'right'
+            numerotation_bar[index].style.transform = 'scaleX(0)'
+        }, 500)
+    }
+
+}
 function changeNum(index){
     if(!hold){
         if(index == -10){
             x += 10
             y += 400
         }
+        else if(index == 10){
+            x -= 10
+            y -= 400
+        }
         else{
             x = index * 10
             y = 400 * index
         }
-
-        if(x == 50){
+        if(x == -10){
+            x = 40
+            y = 400 * 4
+        }
+        else if(x == 50){
             x = 0
             y = 0
         }
         if(x == 0){
             resetColor(numerotation, '#aaaaaa')
             numerotation[0].style.color = '#000000'
+            if (index == 10){
+                transitionHome(0, 'right')
+            } 
         }
         if(x == 10){
             resetColor(numerotation, '#aaaaaa')
             numerotation[1].style.color = '#000000'
             if(index == -10){
-                numerotation_bar[0].style.transformOrigin = 'left'
-                numerotation_bar[0].style.transform = 'scaleX(1)'
-                setTimeout(() => {
-                    numerotation_bar[0].style.transformOrigin = 'right'
-                    numerotation_bar[0].style.transform = 'scaleX(0)'
-                }, 500)
+                transitionHome(0, 'left')
+            }
+            else if (index == 10){
+                transitionHome(1, 'right')
             } 
         }
         if(x == 20){
             resetColor(numerotation, '#aaaaaa')
             numerotation[2].style.color = '#000000'
             if(index == -10){
-                numerotation_bar[1].style.transformOrigin = 'left'
-                numerotation_bar[1].style.transform = 'scaleX(1)'
-                setTimeout(() => {
-                    numerotation_bar[1].style.transformOrigin = 'right'
-                    numerotation_bar[1].style.transform = 'scaleX(0)'
-                }, 500)
+                transitionHome(1, 'left')
+            }
+            else if (index == 10){
+                transitionHome(2, 'right')
             } 
         }
         if(x == 30){
             resetColor(numerotation, '#aaaaaa')
             numerotation[3].style.color = '#000000'
             if(index == -10){
-                numerotation_bar[2].style.transformOrigin = 'left'
-                numerotation_bar[2].style.transform = 'scaleX(1)'
-                setTimeout(() => {
-                    numerotation_bar[2].style.transformOrigin = 'right'
-                    numerotation_bar[2].style.transform = 'scaleX(0)'
-                }, 500)
+                transitionHome(2, 'left')
+            }
+            else if (index == 10){
+                transitionHome(3, 'right')
             } 
         }
         if(x == 40){
             resetColor(numerotation, '#aaaaaa')
             numerotation[4].style.color = '#000000'
             if(index == -10){
-                numerotation_bar[3].style.transformOrigin = 'left'
-                numerotation_bar[3].style.transform = 'scaleX(1)'
-                setTimeout(() => {
-                    numerotation_bar[3].style.transformOrigin = 'right'
-                    numerotation_bar[3].style.transform = 'scaleX(0)'
-                }, 500)
-            } 
+                transitionHome(3, 'left')
+            }
+            
         }
     
         cameraControls.moveTo(x,0,0,true)
@@ -525,7 +545,23 @@ function onMouseWheel( event ) {
 window.addEventListener('keydown', function(event) {
     const key = event.key;
     moveCamera(key,selectedscene)
+    if(key === "Escape")
+        returnFonction()
+    else if(key === "ArrowLeft"){
+        changeNum(10)
+    }
+    else if (key === "ArrowRight"){
+        changeNum(-10)
+    }
+    else if (key === "Enter"){
+        seeMenu()
+    }
 });
+document.body.onkeyup = function(e){
+    if(e.keyCode == 32){
+        seeMenu()
+    }
+}
 document.addEventListener('touchstart', () =>
 {     
     if(!modal_show)
