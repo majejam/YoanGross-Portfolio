@@ -111,9 +111,9 @@ video
     will-change transform
 
 .content-left 
-    animation float-left 10s ease-in-out 0s infinite
+    //animation float-left 10s ease-in-out 0s infinite
 
-.content-right 
+.content-right-main
     animation float-right 10s ease-in-out 0s infinite
 
 .content-para   
@@ -513,17 +513,17 @@ video
 
 @keyframes float-right {
   0% {
-    transform rotate3d(0,1,0,3deg)
+    transform rotate3d(0,1,0,3deg) translateY(-50%)
   }
   33%{
-    transform rotate3d(0,1,0,2deg)
+    transform rotate3d(0,1,0,1deg) translateY(-50%)
     }
   66%{
-    transform rotate3d(0,1,0,4deg)
+    transform rotate3d(0,1,0,5deg) translateY(-50%)
     }
 
   100% {
-    transform rotate3d(0,1,0,3deg)
+    transform rotate3d(0,1,0,3deg) translateY(-50%)
   }
 }
 

@@ -367,12 +367,13 @@ let dodeObj = new OBJECT.Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 19
 let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29, 0, -4)
 
 /**
- * First scene
+ * Scene
  */
 let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939,0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
 let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 9, 'Cube',1,1,1,1, sceneColor)
 let secondscene = new OBJECT.Scene(scene, 10, 60, 25, 3, 'Cone', 0.5, 1.5, 320, 0, sceneColor)
 let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, 6, 'Dodecahedron', 0.5, 1.5, 1, 0, sceneColor)
+let fourthscene = new OBJECT.Scene(scene, 30, 80, 25, 6, 'Octahedron', 0.5, 1, 0, 0, sceneColor)
 let random = new OBJECT.RandomElement(scene, 0, 0, -50, 500, 1, 1, 1, 1)
 
 for (let index = 0; index < number_color.length; index++) {
@@ -409,6 +410,7 @@ function getAppear(scene, content) {
             let pos = Math.round(camera.position.z) - 30
             if ( pos == scene.arrayElement[index].element.mesh.position.z) {
                 content[index].style.display = 'flex'
+                content[index].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
                 respo.style.display = 'block'
                 setTimeout(() => {
                     content[index].style.opacity = 1
@@ -416,8 +418,10 @@ function getAppear(scene, content) {
             }
             else{
                 content[index].style.opacity = 0
+                content[index].style.transform = `rotate3d(0,1,0,3deg) translateZ(${500*moving}px)`
                 setTimeout(() => {
                     content[index].style.display = 'none'
+
                 }, 250);
             }
         }
@@ -425,6 +429,7 @@ function getAppear(scene, content) {
     else{
         for (let index = 0; index < scene.arrayElement.length; index++) {
             content[index].style.opacity = 0
+            content[index].style.transform = `rotate3d(0,1,0,3deg) translateZp${500*moving}px)`
             setTimeout(() => {
                 content[index].style.display = 'none'
                 respo.style.display = 'none'
@@ -492,6 +497,25 @@ function seeMenu(){
             cursor_selected = true 
         }, 1000);
     }
+    else if(x == 30 && !cursor_selected){
+        ctn_home.style.opacity = '0'
+        cursor_hold.style.opacity = '0'
+        selectedscene = fourthscene
+        contentSelected = contentManagerDev
+        max_len = -20
+        min_len = 30
+        setTimeout(() => {
+            cameraControls.moveTo(fourthscene.posx,fourthscene.posy,fourthscene.posz+5,true)
+            posc = fourthscene.posz + 5
+            setTimeout(() => {
+                ctn_home.style.display = 'none'
+            }, 50);
+            setTimeout(() => {
+                cursor_hold.style.opacity = '0'
+            }, 4000);
+            cursor_selected = true 
+        }, 1000);
+    }
     else{
         ctn_home.style.color = 'red'
         setTimeout(() => {
@@ -547,10 +571,10 @@ window.addEventListener('keydown', function(event) {
     moveCamera(key,selectedscene)
     if(key === "Escape")
         returnFonction()
-    else if(key === "ArrowLeft"){
+    else if(key === "ArrowLeft" && !cursor_selected){
         changeNum(10)
     }
-    else if (key === "ArrowRight"){
+    else if (key === "ArrowRight" && !cursor_selected){
         changeNum(-10)
     }
     else if (key === "Enter"){
@@ -569,10 +593,12 @@ document.addEventListener('touchstart', () =>
 })
 let max_len = -50
 let min_len = 30
+let moving = 1
 function moveCamera(key = 0, scene){
     closeModals() 
     if(camera.position.y == scene.posy ){
         if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
+            moving = 1
             if (posc == max_len) {
                 posc = min_len
                 print_content = false
@@ -592,7 +618,7 @@ function moveCamera(key = 0, scene){
             }, 1200);
         } 
         if((((event.deltaY/100) > 0.8) || key === 'ArrowDown') && movingScroll){
-
+            moving = -1
             if (posc == min_len) {
                 posc = max_len
                 print_content = false
@@ -638,6 +664,8 @@ const loop = () =>
     octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     firstscene.animationPlay(true, true, true, true)
     secondscene.animationPlay(true, true, true, false)
+    thirdscene.animationPlay(true, true, true, true)
+    fourthscene.animationPlay(true, true, true, true)
     random.animationPlay()
     holdMouse()
     renderer.render(scene, camera)
