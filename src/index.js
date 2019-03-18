@@ -403,12 +403,15 @@ const cameraControls = new CameraControls(camera, renderer.domElement, false);
 cameraControls.dampingFactor = 0.05
 
 
+
 function getAppear(scene, content) {
+    //console.log(scene.arrayElement[0]);
+    
     if(Math.round(camera.position.y) == scene.posy && print_content){
         hold = false 
         for (let index = 0; index < scene.arrayElement.length; index++) {
             let pos = Math.round(camera.position.z) - 30
-            if ( pos == scene.arrayElement[index].element.mesh.position.z) {
+            if ( pos == scene.arrayElement[index].posz) {
                 content[index].style.display = 'flex'
                 content[index].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
                 respo.style.display = 'block'
@@ -666,6 +669,8 @@ const loop = () =>
     secondscene.animationPlay(true, true, true, false)
     thirdscene.animationPlay(true, true, true, true)
     fourthscene.animationPlay(true, true, true, true)
+
+ 
     random.animationPlay()
     holdMouse()
     renderer.render(scene, camera)

@@ -18,6 +18,7 @@ export class Element{
         this.rotation_force = 0 
         this.increment = 4 
         this.randforce = 0.001 + Math.random()/400
+        this.smallElement = new Array()
         this.setMesh()
         this.setScene()
     }
@@ -37,6 +38,10 @@ export class Element{
         }
         else if(this.type == 'Cube'){
             this.setCube()
+            for (let i = 0; i < 10; i++) {
+                //this.setCubes()
+            }
+           
         }
 
     }
@@ -110,6 +115,25 @@ export class Element{
         this.element.mesh.position.z = this.posz
         this.container.add(this.element.mesh)
     }
+    setCubes()
+    {
+        let random = 0.9
+        this.element = {}
+        this.element.geometry = new THREE.BoxBufferGeometry(this.size - random, this.size - random, this.size - random)
+        this.element.material = new THREE.MeshStandardMaterial({
+            color: this.color, 
+            flatShading: true,
+            metalness: 0.5,
+            roughness: 1,
+        })
+
+        this.element.mesh = new THREE.Mesh(this.element.geometry, this.element.material)
+        this.element.mesh.position.x = this.posx + (-1 + Math.random() * 2)
+        this.element.mesh.position.y = this.posy + (-1 + Math.random() * 2)
+        this.element.mesh.position.z = this.posz + (-0.5 + Math.random())
+        this.container.add(this.element.mesh)
+        this.smallElement.push(this.element.mesh)
+    }
     setTetrahedron()
     {
         this.element = {}
@@ -168,7 +192,12 @@ export class Element{
         if(animationZ)
             this.rotateAnimationZ(this.randforce)
     }
-
+    setRandomAnimation(){
+        for (let i = 0; i < this.smallElement.length; i++) {
+            this.smallElement[i].rotation.x += 0.01
+            //this.rotation_force = force_rotation
+        }
+    }
     setScene()
     {
         this.scene.add(this.container)  
