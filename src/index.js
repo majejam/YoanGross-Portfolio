@@ -60,7 +60,9 @@ for (let i = 0; i < return_home.length; i++) {
  function returnFonction(){
     cursor_selected = false 
     timing = 0
-    cameraControls.moveTo(x,0,0,true)
+    cameraControls.setLookAt( x, 0, 0, 0, 0, -100, true )
+    clearEverythingSingle(contentSelected[indexElementMoving])
+    //cameraControls.moveTo(x,0,0,true)
     setTimeout(() => {
         ctn_home.style.display = 'flex'
     }, 1000);
@@ -374,7 +376,9 @@ let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 9, 'Cube',1,1,1,1, sceneColo
 let secondscene = new OBJECT.Scene(scene, 10, 60, 25, 3, 'Cone', 0.5, 1.5, 320, 0, sceneColor)
 let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, 6, 'Dodecahedron', 0.5, 1.5, 1, 0, sceneColor)
 let fourthscene = new OBJECT.Scene(scene, 30, 80, 25, 6, 'Octahedron', 0.5, 1, 0, 0, sceneColor)
-let random = new OBJECT.RandomElement(scene, 0, 0, -50, 500, 1, 1, 1, 1)
+let random = new OBJECT.RandomElement(scene, 0, 0, -50, 5, 1, 1, 1, 1)
+
+console.log(firstscene.arrayElement[0].posx);
 
 for (let index = 0; index < number_color.length; index++) {
     number_color[index].style.color = `#${sceneColor[index].toString(16)}`
@@ -402,32 +406,47 @@ const cameraControls = new CameraControls(camera, renderer.domElement, false);
 
 cameraControls.dampingFactor = 0.05
 
-
+function clearEverything(els){
+    for (let index = 0; index < els.length; index++) {
+        els[index].style.opacity = 0
+        els[index].style.transform = `rotate3d(0,1,0,3deg) translateZ(${500*moving}px)`
+        setTimeout(() => {
+            els[index].style.display = 'none'
+        }, 250);
+        
+    }
+    
+}
+function clearEverythingSingle(el){
+    el.style.opacity = 0
+    el.style.transform = `rotate3d(0,1,0,3deg) translateZ(${500*moving}px)`
+        setTimeout(() => {
+            el.style.display = 'none'
+        }, 250);
+        
+    
+    
+}
+function showEl(el){
+    el[indexElementMoving].style.display = 'flex'
+    el[indexElementMoving].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
+    respo.style.display = 'block'
+    setTimeout(() => {
+        el[indexElementMoving].style.opacity = 1
+    }, 1000);
+}
 
 function getAppear(scene, content) {
-    //console.log(scene.arrayElement[0]);
-    
-    if(Math.round(camera.position.y) == scene.posy && print_content){
-        hold = false 
-        for (let index = 0; index < scene.arrayElement.length; index++) {
-            let pos = Math.round(camera.position.z) - 30
-            if ( pos == scene.arrayElement[index].posz) {
-                content[index].style.display = 'flex'
-                content[index].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
-                respo.style.display = 'block'
-                setTimeout(() => {
-                    content[index].style.opacity = 1
-                }, 250);
-            }
-            else{
-                content[index].style.opacity = 0
-                content[index].style.transform = `rotate3d(0,1,0,3deg) translateZ(${500*moving}px)`
-                setTimeout(() => {
-                    content[index].style.display = 'none'
 
-                }, 250);
-            }
-        }
+    clearEverything(content)
+    if(print_content){
+        hold = false 
+        content[indexElementMoving].style.display = 'flex'
+        content[indexElementMoving].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
+        respo.style.display = 'block'
+        setTimeout(() => {
+            content[indexElementMoving].style.opacity = 1
+        }, 250);
     }
     else{
         for (let index = 0; index < scene.arrayElement.length; index++) {
@@ -597,47 +616,50 @@ document.addEventListener('touchstart', () =>
 let max_len = -50
 let min_len = 30
 let moving = 1
+let indexElementMoving = 0
+console.log(firstscene.arrayElement);
+
 function moveCamera(key = 0, scene){
     closeModals() 
-    if(camera.position.y == scene.posy ){
+    
+    if(/*camera.position.y == scene.posy*/ true ){
         if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
+            clearEverythingSingle(contentSelected[indexElementMoving])
             moving = 1
-            if (posc == max_len) {
-                posc = min_len
-                print_content = false
-                setTimeout(() => {
-                    print_content = true
-                }, 1000);
+            indexElementMoving += 1
+            if(indexElementMoving > firstscene.arrayElement.length-1){
+                indexElementMoving = 0
             }
-            else{
-                posc -= 10
-                print_content = true
-            }
-
-            cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
+            
+            let distance = cameraControls.object.position.distanceTo(firstscene.arrayElement[indexElementMoving].element.mesh.position)
+            cameraControls.setTarget(firstscene.arrayElement[indexElementMoving].posx,firstscene.arrayElement[indexElementMoving].posy,firstscene.arrayElement[indexElementMoving].posz-2,true)
+            setTimeout(() => { 
+                cameraControls.dolly(-distance + 3, true)
+            }, 1000);
             movingScroll = false
             setTimeout(() => {
                 movingScroll = true
+                showEl(contentSelected)
             }, 1200);
         } 
         if((((event.deltaY/100) > 0.8) || key === 'ArrowDown') && movingScroll){
+            clearEverythingSingle(contentSelected[indexElementMoving])
             moving = -1
-            if (posc == min_len) {
-                posc = max_len
-                print_content = false
-                setTimeout(() => {
-                    print_content = true
-                }, 1000);
+            indexElementMoving -= 1
+            if(indexElementMoving < 0){
+                indexElementMoving = firstscene.arrayElement.length - 1
             }
-            else{
-                print_content = true
-                posc += 10
-            }
-
-            cameraControls.moveTo(camera.position.x,camera.position.y,posc,true)
+            console.log(indexElementMoving);
+            
+            let distance = cameraControls.object.position.distanceTo(firstscene.arrayElement[indexElementMoving].element.mesh.position)
+            cameraControls.setTarget(firstscene.arrayElement[indexElementMoving].posx,firstscene.arrayElement[indexElementMoving].posy,firstscene.arrayElement[indexElementMoving].posz,true)
+            setTimeout(() => { 
+                cameraControls.dolly(-distance + 3, true)
+            }, 1000);
             movingScroll = false
             setTimeout(() => {
                 movingScroll = true
+                showEl(contentSelected)
             }, 1200);
         } 
     }
@@ -676,7 +698,7 @@ const loop = () =>
     renderer.render(scene, camera)
     //console.log(selectedscene);
     
-    getAppear(selectedscene, contentSelected)
+    //getAppear(selectedscene, contentSelected)
 }
 loop()
 

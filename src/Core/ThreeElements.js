@@ -217,9 +217,9 @@ export class Scene{
         this.type = type 
         this.color = color
         this.container = new THREE.Object3D()
-        this.posx = posx
-        this.posy = posy
-        this.posz = posz
+        this.posx = 0
+        this.posy = 0
+        this.posz = 0
         this.elx = 0
         this.ely = 0
         this.elz = 0 
@@ -232,8 +232,9 @@ export class Scene{
         this.container.position.x = this.posx
         this.container.position.y = this.posy
         this.container.position.z = this.posz
-        this.setElements(this.number)
+        //this.setElements(this.number)
         this.setScene()
+        this.setElementsRandom(this.number)
     }
     setElements(number){
         for (let index = 0; index < number; index++) {  
@@ -249,7 +250,14 @@ export class Scene{
             this.container.add(this.arrayElement[index].returnObj())
         }
     }
-
+    setElementsRandom(number){
+        for (let index = 0; index < number; index++) {  
+            let el = new Element(this.color[index], this.scene, this.type, this.radius, this.height, this.definition, this.size, Math.random()*100, Math.random()*100, Math.random()*100)
+            this.arrayElement.push(el)
+            
+            this.container.add(this.arrayElement[index].returnObj())
+        }
+    }
     
     setScene()
     {
