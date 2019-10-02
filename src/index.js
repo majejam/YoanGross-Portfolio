@@ -249,6 +249,7 @@ function changeNum(index){
         }
     
         cameraControls.moveTo(x,0,0,true)
+        cameraControls.dolly(0,false)
         inner_text.style.transform = `translateX(${-y}px)`
     }
 }
@@ -470,7 +471,12 @@ function seeMenu(){
         max_len = -50
         min_len = 30
         setTimeout(() => {
-            cameraControls.moveTo(firstscene.posx,firstscene.posy,firstscene.posz+5,true)
+            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
+            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
+            setTimeout(() => { 
+                cameraControls.dolly(-distance + 3, true)
+            }, 1000);
+            showEl(contentSelected)
             posc = firstscene.posz + 5
             setTimeout(() => {
                 ctn_home.style.display = 'none'
@@ -489,7 +495,11 @@ function seeMenu(){
         max_len = 10
         min_len = 30
         setTimeout(() => {
-            cameraControls.moveTo(secondscene.posx,secondscene.posy,secondscene.posz+5,true)
+            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
+            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
+            setTimeout(() => { 
+                cameraControls.dolly(-distance + 3, true)
+            }, 1000);
             posc = secondscene.posz + 5
             setTimeout(() => {
                 ctn_home.style.display = 'none'
@@ -508,7 +518,11 @@ function seeMenu(){
         max_len = -20
         min_len = 30
         setTimeout(() => {
-            cameraControls.moveTo(thirdscene.posx,thirdscene.posy,thirdscene.posz+5,true)
+            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
+            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
+            setTimeout(() => { 
+                cameraControls.dolly(-distance + 3, true)
+            }, 1000);
             posc = thirdscene.posz + 5
             setTimeout(() => {
                 ctn_home.style.display = 'none'
@@ -527,7 +541,11 @@ function seeMenu(){
         max_len = -20
         min_len = 30
         setTimeout(() => {
-            cameraControls.moveTo(fourthscene.posx,fourthscene.posy,fourthscene.posz+5,true)
+            let distance = cameraControls.object.position.distanceTo(fourthscene.arrayElement[indexElementMoving].element.mesh.position)
+            cameraControls.setTarget(fourthscene.arrayElement[indexElementMoving].posx,fourthscene.arrayElement[indexElementMoving].posy,fourthscene.arrayElement[indexElementMoving].posz-2,true)
+            setTimeout(() => { 
+                cameraControls.dolly(-distance + 3, true)
+            }, 1000);
             posc = fourthscene.posz + 5
             setTimeout(() => {
                 ctn_home.style.display = 'none'
@@ -586,7 +604,7 @@ function onMouseWheel( event ) {
     }
     //posc += event.deltaY * 0.003;
     moveCamera(0,selectedscene)
-}
+};
 
 window.addEventListener('keydown', function(event) {
     const key = event.key;
@@ -617,22 +635,20 @@ let max_len = -50
 let min_len = 30
 let moving = 1
 let indexElementMoving = 0
-console.log(firstscene.arrayElement);
 
 function moveCamera(key = 0, scene){
     closeModals() 
-    
-    if(/*camera.position.y == scene.posy*/ true ){
+    if(true){
         if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
+            console.log('scrool ?')
             clearEverythingSingle(contentSelected[indexElementMoving])
             moving = 1
             indexElementMoving += 1
-            if(indexElementMoving > firstscene.arrayElement.length-1){
+            if(indexElementMoving > selectedscene.arrayElement.length-1){
                 indexElementMoving = 0
             }
-            
-            let distance = cameraControls.object.position.distanceTo(firstscene.arrayElement[indexElementMoving].element.mesh.position)
-            cameraControls.setTarget(firstscene.arrayElement[indexElementMoving].posx,firstscene.arrayElement[indexElementMoving].posy,firstscene.arrayElement[indexElementMoving].posz-2,true)
+            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
+            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
             setTimeout(() => { 
                 cameraControls.dolly(-distance + 3, true)
             }, 1000);
@@ -647,12 +663,11 @@ function moveCamera(key = 0, scene){
             moving = -1
             indexElementMoving -= 1
             if(indexElementMoving < 0){
-                indexElementMoving = firstscene.arrayElement.length - 1
+                indexElementMoving = selectedscene.arrayElement.length - 1
             }
-            console.log(indexElementMoving);
             
-            let distance = cameraControls.object.position.distanceTo(firstscene.arrayElement[indexElementMoving].element.mesh.position)
-            cameraControls.setTarget(firstscene.arrayElement[indexElementMoving].posx,firstscene.arrayElement[indexElementMoving].posy,firstscene.arrayElement[indexElementMoving].posz,true)
+            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
+            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz,true)
             setTimeout(() => { 
                 cameraControls.dolly(-distance + 3, true)
             }, 1000);

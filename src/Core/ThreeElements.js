@@ -252,7 +252,7 @@ export class Scene{
     }
     setElementsRandom(number){
         for (let index = 0; index < number; index++) {  
-            let el = new Element(this.color[index], this.scene, this.type, this.radius, this.height, this.definition, this.size, Math.random()*100, Math.random()*100, Math.random()*100)
+            let el = new Element(this.color[index], this.scene, this.type, this.radius, this.height, this.definition, this.size, Math.random()*100, Math.random()*100, -Math.random()*100)
             this.arrayElement.push(el)
             
             this.container.add(this.arrayElement[index].returnObj())
