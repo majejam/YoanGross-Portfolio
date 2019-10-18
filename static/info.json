@@ -229,5 +229,38 @@
     "url": "videos/3DCartier.m4v",
     "alt": false,
     "link": false
+  },
+  {
+    "type": "content-manager-design",
+    "number": 0,
+    "title": "Airbnb Weekends",
+    "date": "June 2019",
+    "description": "A complete flow for an all-in-one weekend booking app made for a design course.",
+    "media": "image",
+    "url": "images/mockups/airbnb/1.png",
+    "alt": "Airbnb Weekends Mockup Image",
+    "link": false
+  },
+  {
+    "type": "content-manager-design",
+    "number": 1,
+    "title": "Petters - Animal Dating App",
+    "date": "June 2019",
+    "description": "The mockups of an Android Tinder-Like app for animals, that we've then developed using Kotlin.",
+    "media": "image",
+    "url": "images/mockups/petters/1.png",
+    "alt": "Petters Mockup Image",
+    "link": false
+  },
+  {
+    "type": "content-manager-design",
+    "number": 2,
+    "title": "Z'Bar Wars - Pub Crawl",
+    "date": "April 2019",
+    "description": "The mockups of a pub crawl website for mobile made for a school project. It was rush but also a lot of fun!",
+    "media": "image",
+    "url": "images/mockups/zbarwars/1.png",
+    "alt": "Z'Bar Wars Mockup Image",
+    "link": "https://www.grossyoan.fr/zbarwars/"
   }
 ]
