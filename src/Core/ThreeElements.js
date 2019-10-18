@@ -21,6 +21,12 @@ export class Element{
         this.smallElement = new Array()
         this.setMesh()
         this.setScene()
+
+        this.arraySmll = new Array()
+
+        this.time = 0
+        this.isOn = false
+        this.scale = 1
     }
     setMesh()
     {
@@ -203,6 +209,78 @@ export class Element{
         this.scene.add(this.container)  
     }
 
+    easeInOutQuad(t, b, c, d) {
+        t /= d/2;
+        if (t < 1) return c/2*t*t + b;
+        t--;
+        return -c/2 * (t*(t-2) - 1) + b;
+    };
+
+    debug(time) {
+        
+        
+        console.log(this.easeInOutQuad(time, 0, 1, 2));
+        
+    }
+
+    isHovered(cursor, camera, raycaster, time) {
+
+        
+        raycaster.setFromCamera( cursor, camera );
+
+        
+        
+
+        // calculate objects intersecting the picking ray
+        var intersects = raycaster.intersectObject( this.element.mesh );
+        
+        //console.log(intersects);
+        if(intersects.length === 0) {
+            this.isOn = false
+        }
+
+        if(intersects.length === 0 && this.scale > 1) {
+
+            this.scale -= 0.008
+            this.element.mesh.scale.set(this.scale,this.scale,this.scale); 
+        }
+        else {
+            //this.scale = 1
+            this.element.mesh.scale.set(this.scale,this.scale,this.scale); 
+        }
+
+
+        
+        for ( var i = 0; i < intersects.length; i++ ) {
+
+            if (this.scale < 1.1) {
+                this.scale += 0.015
+                intersects[ i ].object.scale.set(this.scale, this.scale, this.scale);
+            }
+            this.isOn = true
+        }            
+        
+    }
+
+    isClicked(cursor, camera, raycaster, callback, index) {
+
+        let force = 0.01 
+        if(this.isOn) {
+            callback(index)
+            let interval = setInterval(() => {
+                force *= 1.1
+                this.rotateAnimationY(force)  
+            }, 100);
+            setTimeout(() => {
+                clearInterval(interval)
+            }, 1000);
+        }     
+        else {
+
+        }   
+        
+    }
+
     returnObj()
     {
         return this.container
@@ -308,18 +386,34 @@ export class RandomElement{
         this.container.position.y = this.posy
         this.container.position.z = this.posz
         this.setScene()
+
     }
 
     setElements(number){
         for (let index = 0; index < number; index++) { 
-            this.elx =  -300 + Math.random() * 600
-            this.ely = -150 + Math.random() * 300
-            this.elz = -(Math.random() * 100) 
+
+            let vecpos = this.generateSphere()
+            this.elx = vecpos.x
+            this.ely = vecpos.y
+            this.elz = vecpos.z
+            
             let rType = this.randomType()
             let el = new Element(this.color[Math.floor(Math.random()* this.color.length)], this.scene, rType, this.radius, this.height, this.definition, this.size, this.elx, this.ely, this.elz)
             this.arrayElement.push(el)
             this.container.add(this.arrayElement[index].returnObj())
         }
+    }
+    
+
+    generateRandom(min, max, spacingx, spacingy) {
+        var num = Math.floor(Math.random() * (max - min + 1)) + min;
+        return (num > spacingx && num < spacingy) ? this.generateRandom(min, max,spacingx, spacingy) : num;
+    }
+
+    generateSphere() {
+        let vec = new THREE.Vector3(0,0,0)
+        let vec2 = new THREE.Vector3(this.generateRandom(-300, 300, 0, 0),this.generateRandom(-300, 300, 0, 0), this.generateRandom(-300, 300, 0, 0))
+        return (vec.distanceTo(vec2) < 60) ? this.generateSphere() : vec2;
     }
 
     randomType(){

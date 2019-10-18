@@ -6,6 +6,9 @@ import * as THREE from 'three'
 
 import * as OBJECT from './Core/ThreeElements.js'
 
+
+import * as DOM from './Core/data.js'
+
 import CameraControls from 'camera-controls';
 
 import LazyLoad from "vanilla-lazyload";
@@ -13,7 +16,23 @@ import LazyLoad from "vanilla-lazyload";
 CameraControls.install( { THREE: THREE } );
 
 
+let raycaster = new THREE.Raycaster();
+var mouse = new THREE.Vector2();
 
+
+
+function onMouseMove( event ) {
+
+	// calculate mouse position in normalized device coordinates
+	// (-1 to +1) for both components
+
+	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+}
+
+const parent__container = document.querySelector('.content-container')
+let dom = new DOM.Reader(parent__container)
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -30,6 +49,7 @@ const dumb_btn = document.querySelector('.dumb-btn')
 const contentManagerMotion = document.querySelectorAll('.content-manager-motion')
 const contentManager3D = document.querySelectorAll('.content-manager-3d')
 const contentManagerDev = document.querySelectorAll('.content-manager-dev')
+const contentManagerDesign = document.querySelectorAll('.content-manager-design')
 const numerotation = document.querySelectorAll('.nb-num')
 const close_modal_btn = document.querySelectorAll('.cross-ctn')
 const return_home = document.querySelectorAll('.return-home')
@@ -46,6 +66,12 @@ const createFps = require('fps-indicator')
 let selectedscene = firstscene
 let print_content = true
 let contentSelected = contentManagerMotion
+
+
+
+
+console.log(modalsctn);
+
 /**
  * Return home
  */
@@ -57,10 +83,10 @@ for (let i = 0; i < return_home.length; i++) {
 
     })
  }
- function returnFonction(){
+ function returnFonction(decal = 0){
     cursor_selected = false 
     timing = 0
-    cameraControls.setLookAt( x, 0, 0, 0, 0, -100, true )
+    cameraControls.setLookAt( (x + decal) /2.5, 0, 5, 10, 0, -115, true )
     clearEverythingSingle(contentSelected[indexElementMoving])
     //cameraControls.moveTo(x,0,0,true)
     setTimeout(() => {
@@ -74,9 +100,11 @@ for (let i = 0; i < return_home.length; i++) {
  * Modals 
  */
 let modal_show = false
- for (let i = 0; i < modalsctn.length; i++) {
+ for (let i = 0; i < 1; i++) {
     modalsbtn[i].addEventListener('click', (_event) =>
     {
+        console.log(i);
+        
         modal_show = true
         modalsctn[i].style.display = 'flex'
         setTimeout(() => {
@@ -123,8 +151,8 @@ cursor.y = 0
 
 window.addEventListener('mousemove', (_event) =>
 {
-    cursor.x = _event.clientX / sizes.width 
-    cursor.y = _event.clientY / sizes.height 
+    cursor.x = ( event.clientX / window.innerWidth ) * 2 - 1
+    cursor.y = -( event.clientX / window.innerWidth ) * 2 - 1
 })
 
 const touchpos = {}
@@ -157,10 +185,7 @@ for (let i = 0; i < numerotation.length; i++) {
     })
  }
 
-home_btn.addEventListener('click', () =>
-{ 
-    changeNum(-10)
-})
+
 function transitionHome(index, orientation){
     if(orientation == 'right'){
         numerotation_bar[index].style.transformOrigin = 'right'
@@ -195,10 +220,10 @@ function changeNum(index){
             y = 400 * index
         }
         if(x == -10){
-            x = 40
-            y = 400 * 4
+            x = 30
+            y = 400 * 3
         }
-        else if(x == 50){
+        else if(x == 40){
             x = 0
             y = 0
         }
@@ -235,25 +260,16 @@ function changeNum(index){
             if(index == -10){
                 transitionHome(2, 'left')
             }
-            else if (index == 10){
-                transitionHome(3, 'right')
-            } 
         }
-        if(x == 40){
-            resetColor(numerotation, '#aaaaaa')
-            numerotation[4].style.color = '#000000'
-            if(index == -10){
-                transitionHome(3, 'left')
-            }
-            
-        }
-    
-        cameraControls.moveTo(x,0,0,true)
-        cameraControls.dolly(0,false)
+        //cameraControls.moveTo(x,0,-10,true)
+        //cameraControls.dolly(0,false)
+        returnFonction()
         inner_text.style.transform = `translateX(${-y}px)`
     }
 }
 let screen = true
+
+/*
 dumb_btn.addEventListener('click', () => {
     seeMenu()
 })
@@ -299,6 +315,7 @@ home_btn.addEventListener('touchend', () =>
     }, 100);
     timing = 0
 })
+*/
 function resetColor(el, color){
     for (let index = 0; index < el.length; index++) {
         el[index].style.color = color
@@ -361,23 +378,24 @@ octa.mesh.position.z = -2.5
 octa.mesh.rotation.x = 0.5
 //scene.add(octa.mesh)
 
-let tetra = new OBJECT.Element(0x3a8410, scene, 'Tetrahedron', 0.5, 1, 0, 1, 39, 0, -2.5)
-let cubeObj = new OBJECT.Element(0x7fff7f, scene, 'Cube', 1, 1, 1, 1, -1, 0, -2.5)
-//let cubeUp = new OBJECT.Element(0x9b6b8e, scene, 'Cube', 1, 1, 1, 1, 0, 40, 25)
-//let cubeLeft = new OBJECT.Element(0x3a8410, scene, 'Cube', 1, 1, 1, 1, 10, 40, 25)
-let coneObj = new OBJECT.Element(0x3a82fa, scene, 'Cone', 0.5, 1.5, 320, 0, 9, 0, -2.5)
-let dodeObj = new OBJECT.Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 19, 0, -4)
-let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 29, 0, -4)
+/**
+ * Menu object
+ */
+let cubeObj = new OBJECT.Element(0x7fff7f, scene, 'Cube', 1, 1, 1, 1, 0, 0, 2)
+let coneObj = new OBJECT.Element(0x3a82fa, scene, 'Cone', 0.5, 1.5, 320, 0, 4, 0, 2)
+let dodeObj = new OBJECT.Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 8, 0, 2)
+let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 12, 0, 2)
+
 
 /**
  * Scene
  */
 let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939,0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
-let firstscene = new OBJECT.Scene(scene, 0, 40, 25, 9, 'Cube',1,1,1,1, sceneColor)
-let secondscene = new OBJECT.Scene(scene, 10, 60, 25, 3, 'Cone', 0.5, 1.5, 320, 0, sceneColor)
-let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, 6, 'Dodecahedron', 0.5, 1.5, 1, 0, sceneColor)
-let fourthscene = new OBJECT.Scene(scene, 30, 80, 25, 6, 'Octahedron', 0.5, 1, 0, 0, sceneColor)
-let random = new OBJECT.RandomElement(scene, 0, 0, -50, 5, 1, 1, 1, 1)
+let firstscene = new OBJECT.Scene(scene, 0, 40, 25, contentManagerMotion.length, 'Cube',1,1,1,1, sceneColor)
+let secondscene = new OBJECT.Scene(scene, 10, 60, 25, contentManager3D.length, 'Cone', 0.5, 1.5, 320, 0, sceneColor)
+let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, contentManagerDev.length, 'Dodecahedron', 0.5, 1.5, 1, 0, sceneColor)
+let fourthscene = new OBJECT.Scene(scene, 30, 80, 25, contentManagerDesign.length, 'Octahedron', 0.5, 1, 0, 0, sceneColor)
+let random = new OBJECT.RandomElement(scene, 0, 0, -50, 1000, 1, 1, 1, 1)
 
 console.log(firstscene.arrayElement[0].posx);
 
@@ -406,6 +424,69 @@ const clock = new THREE.Clock();
 const cameraControls = new CameraControls(camera, renderer.domElement, false);
 
 cameraControls.dampingFactor = 0.05
+
+/**
+ * intro 
+ */
+ctn_home.style.display = "none"
+ctn_home.style.opacity = "0"
+cameraControls.setLookAt(0, 0, 0, 0, 0, 0, false)
+cameraControls.dolly( 200, false )
+
+let intro_container = document.querySelector('.intro__container')
+
+let launch = document.querySelector('.launch_btn')
+
+let timeout_x = 0
+let interval = setInterval(() => {
+    timeout_x = timeout_x - 0.01
+    cameraControls.rotateTo(timeout_x, 0, true)
+}, 200);
+
+launch.addEventListener('click', () => {
+    animationStart()
+})
+
+
+
+function animationStart() {
+
+    let timeout_y = 0
+    let interval_y 
+
+    setTimeout(() => {
+        //returnFonction()
+        clearInterval(interval);
+        cameraControls.setTarget(0, 0, -100, true)
+        cameraControls.dolly( 200, true )
+        intro_container.style.transform = "translate(-50%, -50%) scale(0)"
+        intro_container.style.opacity = "0"
+        setTimeout(() => {    
+            intro_container.style.display = "none"
+        }, 600);
+
+        interval_y = setInterval(() => {
+            timeout_y = timeout_y - 0.01
+            cameraControls.rotate(timeout_y, 0, true)  
+        }, 100);
+        //cameraControls.setLookAt(0, 0, 0, 0, 0, -100, false)
+    }, 0);
+
+
+    setTimeout(() => {
+        returnFonction()
+        clearInterval(interval_y);
+        //cameraControls.setLookAt(0, 0, 0, 0, 0, -100, false)
+    }, 3000);
+}
+
+
+
+
+
+//cameraControls.rotate( 180, 0, true )
+
+
 
 function clearEverything(els){
     for (let index = 0; index < els.length; index++) {
@@ -440,11 +521,16 @@ function showEl(el){
 function getAppear(scene, content) {
 
     clearEverything(content)
+
+    console.log(indexElementMoving);
+    
+
     if(print_content){
         hold = false 
         content[indexElementMoving].style.display = 'flex'
         content[indexElementMoving].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
         respo.style.display = 'block'
+        console.log("appear");
         setTimeout(() => {
             content[indexElementMoving].style.opacity = 1
         }, 250);
@@ -468,14 +554,15 @@ function seeMenu(){
         cursor_hold.style.opacity = '0'
         selectedscene = firstscene
         contentSelected = contentManagerMotion
+        indexElementMoving = 0
         max_len = -50
         min_len = 30
         setTimeout(() => {
             let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
             cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
             setTimeout(() => { 
-                cameraControls.dolly(-distance + 3, true)
-            }, 1000);
+                cameraControls.dolly(-distance + 2, true)
+            }, 0);
             showEl(contentSelected)
             posc = firstscene.posz + 5
             setTimeout(() => {
@@ -498,8 +585,9 @@ function seeMenu(){
             let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
             cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
             setTimeout(() => { 
-                cameraControls.dolly(-distance + 3, true)
-            }, 1000);
+                cameraControls.dolly(-distance + 2, true)
+            }, 0);
+            showEl(contentSelected)
             posc = secondscene.posz + 5
             setTimeout(() => {
                 ctn_home.style.display = 'none'
@@ -521,8 +609,9 @@ function seeMenu(){
             let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
             cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
             setTimeout(() => { 
-                cameraControls.dolly(-distance + 3, true)
-            }, 1000);
+                cameraControls.dolly(-distance + 2, true)
+            }, 0);
+            showEl(contentSelected)
             posc = thirdscene.posz + 5
             setTimeout(() => {
                 ctn_home.style.display = 'none'
@@ -537,15 +626,16 @@ function seeMenu(){
         ctn_home.style.opacity = '0'
         cursor_hold.style.opacity = '0'
         selectedscene = fourthscene
-        contentSelected = contentManagerDev
+        contentSelected = contentManagerDesign
         max_len = -20
         min_len = 30
         setTimeout(() => {
             let distance = cameraControls.object.position.distanceTo(fourthscene.arrayElement[indexElementMoving].element.mesh.position)
             cameraControls.setTarget(fourthscene.arrayElement[indexElementMoving].posx,fourthscene.arrayElement[indexElementMoving].posy,fourthscene.arrayElement[indexElementMoving].posz-2,true)
             setTimeout(() => { 
-                cameraControls.dolly(-distance + 3, true)
-            }, 1000);
+                cameraControls.dolly(-distance + 2, true)
+            }, 0);
+            showEl(contentSelected)
             posc = fourthscene.posz + 5
             setTimeout(() => {
                 ctn_home.style.display = 'none'
@@ -638,7 +728,7 @@ let indexElementMoving = 0
 
 function moveCamera(key = 0, scene){
     closeModals() 
-    if(true){
+    if(key != 39 || key != 37){
         if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
             console.log('scrool ?')
             clearEverythingSingle(contentSelected[indexElementMoving])
@@ -651,12 +741,12 @@ function moveCamera(key = 0, scene){
             cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
             setTimeout(() => { 
                 cameraControls.dolly(-distance + 3, true)
-            }, 1000);
+            }, 0);
             movingScroll = false
             setTimeout(() => {
                 movingScroll = true
                 showEl(contentSelected)
-            }, 1200);
+            }, 150);
         } 
         if((((event.deltaY/100) > 0.8) || key === 'ArrowDown') && movingScroll){
             clearEverythingSingle(contentSelected[indexElementMoving])
@@ -686,6 +776,7 @@ function moveCamera(key = 0, scene){
  */
 let nb = 0
 
+//console.log(scene.children[3].children, camera, cursor);
 
 const loop = () =>
 {
@@ -695,10 +786,7 @@ const loop = () =>
     window.requestAnimationFrame(loop)
     
     nb += 0.01
-    tetra.setAnimation(0.01, 0.002, true, true, true, false,4)
     cubeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
-    //cubeUp.setAnimation(0.001, 0.002, false, true, true, false,100)
-    //cubeLeft.setAnimation(0.01, 0.002, false, true, true, false,1000)
     coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
@@ -707,6 +795,11 @@ const loop = () =>
     thirdscene.animationPlay(true, true, true, true)
     fourthscene.animationPlay(true, true, true, true)
 
+    //cubeObj.debug(nb)
+    cubeObj.isHovered(mouse, camera, raycaster)
+    coneObj.isHovered(mouse, camera, raycaster)
+    dodeObj.isHovered(mouse, camera, raycaster)
+    octaObj.isHovered(mouse, camera, raycaster)
  
     random.animationPlay()
     holdMouse()
@@ -715,6 +808,14 @@ const loop = () =>
     
     //getAppear(selectedscene, contentSelected)
 }
+
+window.addEventListener( 'mousemove', onMouseMove, false );
+window.addEventListener( 'click', () => {
+    cubeObj.isClicked(cursor, camera, raycaster, seeMenu)
+    coneObj.isClicked(cursor, camera, raycaster, seeMenu)
+    dodeObj.isClicked(cursor, camera, raycaster, seeMenu)
+    octaObj.isClicked(cursor, camera, raycaster, seeMenu)
+});
 loop()
 
 /**
@@ -725,7 +826,7 @@ loop()
  * Key control (up/down arrow) X
  * JSON implementation (lol flemme)
  * Lazy load X
- * IMPORTANT // PROTYPE 
+ * IMPORTANT // PROTOTYPE 
  * Responsive ready X
  * Implement content X
  * Block other content not implemented (warning message) X
@@ -733,4 +834,6 @@ loop()
  * re order content 
  * add dev content 
  * see for scroll 
+ * intro
+ * 
  */
