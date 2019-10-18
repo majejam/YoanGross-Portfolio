@@ -400,7 +400,7 @@ let random = new OBJECT.RandomElement(scene, 0, 0, -50, 1000, 1, 1, 1, 1)
 console.log(firstscene.arrayElement[0].posx);
 
 for (let index = 0; index < number_color.length; index++) {
-    number_color[index].style.color = `#${sceneColor[index].toString(16)}`
+   // number_color[index].style.color = `#${sceneColor[index].toString(16)}`
 }
 /**
  * Camera
