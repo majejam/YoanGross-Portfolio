@@ -20,11 +20,7 @@ let raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
 
-
 function onMouseMove( event ) {
-
-	// calculate mouse position in normalized device coordinates
-	// (-1 to +1) for both components
 
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
@@ -40,12 +36,9 @@ document.addEventListener("DOMContentLoaded", function() {
         elements_selector: ".lazy" 
     });    
   });
+
 const ctn_home = document.querySelector('.ctn-home')
-const home_btn = document.querySelector('.btn-home')
 const inner_text = document.querySelector('.txt-slider-ctn')
-const cursor_hold = document.querySelector('.cursor-hold')
-const sml_bar = document.querySelector('.sml-bar')
-const dumb_btn = document.querySelector('.dumb-btn')
 const contentManagerMotion = document.querySelectorAll('.content-manager-motion')
 const contentManager3D = document.querySelectorAll('.content-manager-3d')
 const contentManagerDev = document.querySelectorAll('.content-manager-dev')
@@ -55,22 +48,22 @@ const close_modal_btn = document.querySelectorAll('.cross-ctn')
 const return_home = document.querySelectorAll('.return-home')
 const modalsbtn = document.querySelectorAll('.video-modal')
 const number_color = document.querySelectorAll('.big-nb')
-const see_more = document.querySelectorAll('.see-more')
 const modalsctn = document.querySelectorAll('.modal-container')
-const modalsctn3d = document.querySelectorAll('.modal-container')
 const respo = document.querySelector('.responsive-msg')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 numerotation[0].style.color = '#000000'
-const createFps = require('fps-indicator')
-//let fps = createFps()
+
 let selectedscene = firstscene
-let print_content = true
 let contentSelected = contentManagerMotion
 
+let intro_show = true
 
+let menu_show = false
 
+let scene_show = false
 
-console.log(modalsctn);
+let modal_show = false
+
 
 /**
  * Return home
@@ -83,12 +76,12 @@ for (let i = 0; i < return_home.length; i++) {
 
     })
  }
- function returnFonction(decal = 0){
-    cursor_selected = false 
-    timing = 0
-    cameraControls.setLookAt( (x + decal) /2.5, 0, 5, 10, 0, -115, true )
+ function returnFonction(){
+
+    setBoolEnvironnement(false, true, false, false)
+    cameraControls.setLookAt(x/2.5, 0, 5, 10, 0, -115, true )
     clearEverythingSingle(contentSelected[indexElementMoving])
-    //cameraControls.moveTo(x,0,0,true)
+
     setTimeout(() => {
         ctn_home.style.display = 'flex'
     }, 1000);
@@ -99,12 +92,10 @@ for (let i = 0; i < return_home.length; i++) {
 /**
  * Modals 
  */
-let modal_show = false
+
  for (let i = 0; i < 1; i++) {
     modalsbtn[i].addEventListener('click', (_event) =>
-    {
-        console.log(i);
-        
+    {   
         modal_show = true
         modalsctn[i].style.display = 'flex'
         setTimeout(() => {
@@ -155,28 +146,13 @@ window.addEventListener('mousemove', (_event) =>
     cursor.y = -( event.clientX / window.innerWidth ) * 2 - 1
 })
 
-const touchpos = {}
-touchpos.x = 0
-touchpos.y = 0
-window.addEventListener('touchestart', (_event) =>
-{
-    touchpos.x = _event.touches[0].clientX/sizes.width ;
-    touchpos.y = _event.touches[0].clientY/ sizes.height;    
-})
-window.addEventListener('touchmove', (_event) =>
-{
-    touchpos.x = _event.touches[0].clientX/sizes.width ;
-    touchpos.y = _event.touches[0].clientY/ sizes.height;    
-})
 
 /**
  * Btn home
  */
 let x = 0
 let y = 0
-let hold = false 
-let timing = 0
-let show_cursor = false
+
 
 for (let i = 0; i < numerotation.length; i++) {
     numerotation[i].addEventListener('click', (_event) =>
@@ -206,7 +182,6 @@ function transitionHome(index, orientation){
 
 }
 function changeNum(index){
-    if(!hold){
         if(index == -10){
             x += 10
             y += 400
@@ -261,71 +236,26 @@ function changeNum(index){
                 transitionHome(2, 'left')
             }
         }
-        //cameraControls.moveTo(x,0,-10,true)
-        //cameraControls.dolly(0,false)
+
         returnFonction()
+
         inner_text.style.transform = `translateX(${-y}px)`
-    }
 }
 let screen = true
 
-/*
-dumb_btn.addEventListener('click', () => {
-    seeMenu()
-})
-home_btn.addEventListener('mousedown', () =>
-{ 
-    setTimeout(() => {
-        hold = true 
-    }, 100);
-})
-home_btn.addEventListener('touchstart', () =>
-{ 
-    screen = false
-    show_cursor = true 
-    setTimeout(() => {
-        hold = true 
-    }, 100);
-})
-home_btn.addEventListener('mouseover', () =>
-{ 
-   screen = true
-   show_cursor = true 
-})
-home_btn.addEventListener('mouseout', () =>
-{ 
-   show_cursor = false 
-})
-home_btn.addEventListener('touchleave', () =>
-{ 
-   show_cursor = false 
-})
-home_btn.addEventListener('mouseup', () =>
-{ 
-    setTimeout(() => {
-        hold = false 
-    }, 100);
-    timing = 0
-})
-home_btn.addEventListener('touchend', () =>
-{ 
-    show_cursor = false 
-    setTimeout(() => {
-        hold = false 
-    }, 100);
-    timing = 0
-})
-*/
+
 function resetColor(el, color){
     for (let index = 0; index < el.length; index++) {
         el[index].style.color = color
     }
 }
+
 /**
  * Scene
  */
 const scene = new THREE.Scene()
 scene.background = new THREE.Color( 0xffffff )
+
 /**
  * Sizes
  */
@@ -349,6 +279,7 @@ window.addEventListener('resize', () =>
     // Update
     renderer.setSize(sizes.width, sizes.height)
 })
+
 /**
  * Light 
  */
@@ -360,23 +291,11 @@ scene.add(ambientLight)
 
 var light = new THREE.AmbientLight( 0xffffff, 0.7 ); // soft white light
 scene.add( light );
+
 /**
  * Object
  */
-let octa = {}
-octa.geometry = new THREE.OctahedronBufferGeometry( 0.5, 0 );
-octa.material = new THREE.MeshStandardMaterial({
-    color: 0x3f42fa, 
-    flatShading: true,
-    metalness: 0.5,
-    roughness: 1,
-})
-octa.mesh = new THREE.Mesh(octa.geometry, octa.material)
-octa.mesh.position.x = 29
-octa.mesh.position.y = 0
-octa.mesh.position.z = -2.5
-octa.mesh.rotation.x = 0.5
-//scene.add(octa.mesh)
+
 
 /**
  * Menu object
@@ -397,11 +316,13 @@ let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, contentManagerDev.length, '
 let fourthscene = new OBJECT.Scene(scene, 30, 80, 25, contentManagerDesign.length, 'Octahedron', 0.5, 1, 0, 0, sceneColor)
 let random = new OBJECT.RandomElement(scene, 0, 0, -50, 1000, 1, 1, 1, 1)
 
-console.log(firstscene.arrayElement[0].posx);
-
+/**
+ * Colors
+ */
 for (let index = 0; index < number_color.length; index++) {
    // number_color[index].style.color = `#${sceneColor[index].toString(16)}`
 }
+
 /**
  * Camera
  */
@@ -428,28 +349,31 @@ cameraControls.dampingFactor = 0.05
 /**
  * intro 
  */
-ctn_home.style.display = "none"
-ctn_home.style.opacity = "0"
-cameraControls.setLookAt(0, 0, 0, 0, 0, 0, false)
-cameraControls.dolly( 200, false )
 
-let intro_container = document.querySelector('.intro__container')
+introduction()
 
-let launch = document.querySelector('.launch_btn')
+selectedscene = firstscene
 
-let timeout_x = 0
-let interval = setInterval(() => {
-    timeout_x = timeout_x - 0.01
-    cameraControls.rotateTo(timeout_x, 0, true)
-}, 200);
+function introduction() {
+    ctn_home.style.display = "none"
+    ctn_home.style.opacity = "0"
+    cameraControls.setLookAt(0, 0, 0, 0, 0, 0, false)
+    cameraControls.dolly( 200, false )
+    const intro_container = document.querySelector('.intro__container')
+    const launch = document.querySelector('.launch_btn')
 
-launch.addEventListener('click', () => {
-    animationStart()
-})
+    let timeout_x = 0
+    let interval = setInterval(() => {
+        timeout_x = timeout_x - 0.01
+        cameraControls.rotateTo(timeout_x, 0, true)
+    }, 200);
 
+    launch.addEventListener('click', () => {
+        animationStart(interval, intro_container)
+    })
+}
 
-
-function animationStart() {
+function animationStart(interval, intro_container) {
 
     let timeout_y = 0
     let interval_y 
@@ -469,46 +393,30 @@ function animationStart() {
             timeout_y = timeout_y - 0.01
             cameraControls.rotate(timeout_y, 0, true)  
         }, 100);
-        //cameraControls.setLookAt(0, 0, 0, 0, 0, -100, false)
     }, 0);
 
 
     setTimeout(() => {
         returnFonction()
         clearInterval(interval_y);
-        //cameraControls.setLookAt(0, 0, 0, 0, 0, -100, false)
+        setBoolEnvironnement(false, true, false, false)
     }, 3000);
 }
 
-
-
-
-
-//cameraControls.rotate( 180, 0, true )
-
-
-
-function clearEverything(els){
-    for (let index = 0; index < els.length; index++) {
-        els[index].style.opacity = 0
-        els[index].style.transform = `rotate3d(0,1,0,3deg) translateZ(${500*moving}px)`
-        setTimeout(() => {
-            els[index].style.display = 'none'
-        }, 250);
-        
-    }
-    
-}
+/**
+ * Hide one element of scene
+ */
 function clearEverythingSingle(el){
     el.style.opacity = 0
     el.style.transform = `rotate3d(0,1,0,3deg) translateZ(${500*moving}px)`
         setTimeout(() => {
             el.style.display = 'none'
         }, 250);
-        
-    
-    
 }
+
+/**
+ * Show one element of scene
+ */
 function showEl(el){
     el[indexElementMoving].style.display = 'flex'
     el[indexElementMoving].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
@@ -518,132 +426,60 @@ function showEl(el){
     }, 1000);
 }
 
-function getAppear(scene, content) {
+/**
+ * Hide Main Navigation Menu
+ */
+function hideMenu() {
+    ctn_home.style.opacity = '0'
 
-    clearEverything(content)
-
-    console.log(indexElementMoving);
-    
-
-    if(print_content){
-        hold = false 
-        content[indexElementMoving].style.display = 'flex'
-        content[indexElementMoving].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
-        respo.style.display = 'block'
-        console.log("appear");
-        setTimeout(() => {
-            content[indexElementMoving].style.opacity = 1
-        }, 250);
-    }
-    else{
-        for (let index = 0; index < scene.arrayElement.length; index++) {
-            content[index].style.opacity = 0
-            content[index].style.transform = `rotate3d(0,1,0,3deg) translateZp${500*moving}px)`
-            setTimeout(() => {
-                content[index].style.display = 'none'
-                respo.style.display = 'none'
-            }, 250);
-        }
-    }
+    setTimeout(() => {
+        ctn_home.style.display = 'none'
+    }, 1050); 
 }
-let cursor_selected = false
-selectedscene = firstscene 
+
+/**
+ * On click menu go to first element
+ */
 function seeMenu(){
-    if(x == 0 && !cursor_selected){
-        ctn_home.style.opacity = '0'
-        cursor_hold.style.opacity = '0'
+    setBoolEnvironnement(false, false, true, false)
+    indexElementMoving = 0
+
+    if(x == 0){
         selectedscene = firstscene
         contentSelected = contentManagerMotion
-        indexElementMoving = 0
-        max_len = -50
-        min_len = 30
+
+        hideMenu()
+
         setTimeout(() => {
-            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
-            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
-            setTimeout(() => { 
-                cameraControls.dolly(-distance + 2, true)
-            }, 0);
-            showEl(contentSelected)
-            posc = firstscene.posz + 5
-            setTimeout(() => {
-                ctn_home.style.display = 'none'
-            }, 50);
-            setTimeout(() => {
-                cursor_hold.style.opacity = '0'
-            }, 4000);
-            cursor_selected = true 
+            moveBetweenElements(0)
         }, 1000);
     }
-    else if(x == 10 && !cursor_selected){
-        ctn_home.style.opacity = '0'
-        cursor_hold.style.opacity = '0'
+    else if(x == 10){
         selectedscene = secondscene
         contentSelected = contentManager3D
-        max_len = 10
-        min_len = 30
+        hideMenu()
         setTimeout(() => {
-            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
-            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
-            setTimeout(() => { 
-                cameraControls.dolly(-distance + 2, true)
-            }, 0);
-            showEl(contentSelected)
-            posc = secondscene.posz + 5
-            setTimeout(() => {
-                ctn_home.style.display = 'none'
-            }, 50);
-            setTimeout(() => {
-                cursor_hold.style.opacity = '0'
-            }, 4000);
-            cursor_selected = true 
+            moveBetweenElements(0)
         }, 1000);
     }
-    else if(x == 20 && !cursor_selected){
-        ctn_home.style.opacity = '0'
-        cursor_hold.style.opacity = '0'
+    else if(x == 20){
         selectedscene = thirdscene
         contentSelected = contentManagerDev
-        max_len = -20
-        min_len = 30
+
+        hideMenu()
+
         setTimeout(() => {
-            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
-            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
-            setTimeout(() => { 
-                cameraControls.dolly(-distance + 2, true)
-            }, 0);
-            showEl(contentSelected)
-            posc = thirdscene.posz + 5
-            setTimeout(() => {
-                ctn_home.style.display = 'none'
-            }, 50);
-            setTimeout(() => {
-                cursor_hold.style.opacity = '0'
-            }, 4000);
-            cursor_selected = true 
+            moveBetweenElements(0)
         }, 1000);
     }
-    else if(x == 30 && !cursor_selected){
-        ctn_home.style.opacity = '0'
-        cursor_hold.style.opacity = '0'
+    else if(x == 30){
         selectedscene = fourthscene
         contentSelected = contentManagerDesign
-        max_len = -20
-        min_len = 30
+
+        hideMenu()
+
         setTimeout(() => {
-            let distance = cameraControls.object.position.distanceTo(fourthscene.arrayElement[indexElementMoving].element.mesh.position)
-            cameraControls.setTarget(fourthscene.arrayElement[indexElementMoving].posx,fourthscene.arrayElement[indexElementMoving].posy,fourthscene.arrayElement[indexElementMoving].posz-2,true)
-            setTimeout(() => { 
-                cameraControls.dolly(-distance + 2, true)
-            }, 0);
-            showEl(contentSelected)
-            posc = fourthscene.posz + 5
-            setTimeout(() => {
-                ctn_home.style.display = 'none'
-            }, 50);
-            setTimeout(() => {
-                cursor_hold.style.opacity = '0'
-            }, 4000);
-            cursor_selected = true 
+            moveBetweenElements(0)
         }, 1000);
     }
     else{
@@ -651,102 +487,115 @@ function seeMenu(){
         setTimeout(() => {
             ctn_home.style.color = 'black'
         }, 700);
+
+        setBoolEnvironnement(false, true, false, true)
     }
 }
-function holdMouse(){
-    if(hold){
-        timing += 1
-        if(timing > 30){
-            seeMenu()
-        }
-        else{
-            sml_bar.style.transform = `scaleX(${timing/30})`
-        }
-            
-    }
-    else 
-        sml_bar.style.transform = `scaleX(0)`
-    if(show_cursor){
-        cursor_hold.style.opacity = '1'
-        if(screen){
-            cursor_hold.style.left = `${(cursor.x*100)+1.5}%`
-            cursor_hold.style.top = `${(cursor.y*100)+2}%`
-        }
-        else{
-            cursor_hold.style.left = `${(touchpos.x*100)-10}%`
-            cursor_hold.style.top = `${(touchpos.y*100)-10}%`
-        }
-        
-    }
-    else 
-        cursor_hold.style.opacity = '0'
-}
-let posc = 10
-let resetCamera = true
+
+/**
+ * Scroll handlers
+ */
 let movingScroll = true
 window.addEventListener( 'wheel', onMouseWheel, false );
 window.addEventListener( 'scroll', onMouseWheel, false );
-function onMouseWheel( event ) {
-    //event.preventDefault();
-    if(posc != camera.position.z && resetCamera){
-        //posc = camera.position.z
-        resetCamera = false 
-    }
-    //posc += event.deltaY * 0.003;
-    moveCamera(0,selectedscene)
+
+function onMouseWheel( ) {
+    if(scene_show)
+        moveCamera(0,selectedscene)
 };
 
+/**
+ * Key Handlers
+ */
 window.addEventListener('keydown', function(event) {
     const key = event.key;
-    moveCamera(key,selectedscene)
-    if(key === "Escape")
+    if (scene_show) {
+        moveCamera(key,selectedscene)
+    }
+    if(key === "Escape" && scene_show)
         returnFonction()
-    else if(key === "ArrowLeft" && !cursor_selected){
+    else if(key === "ArrowLeft" && menu_show){
         changeNum(10)
     }
-    else if (key === "ArrowRight" && !cursor_selected){
+    else if (key === "ArrowRight" && menu_show){
         changeNum(-10)
     }
-    else if (key === "Enter"){
+    else if (key === "Enter" && menu_show){
         seeMenu()
+    }
+    else if (key === "Enter" && intro_show){
+        animationStart()
     }
 });
-document.body.onkeyup = function(e){
-    if(e.keyCode == 32){
-        seeMenu()
-    }
-}
+
+
+/**
+ * Responsive on touch 
+ */
 document.addEventListener('touchstart', () =>
 {     
-    if(!modal_show)
+    if(scene_show)
         moveCamera('ArrowUp',selectedscene)
 })
-let max_len = -50
-let min_len = 30
+
+
+/**
+ * Evironnement Handlers
+ */
+function setBoolEnvironnement(intro, menu, scene, modal) {
+
+    intro_show = intro
+    menu_show = menu
+    scene_show = scene
+    modal_show = modal
+ 
+}
+
+function evironnement(refresh) {
+ setInterval(() => {
+     
+     if (intro_show) {
+        console.log("Your current evironnement is : INTRODUCTION");
+     } 
+
+     if (menu_show) {
+        console.log("Your current evironnement is : MENU");
+     }
+
+     if (scene_show) {
+        console.log("Your current evironnement is : SCENE");
+     }
+
+     if(modal_show) {
+        console.log("Your current evironnement is : MODAL");
+     }
+     
+ }, refresh);   
+}
+
+/**
+ * DEBUG
+ */
+evironnement(1000)
+
+/**
+ * Move between elements in scene
+ */
 let moving = 1
 let indexElementMoving = 0
-
 function moveCamera(key = 0, scene){
     closeModals() 
     if(key != 39 || key != 37){
         if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
-            console.log('scrool ?')
             clearEverythingSingle(contentSelected[indexElementMoving])
             moving = 1
             indexElementMoving += 1
             if(indexElementMoving > selectedscene.arrayElement.length-1){
                 indexElementMoving = 0
             }
-            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
-            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
-            setTimeout(() => { 
-                cameraControls.dolly(-distance + 3, true)
-            }, 0);
-            movingScroll = false
-            setTimeout(() => {
-                movingScroll = true
-                showEl(contentSelected)
-            }, 150);
+
+            moveBetweenElements(150)
+
         } 
         if((((event.deltaY/100) > 0.8) || key === 'ArrowDown') && movingScroll){
             clearEverythingSingle(contentSelected[indexElementMoving])
@@ -756,27 +605,26 @@ function moveCamera(key = 0, scene){
                 indexElementMoving = selectedscene.arrayElement.length - 1
             }
             
-            let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
-            cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz,true)
-            setTimeout(() => { 
-                cameraControls.dolly(-distance + 3, true)
-            }, 1000);
-            movingScroll = false
-            setTimeout(() => {
-                movingScroll = true
-                showEl(contentSelected)
-            }, 1200);
+            moveBetweenElements(150)
         } 
     }
+}
+
+function moveBetweenElements(timeout) {
+    let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
+    cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
+    cameraControls.dolly(-distance + 3, true)
+    movingScroll = false
+    setTimeout(() => {
+        movingScroll = true
+        showEl(contentSelected)
+    }, timeout);
 }
 
 
 /**
  * Loop
  */
-let nb = 0
-
-//console.log(scene.children[3].children, camera, cursor);
 
 const loop = () =>
 {
@@ -785,7 +633,6 @@ const loop = () =>
     const hasControlsUpdated = cameraControls.update( delta );
     window.requestAnimationFrame(loop)
     
-    nb += 0.01
     cubeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
@@ -795,18 +642,15 @@ const loop = () =>
     thirdscene.animationPlay(true, true, true, true)
     fourthscene.animationPlay(true, true, true, true)
 
-    //cubeObj.debug(nb)
     cubeObj.isHovered(mouse, camera, raycaster)
     coneObj.isHovered(mouse, camera, raycaster)
     dodeObj.isHovered(mouse, camera, raycaster)
     octaObj.isHovered(mouse, camera, raycaster)
  
     random.animationPlay()
-    holdMouse()
+
     renderer.render(scene, camera)
-    //console.log(selectedscene);
-    
-    //getAppear(selectedscene, contentSelected)
+
 }
 
 window.addEventListener( 'mousemove', onMouseMove, false );
