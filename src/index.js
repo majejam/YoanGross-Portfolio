@@ -690,7 +690,7 @@ loop()
 
 
 function onReady(callback) {
-    var intervalID = window.setInterval(checkReady, 1000);
+    var intervalID = window.setInterval(checkReady, 5000);
 
     function checkReady() {
         if (document.getElementsByTagName('body')[0] !== undefined) {
@@ -700,8 +700,13 @@ function onReady(callback) {
     }
 }
 
-function show(id, value) {
-    document.getElementById(id).style.display = value ? 'block' : 'none';
+function show(id) {
+    document.getElementById(id).style.opacity = "0"
+
+    setTimeout(() => {
+        document.getElementById(id).style.display = 'none'
+    }, 550);
+
 }
 
 onReady(function () {
