@@ -76,18 +76,20 @@ for (let i = 0; i < return_home.length; i++) {
 
     })
  }
- function returnFonction(){
+ function returnFonction(bool = false){
 
     setBoolEnvironnement(false, true, false, false)
     cameraControls.setLookAt(x/2.5, 0, 5, 10, 0, -115, true )
     clearEverythingSingle(contentSelected[indexElementMoving])
 
-    setTimeout(() => {
-        ctn_home.style.display = 'flex'
-    }, 1000);
-    setTimeout(() => {
-        ctn_home.style.opacity = 1
-    }, 1050);
+    if(!bool) {
+        setTimeout(() => {
+            ctn_home.style.display = 'flex'
+        }, 1000);
+        setTimeout(() => {
+            ctn_home.style.opacity = 1
+        }, 1050);
+    }
  }
 /**
  * Modals 
@@ -237,7 +239,7 @@ function changeNum(index){
             }
         }
 
-        returnFonction()
+        returnFonction(true)
 
         inner_text.style.transform = `translateX(${-y}px)`
 }
@@ -300,7 +302,7 @@ scene.add( light );
 /**
  * Menu object
  */
-let cubeObj = new OBJECT.Element(0x7fff7f, scene, 'Cube', 1, 1, 1, 1, 0, 0, 2)
+let cubeObj = new OBJECT.Element(0x7fff7f, scene, 'Monkey', 1, 1, 1, 1, 0, 0, 2)
 let coneObj = new OBJECT.Element(0x3a82fa, scene, 'Cone', 0.5, 1.5, 320, 0, 4, 0, 2)
 let dodeObj = new OBJECT.Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 8, 0, 2)
 let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 12, 0, 2)
@@ -581,7 +583,7 @@ function evironnement(refresh) {
  */
 evironnement(1000)
 
-cubeObj.setObject(scene)
+
 
 /**
  * Move between elements in scene
@@ -639,7 +641,7 @@ const loop = () =>
     const hasControlsUpdated = cameraControls.update( delta );
     window.requestAnimationFrame(loop)
     
-    cubeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    cubeObj.animationObj()
     coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
     octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
@@ -648,7 +650,7 @@ const loop = () =>
     thirdscene.animationPlay(true, true, true, true)
     fourthscene.animationPlay(true, true, true, true)
 
-    cubeObj.isHovered(mouse, camera, raycaster)
+    cubeObj.isHoveredObj(mouse, camera, raycaster)
     coneObj.isHovered(mouse, camera, raycaster)
     dodeObj.isHovered(mouse, camera, raycaster)
     octaObj.isHovered(mouse, camera, raycaster)
@@ -690,7 +692,7 @@ loop()
 
 
 function onReady(callback) {
-    var intervalID = window.setInterval(checkReady, 5000);
+    var intervalID = window.setInterval(checkReady, 500);
 
     function checkReady() {
         if (document.getElementsByTagName('body')[0] !== undefined) {

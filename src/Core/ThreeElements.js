@@ -22,7 +22,13 @@ export class Element{
         this.randforce = 0.001 + Math.random()/400
         this.smallElement = new Array()
         this.setMesh()
+
         this.setScene()
+
+        if(type == "Monkey") {
+            console.log(this.container);
+            
+        }
 
         this.arraySmll = new Array()
 
@@ -45,10 +51,18 @@ export class Element{
             this.setTetrahedron()
         }
         else if(this.type == 'Cube'){
-            this.setCube()
-            for (let i = 0; i < 10; i++) {
-                //this.setCubes()
-            }
+            this.setCube()   
+        }
+        else if(this.type == 'Monkey'){
+            this.setObject(this.container)
+            
+            this.container.traverse( function ( child ) {
+                console.log("hello");
+                if ( child instanceof THREE.Object3D   ) {    
+        
+                }
+        
+            } );
            
         }
 
@@ -159,7 +173,7 @@ export class Element{
         this.container.add(this.element.mesh)
     }
 
-    setObject(scene) {
+    setObject(container) {
         // instantiate a loader
         this.THREE = THREE;
         const objLoader = new this.THREE.OBJLoader();
@@ -176,7 +190,6 @@ export class Element{
             
                         child.material =  new THREE.MeshStandardMaterial({
                             color: 0x293462, 
-                            flatShading: true,
                             metalness: 0.5,
                             roughness: 1,
                         })
@@ -185,7 +198,8 @@ export class Element{
             
                 } );
 
-                scene.add( object );
+                container.add( object );
+                
 
             },
             // called when loading is in progresses
@@ -244,6 +258,11 @@ export class Element{
         if(animationZ)
             this.rotateAnimationZ(this.randforce)
     }
+
+    animationObj(force) {
+        this.force += 0.01
+        this.container.position.y = this.posy + Math.sin(this.force)/4
+    }
     setRandomAnimation(){
         for (let i = 0; i < this.smallElement.length; i++) {
             this.smallElement[i].rotation.x += 0.01
@@ -274,9 +293,6 @@ export class Element{
         
         raycaster.setFromCamera( cursor, camera );
 
-        
-        
-
         // calculate objects intersecting the picking ray
         var intersects = raycaster.intersectObject( this.element.mesh );
         
@@ -286,25 +302,45 @@ export class Element{
         }
 
         if(intersects.length === 0 && this.scale > 1) {
-
             this.scale -= 0.008
-            this.element.mesh.scale.set(this.scale,this.scale,this.scale); 
-        }
-        else {
-            //this.scale = 1
-            this.element.mesh.scale.set(this.scale,this.scale,this.scale); 
         }
 
-
-        
         for ( var i = 0; i < intersects.length; i++ ) {
 
             if (this.scale < 1.1) {
                 this.scale += 0.015
-                intersects[ i ].object.scale.set(this.scale, this.scale, this.scale);
             }
             this.isOn = true
-        }            
+        }
+        this.element.mesh.scale.set(this.scale,this.scale,this.scale);       
+        
+    }
+
+    isHoveredObj(cursor, camera, raycaster, time) {
+
+        
+        raycaster.setFromCamera( cursor, camera );
+
+        // calculate objects intersecting the picking ray
+        var intersects = raycaster.intersectObject( this.container, true );
+        
+        //console.log(intersects);
+        if(intersects.length === 0) {
+            this.isOn = false
+        }
+
+        if(intersects.length === 0 && this.scale > 1) {
+            this.scale -= 0.008
+        }
+        
+        for ( var i = 0; i < intersects.length; i++ ) {
+
+            if (this.scale < 1.1) {
+                this.scale += 0.01
+            }
+            this.isOn = true
+        }   
+        this.container.scale.set(this.scale,this.scale,this.scale);            
         
     }
 
