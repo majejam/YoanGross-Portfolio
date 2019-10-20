@@ -388,7 +388,7 @@ function animationStart(interval, intro_container) {
         }, 600);
 
         interval_y = setInterval(() => {
-            timeout_y = timeout_y - 0.01
+            timeout_y = timeout_y - 0.04
             cameraControls.rotate(timeout_y, 0, true)  
         }, 100);
     }, 0);
@@ -398,7 +398,7 @@ function animationStart(interval, intro_container) {
         returnFonction()
         clearInterval(interval_y);
         setBoolEnvironnement(false, true, false, false)
-    }, 3000);
+    }, 2000);
 }
 
 /**
