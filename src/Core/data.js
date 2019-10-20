@@ -34,7 +34,7 @@ export class Reader {
     createNumber(element) {
         let number = document.createElement("span") 
         number.classList.add("big-nb")
-        number.innerHTML = element.number
+        number.innerHTML = "0" + (element.number + 1)
         this.child.appendChild(number) 
     }
 

@@ -302,28 +302,23 @@ scene.add( light );
 /**
  * Menu object
  */
-let cubeObj = new OBJECT.Element(0x7fff7f, scene, 'Monkey', 1, 1, 1, 1, 0, 0, 2)
-let coneObj = new OBJECT.Element(0x3a82fa, scene, 'Cone', 0.5, 1.5, 320, 0, 4, 0, 2)
-let dodeObj = new OBJECT.Element(0xfa1212, scene, 'Dodecahedron', 1, 1, 1, 1, 8, 0, 2)
-let octaObj = new OBJECT.Element(0x3f42fa, scene, 'Octahedron', 0.5, 1, 0, 1, 12, 0, 2)
+let cubeObj = new OBJECT.Element(0x7fff7f, scene, 'clap', 1, 1, 1, 1, 0, 0, 2, true)
+let coneObj = new OBJECT.Element(0x3a82fa, scene, 'Monkey', 0.5, 1.5, 320, 0, 4, 0, 2, true)
+let dodeObj = new OBJECT.Element(0xfa1212, scene, 'brackets', 1, 1, 1, 1, 8, 0, 2, true)
+let octaObj = new OBJECT.Element(0x3f42fa, scene, 'screen', 0.5, 1, 0, 1, 12, 0, 2, true)
 
 
 /**
  * Scene
  */
 let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939,0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
-let firstscene = new OBJECT.Scene(scene, 0, 40, 25, contentManagerMotion.length, 'Cube',1,1,1,1, sceneColor)
-let secondscene = new OBJECT.Scene(scene, 10, 60, 25, contentManager3D.length, 'Cone', 0.5, 1.5, 320, 0, sceneColor)
-let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, contentManagerDev.length, 'Dodecahedron', 0.5, 1.5, 1, 0, sceneColor)
-let fourthscene = new OBJECT.Scene(scene, 30, 80, 25, contentManagerDesign.length, 'Octahedron', 0.5, 1, 0, 0, sceneColor)
-let random = new OBJECT.RandomElement(scene, 0, 0, -50, 1000, 1, 1, 1, 1)
+let firstscene = new OBJECT.Scene(scene, 0, 40, 25, contentManagerMotion, 'Cube', 1, 1, 1, 1, 0x7fff7f)
+let secondscene = new OBJECT.Scene(scene, 10, 60, 25, contentManager3D, 'Cone', 1, 1, 1, 1, 0x3a82fa)
+let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, contentManagerDev, 'Dodecahedron', 1, 1, 1, 1, 0xfa1212)
+let fourthscene = new OBJECT.Scene(scene, 30, 80, 25, contentManagerDesign, 'Octahedron', 1, 1, 1, 1, 0x3a82fa)
+let random = new OBJECT.RandomElement(scene, 0, 0, -50, 1000, 1, 1, 1, 1, sceneColor)
 
-/**
- * Colors
- */
-for (let index = 0; index < number_color.length; index++) {
-   // number_color[index].style.color = `#${sceneColor[index].toString(16)}`
-}
+
 
 /**
  * Camera
@@ -642,18 +637,19 @@ const loop = () =>
     window.requestAnimationFrame(loop)
     
     cubeObj.animationObj()
-    coneObj.setAnimation(0.01, 0.002, true, true, true, false,4)
-    dodeObj.setAnimation(0.01, 0.002, true, true, true, false,4)
-    octaObj.setAnimation(0.01, 0.002, true, true, true, false,4)
+    coneObj.animationObj()
+    dodeObj.animationObj()
+    octaObj.animationObj()
+    //octaObj.animationObj(0.01, 0.002, true, true, true, false,4)
     firstscene.animationPlay(true, true, true, true)
     secondscene.animationPlay(true, true, true, false)
     thirdscene.animationPlay(true, true, true, true)
     fourthscene.animationPlay(true, true, true, true)
 
     cubeObj.isHoveredObj(mouse, camera, raycaster)
-    coneObj.isHovered(mouse, camera, raycaster)
-    dodeObj.isHovered(mouse, camera, raycaster)
-    octaObj.isHovered(mouse, camera, raycaster)
+    coneObj.isHoveredObj(mouse, camera, raycaster)
+    dodeObj.isHoveredObj(mouse, camera, raycaster)
+    octaObj.isHoveredObj(mouse, camera, raycaster)
  
     random.animationPlay()
 

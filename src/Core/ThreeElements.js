@@ -4,7 +4,7 @@ OBJLoader(THREE);
 
 export class Element{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
-    constructor(color, scene, type, radius, height, definition, size, posx, posy, posz){
+    constructor(color, scene, type, radius, height, definition, size, posx, posy, posz, isObj = false){
         this.scene = scene 
         this.container = new THREE.Object3D()
         this.posx = posx
@@ -21,20 +21,14 @@ export class Element{
         this.increment = 4 
         this.randforce = 0.001 + Math.random()/400
         this.smallElement = new Array()
-        this.setMesh()
-
-        this.setScene()
-
-        if(type == "Monkey") {
-            console.log(this.container);
-            
-        }
-
-        this.arraySmll = new Array()
-
+        this.isObj = isObj
         this.time = 0
         this.isOn = false
         this.scale = 1
+
+        this.setMesh()
+        this.setScene()
+
     }
     setMesh()
     {
@@ -53,17 +47,8 @@ export class Element{
         else if(this.type == 'Cube'){
             this.setCube()   
         }
-        else if(this.type == 'Monkey'){
+        else if(this.isObj){
             this.setObject(this.container)
-            
-            this.container.traverse( function ( child ) {
-                console.log("hello");
-                if ( child instanceof THREE.Object3D   ) {    
-        
-                }
-        
-            } );
-           
         }
 
     }
@@ -135,7 +120,7 @@ export class Element{
         this.element.mesh.position.x = this.posx
         this.element.mesh.position.y = this.posy
         this.element.mesh.position.z = this.posz
-        //this.container.add(this.element.mesh)
+        this.container.add(this.element.mesh)
     }
     setCubes()
     {
@@ -177,10 +162,11 @@ export class Element{
         // instantiate a loader
         this.THREE = THREE;
         const objLoader = new this.THREE.OBJLoader();
+        let color = this.color
         // load a resource
         objLoader.load(
             // resource URL
-            './obj/Monkey.obj',
+            `./obj/${this.type}.obj`,
             // called when resource is loaded
             function ( object ) {
 
@@ -189,7 +175,7 @@ export class Element{
                     if ( child instanceof THREE.Mesh ) {
             
                         child.material =  new THREE.MeshStandardMaterial({
-                            color: 0x293462, 
+                            color: color, 
                             metalness: 0.5,
                             roughness: 1,
                         })
@@ -215,12 +201,20 @@ export class Element{
 
             }
         );
+
+        this.setPositionContainer()
     }
 
     upDownAnimation(force, increment)
     {
         this.force += force
         this.element.mesh.position.y = this.posy + Math.sin(this.force)/increment
+    }
+
+    setPositionContainer() {
+        this.container.position.x = this.posx
+        this.container.position.y = this.posy
+        this.container.position.z = this.posz
     }
 
     rotateAnimationX(force_rotation)
@@ -351,7 +345,7 @@ export class Element{
             callback(index)
             let interval = setInterval(() => {
                 force *= 1.1
-                this.rotateAnimationY(force)  
+                //this.rotateAnimationY(force)  
             }, 100);
             setTimeout(() => {
                 clearInterval(interval)
@@ -372,7 +366,7 @@ export class Element{
 
 export class Scene{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
-    constructor(scene, posx, posy, posz, number, type, radius, height, definition, size, color){
+    constructor(scene, posx, posy, posz, dom, type, radius, height, definition, size, color){
         this.scene = scene 
         this.type = type 
         this.color = color
@@ -387,24 +381,36 @@ export class Scene{
         this.height = height 
         this.definition = definition 
         this.size = size 
-        this.number = number
+        this.dom = dom
+        this.number = dom.length
         this.arrayElement = new Array()
         this.container.position.x = this.posx
         this.container.position.y = this.posy
         this.container.position.z = this.posz
+        
+        this.setColors()
         //this.setElements(this.number)
         this.setScene()
         this.setElementsRandom(this.number)
     }
+
+    setColors() {
+        this.dom.forEach(el => {
+            const number_color = el.querySelector('.big-nb')
+            number_color.style.color = `#${this.color.toString(16)}`
+        });
+
+    }
+
     setElements(number){
         for (let index = 0; index < number; index++) {  
             let modulo = index % 2
             if(modulo == 0){
-                let el = new Element(this.color[index], this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+3, this.ely, this.elz - (index * 10))
+                let el = new Element(this.color, this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+3, this.ely, this.elz - (index * 10))
                 this.arrayElement.push(el)
             }
             else{
-                let el = new Element(this.color[index], this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+3, this.ely, this.elz - (index * 10))
+                let el = new Element(this.color, this.scene, this.type, this.radius, this.height, this.definition, this.size, this.elx+3, this.ely, this.elz - (index * 10))
                 this.arrayElement.push(el)
             }
             this.container.add(this.arrayElement[index].returnObj())
@@ -412,12 +418,20 @@ export class Scene{
     }
     setElementsRandom(number){
         for (let index = 0; index < number; index++) {  
-            let el = new Element(this.color[index], this.scene, this.type, this.radius, this.height, this.definition, this.size, Math.random()*100, Math.random()*100, -Math.random()*100)
+            let randomTy = this.randomType()
+            let el = new Element(this.color, this.scene, randomTy, this.radius, this.height, this.definition, this.size, -100 + Math.random()* 200, -100 + Math.random()* 200, -Math.random()*100)
             this.arrayElement.push(el)
             
             this.container.add(this.arrayElement[index].returnObj())
         }
     }
+
+    randomType(){
+        let array = ['Cube','Tetrahedron','Octahedron','Dodecahedron']
+        let random = Math.floor(Math.random() * array.length)
+        return array[random]
+    }
+    
     
     setScene()
     {
@@ -447,7 +461,7 @@ export class Scene{
 
 export class RandomElement{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
-    constructor(scene, posx, posy, posz, number, radius, height, definition, size){
+    constructor(scene, posx, posy, posz, number, radius, height, definition, size, color){
         this.scene = scene  
         this.container = new THREE.Object3D()
         this.posx = posx 
@@ -456,7 +470,7 @@ export class RandomElement{
         this.elx =  -50 + Math.random() * 100
         this.ely = 0
         this.elz = -(Math.random() * 100)
-        this.color = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff)
+        this.color = color
         this.radius = radius 
         this.height = height 
         this.definition = definition 
