@@ -616,7 +616,8 @@ function moveCamera(key = 0, scene){
 }
 
 function moveBetweenElements(timeout) {
-    let distance = cameraControls.object.position.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
+    let cameraPos = cameraControls.getPosition()
+    let distance = cameraPos.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
     cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
     cameraControls.dolly(-distance + 3, true)
     movingScroll = false
