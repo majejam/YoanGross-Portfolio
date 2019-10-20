@@ -1,4 +1,6 @@
 import * as THREE from 'three'
+import OBJLoader from 'three-obj-loader';
+OBJLoader(THREE);
 
 export class Element{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
@@ -119,7 +121,7 @@ export class Element{
         this.element.mesh.position.x = this.posx
         this.element.mesh.position.y = this.posy
         this.element.mesh.position.z = this.posz
-        this.container.add(this.element.mesh)
+        //this.container.add(this.element.mesh)
     }
     setCubes()
     {
@@ -155,6 +157,50 @@ export class Element{
         this.element.mesh.position.y = this.posy
         this.element.mesh.position.z = this.posz
         this.container.add(this.element.mesh)
+    }
+
+    setObject(scene) {
+        // instantiate a loader
+        this.THREE = THREE;
+        const objLoader = new this.THREE.OBJLoader();
+        // load a resource
+        objLoader.load(
+            // resource URL
+            './obj/Monkey.obj',
+            // called when resource is loaded
+            function ( object ) {
+
+                object.traverse( function ( child ) {
+
+                    if ( child instanceof THREE.Mesh ) {
+            
+                        child.material =  new THREE.MeshStandardMaterial({
+                            color: 0x293462, 
+                            flatShading: true,
+                            metalness: 0.5,
+                            roughness: 1,
+                        })
+            
+                    }
+            
+                } );
+
+                scene.add( object );
+
+            },
+            // called when loading is in progresses
+            function ( xhr ) {
+
+                console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+            },
+            // called when loading has errors
+            function ( error ) {
+
+                console.log( 'An error happened' );
+
+            }
+        );
     }
 
     upDownAnimation(force, increment)

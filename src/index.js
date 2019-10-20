@@ -350,6 +350,13 @@ cameraControls.dampingFactor = 0.05
  * intro 
  */
 
+const intro_container = document.querySelector('.intro__container')
+let timeout_x = 0
+let interval = setInterval(() => {
+    timeout_x = timeout_x - 0.01
+    cameraControls.rotateTo(timeout_x, 0, true)
+}, 200);
+
 introduction()
 
 selectedscene = firstscene
@@ -359,14 +366,8 @@ function introduction() {
     ctn_home.style.opacity = "0"
     cameraControls.setLookAt(0, 0, 0, 0, 0, 0, false)
     cameraControls.dolly( 200, false )
-    const intro_container = document.querySelector('.intro__container')
-    const launch = document.querySelector('.launch_btn')
 
-    let timeout_x = 0
-    let interval = setInterval(() => {
-        timeout_x = timeout_x - 0.01
-        cameraControls.rotateTo(timeout_x, 0, true)
-    }, 200);
+    const launch = document.querySelector('.launch_btn')
 
     launch.addEventListener('click', () => {
         animationStart(interval, intro_container)
@@ -522,9 +523,11 @@ window.addEventListener('keydown', function(event) {
     }
     else if (key === "Enter" && menu_show){
         seeMenu()
+        console.log('noo');
+        
     }
     else if (key === "Enter" && intro_show){
-        animationStart()
+        animationStart(interval, intro_container)
     }
 });
 
@@ -577,6 +580,8 @@ function evironnement(refresh) {
  * DEBUG
  */
 evironnement(1000)
+
+cubeObj.setObject(scene)
 
 /**
  * Move between elements in scene
@@ -681,3 +686,23 @@ loop()
  * intro
  * 
  */
+
+
+function onReady(callback) {
+    var intervalID = window.setInterval(checkReady, 1000);
+
+    function checkReady() {
+        if (document.getElementsByTagName('body')[0] !== undefined) {
+            window.clearInterval(intervalID);
+            callback.call(this);
+        }
+    }
+}
+
+function show(id, value) {
+    document.getElementById(id).style.display = value ? 'block' : 'none';
+}
+
+onReady(function () {
+    show('loading', false);
+});
