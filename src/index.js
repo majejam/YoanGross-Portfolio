@@ -63,6 +63,7 @@ const modalsbtn = document.querySelectorAll('.video-modal')
 const modalsctn = document.querySelectorAll('.modal-container')
 const respo = document.querySelector('.responsive-msg')
 const numerotation_bar = document.querySelectorAll('.num_bar')
+const responsive = document.querySelector('.right-click')
 numerotation[0].style.color = '#000000'
 
 const arrowSliderLeft = document.querySelector('.slider-arrow-left')
@@ -445,6 +446,7 @@ function animationStart(interval, intro_container) {
 function clearEverythingSingle(el){
     el.style.opacity = 0
     el.style.transform = `rotate3d(0,1,0,3deg) translateZ(${500*moving}px)`
+    respo.style.display = 'none'
         setTimeout(() => {
             el.style.display = 'none'
         }, 250);
@@ -577,7 +579,7 @@ window.addEventListener('keydown', function(event) {
 /**
  * Responsive on touch 
  */
-document.addEventListener('touchstart', () =>
+responsive.addEventListener('touchstart', () =>
 {     
     if(scene_show)
         moveCamera('ArrowUp',selectedscene)
@@ -721,6 +723,20 @@ window.addEventListener( 'click', () => {
     }
     else if(x == 30) {
         octaObj.isClicked(cursor, camera, raycaster, seeMenu)
+    }
+});
+window.addEventListener( 'touchstart', () => {
+    if(x == 0) {
+        cubeObj.isClickedTouch(cursor, camera, raycaster, seeMenu)
+    }
+    else if(x == 10) {
+        coneObj.isClickedTouch(cursor, camera, raycaster, seeMenu)
+    }
+    else if(x == 20) {
+        dodeObj.isClickedTouch(cursor, camera, raycaster, seeMenu)
+    }
+    else if(x == 30) {
+        octaObj.isClickedTouch(cursor, camera, raycaster, seeMenu)
     }
 });
 

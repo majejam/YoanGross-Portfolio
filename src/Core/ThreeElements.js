@@ -367,6 +367,16 @@ export class Element{
         
     }
 
+    isClickedTouch(cursor, camera, raycaster, callback, index) {
+        if(this.isOn) {
+            callback(index)
+        }     
+        else {
+
+        }   
+        
+    }
+
     onDocumentMouseMove( mouse, ratio ) {
 
         this.container.rotation.y = (mouse.x/ratio) ;
