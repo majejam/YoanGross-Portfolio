@@ -13,6 +13,8 @@ import CameraControls from 'camera-controls';
 
 import LazyLoad from "vanilla-lazyload";
 
+import Swiper from 'swiper'
+
 CameraControls.install( { THREE: THREE } );
 
 
@@ -31,6 +33,17 @@ const parent__container = document.querySelector('.content-container')
 let dom = new DOM.Reader(parent__container)
 
 
+var mySwiper = new Swiper('.swiper-container', {
+    speed: 400,
+    spaceBetween: 100,
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+});
+
+
+
 document.addEventListener("DOMContentLoaded", function() {
     var lazyLoadInstance = new LazyLoad({
         elements_selector: ".lazy" 
@@ -47,12 +60,13 @@ const numerotation = document.querySelectorAll('.nb-num')
 const close_modal_btn = document.querySelectorAll('.cross-ctn')
 const return_home = document.querySelectorAll('.return-home')
 const modalsbtn = document.querySelectorAll('.video-modal')
-const number_color = document.querySelectorAll('.big-nb')
 const modalsctn = document.querySelectorAll('.modal-container')
 const respo = document.querySelector('.responsive-msg')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 numerotation[0].style.color = '#000000'
 
+const arrowSliderLeft = document.querySelector('.slider-arrow-left')
+const arrowSliderRight = document.querySelector('.slider-arrow-right')
 let selectedscene = firstscene
 let contentSelected = contentManagerMotion
 
@@ -64,6 +78,21 @@ let scene_show = false
 
 let modal_show = false
 
+
+/**
+ * Slider arrow
+ */
+arrowSliderLeft.addEventListener('click', () => {
+    if(menu_show) {
+        changeNum(10)
+    }
+})
+
+arrowSliderRight.addEventListener('click', () => {
+    if(menu_show) {
+        changeNum(-10)
+    }
+})
 
 /**
  * Return home
@@ -95,10 +124,13 @@ for (let i = 0; i < return_home.length; i++) {
  * Modals 
  */
 
- for (let i = 0; i < 1; i++) {
+
+
+ for (let i = 0; i < modalsbtn.length; i++) {
     modalsbtn[i].addEventListener('click', (_event) =>
     {   
-        modal_show = true
+        console.log(i);
+        setBoolEnvironnement(false, false, false, true)
         modalsctn[i].style.display = 'flex'
         setTimeout(() => {
             modalsctn[i].style.opacity = 1
@@ -106,14 +138,14 @@ for (let i = 0; i < return_home.length; i++) {
     })
     modalsbtn[i].addEventListener('touchstart', (_event) =>
     {
-        modal_show = true
+        setBoolEnvironnement(false, false, false, true)
     })
  }
 
  for (let i = 0; i < close_modal_btn.length; i++) {
     modalsctn[i].addEventListener('click', (_event) =>
     {
-        modal_show = false
+        setBoolEnvironnement(false, false, true, false)
         modalsctn[i].style.opacity = 0
         setTimeout(() => {
             modalsctn[i].style.display = 'none'
@@ -122,11 +154,11 @@ for (let i = 0; i < return_home.length; i++) {
     })
     modalsctn[i].addEventListener('touchend', (_event) =>
     {
-        modal_show = false
+        setBoolEnvironnement(false, false, true, false)
     })
  }
  function closeModals(){
-    modal_show = false
+    setBoolEnvironnement(false, false, true, false)
     for (let i = 0; i < modalsctn.length; i++) {
         modalsctn[i].style.opacity = 0
         setTimeout(() => {
@@ -419,6 +451,9 @@ function showEl(el){
     el[indexElementMoving].style.display = 'flex'
     el[indexElementMoving].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
     respo.style.display = 'block'
+
+    updateSwiper()
+
     setTimeout(() => {
         el[indexElementMoving].style.opacity = 1
     }, 1000);
@@ -455,7 +490,9 @@ function seeMenu(){
     else if(x == 10){
         selectedscene = secondscene
         contentSelected = contentManager3D
+
         hideMenu()
+
         setTimeout(() => {
             moveBetweenElements(0)
         }, 1000);
@@ -510,8 +547,12 @@ window.addEventListener('keydown', function(event) {
     if (scene_show) {
         moveCamera(key,selectedscene)
     }
-    if(key === "Escape" && scene_show)
+    if(key === "Escape" && scene_show) {
         returnFonction()
+    }
+    else if(key === "Escape" && modal_show){
+        closeModals()
+    }   
     else if(key === "ArrowLeft" && menu_show){
         changeNum(10)
     }
@@ -520,8 +561,6 @@ window.addEventListener('keydown', function(event) {
     }
     else if (key === "Enter" && menu_show){
         seeMenu()
-        console.log('noo');
-        
     }
     else if (key === "Enter" && intro_show){
         animationStart(interval, intro_container)
@@ -615,13 +654,18 @@ function moveCamera(key = 0, scene){
 function moveBetweenElements(timeout) {
     let cameraPos = cameraControls.getPosition()
     let distance = cameraPos.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
-    cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz-2,true)
-    cameraControls.dolly(-distance + 3, true)
+    cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz,true)
+    cameraControls.dolly(-distance + 4, true)
+   
     movingScroll = false
     setTimeout(() => {
         movingScroll = true
         showEl(contentSelected)
     }, timeout);
+    setTimeout(() => {
+        cameraControls.truck(-2, 0, true)
+    }, 800);
+
 }
 
 
@@ -631,40 +675,63 @@ function moveBetweenElements(timeout) {
 
 const loop = () =>
 {
-
     const delta = clock.getDelta();
     const hasControlsUpdated = cameraControls.update( delta );
     window.requestAnimationFrame(loop)
-    
+
+    animationObj()
+
+    objHovered()
+ 
+    renderer.render(scene, camera)
+
+}
+loop()
+window.addEventListener( 'mousemove', onMouseMove, false );
+window.addEventListener( 'click', () => {
+    if(x == 0) {
+        cubeObj.isClicked(cursor, camera, raycaster, seeMenu)
+    }
+    else if(x == 10) {
+        coneObj.isClicked(cursor, camera, raycaster, seeMenu)
+    }
+    else if(x == 20) {
+        dodeObj.isClicked(cursor, camera, raycaster, seeMenu)
+    }
+    else if(x == 30) {
+        octaObj.isClicked(cursor, camera, raycaster, seeMenu)
+    }
+});
+
+function animationObj() {
     cubeObj.animationObj()
     coneObj.animationObj()
     dodeObj.animationObj()
     octaObj.animationObj()
-    //octaObj.animationObj(0.01, 0.002, true, true, true, false,4)
+
     firstscene.animationPlay(true, true, true, true)
     secondscene.animationPlay(true, true, true, false)
     thirdscene.animationPlay(true, true, true, true)
     fourthscene.animationPlay(true, true, true, true)
 
-    cubeObj.isHoveredObj(mouse, camera, raycaster)
-    coneObj.isHoveredObj(mouse, camera, raycaster)
-    dodeObj.isHoveredObj(mouse, camera, raycaster)
-    octaObj.isHoveredObj(mouse, camera, raycaster)
- 
     random.animationPlay()
-
-    renderer.render(scene, camera)
-
 }
 
-window.addEventListener( 'mousemove', onMouseMove, false );
-window.addEventListener( 'click', () => {
-    cubeObj.isClicked(cursor, camera, raycaster, seeMenu)
-    coneObj.isClicked(cursor, camera, raycaster, seeMenu)
-    dodeObj.isClicked(cursor, camera, raycaster, seeMenu)
-    octaObj.isClicked(cursor, camera, raycaster, seeMenu)
-});
-loop()
+function objHovered() {
+    if(x == 0) {
+        cubeObj.isHoveredObj(mouse, camera, raycaster)
+    }
+    else if(x == 10) {
+        coneObj.isHoveredObj(mouse, camera, raycaster)
+    }
+    else if(x == 20) {
+        dodeObj.isHoveredObj(mouse, camera, raycaster)
+    }
+    else if(x == 30) {
+        octaObj.isHoveredObj(mouse, camera, raycaster)
+    }
+}
+
 
 /**
  * To do : 
@@ -705,8 +772,26 @@ function show(id) {
         document.getElementById(id).style.display = 'none'
     }, 550);
 
+
+
 }
 
 onReady(function () {
     show('loading', false);
 });
+
+
+
+
+
+
+function updateSwiper() {
+    if(Array.isArray(mySwiper)) {
+        mySwiper.forEach(swiper => {
+            swiper.update();
+        });
+    }
+    else {
+        mySwiper.update();
+    }
+}

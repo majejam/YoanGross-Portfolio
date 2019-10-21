@@ -239,7 +239,17 @@
     "media": "image",
     "url": "images/mockups/airbnb/1.png",
     "alt": "Airbnb Weekends Mockup Image",
-    "link": false
+    "link": false,
+    "slider": [
+      {
+        "url": "images/mockups/airbnb/1.png",
+        "alt": "Airbnb Weekends Mockup Image"
+      },
+      {
+        "url": "images/mockups/airbnb/1.png",
+        "alt": "Airbnb Weekends Mockup Image"
+      }
+    ]
   },
   {
     "type": "content-manager-design",
@@ -250,7 +260,17 @@
     "media": "image",
     "url": "images/mockups/petters/1.png",
     "alt": "Petters Mockup Image",
-    "link": false
+    "link": false,
+    "slider": [
+      {
+        "url": "images/mockups/airbnb/1.png",
+        "alt": "Airbnb Weekends Mockup Image"
+      },
+      {
+        "url": "images/mockups/petters/1.png",
+        "alt": "Airbnb Weekends Mockup Image"
+      }
+    ]
   },
   {
     "type": "content-manager-design",

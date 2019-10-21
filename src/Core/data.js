@@ -3,9 +3,7 @@ export class Reader {
          this.json = require('../../static/info.json') 
          this.container = parent
          this.child 
-
          this.modal = document.querySelector('.modal-main-ctn')
-         console.log(this.json) 
 
          this.json.forEach(element => {
             this.createElement(element)
@@ -20,9 +18,11 @@ export class Reader {
         this.createTitle(el)
         this.createDate(el)
         this.createDesc(el)
-        el.media === "video" ? this.createVideo(el) : this.createImage(el)      
+        el.media === "video" ? this.createVideo(el) : this.createImage(el)
         this.createReturn(el)
+        
         this.appendModule()
+           
     }
 
 
@@ -98,17 +98,55 @@ export class Reader {
     }
 
     createImage(element) {
-        let image_container = document.createElement("div") 
-        image_container.classList.add("img-holder") 
 
-        let image = document.createElement("img")
-        image.classList.add("img-content", "lazy") 
+        if(element.slider) {
+            let swiper_container = document.createElement("div") 
+            swiper_container.classList.add("swiper-container", "img-holder") 
 
-        image.setAttribute('src', element.url)
-        image.setAttribute('alt', element.alt)
-        image_container.appendChild(image)
+            let swiper_wrapper = document.createElement("div") 
+            swiper_wrapper.classList.add("swiper-wrapper") 
 
-        this.child.appendChild(image_container) 
+            element.slider.forEach(el => {
+                let swiper_slide = document.createElement("div") 
+                swiper_slide.classList.add("swiper-slide") 
+
+                let image = document.createElement("img")
+                image.classList.add("img-content", "lazy") 
+                image.setAttribute('src', el.url)
+                image.setAttribute('alt', el.alt)
+                swiper_slide.appendChild(image)
+                swiper_wrapper.appendChild(swiper_slide)
+            });
+
+            let swiper_button_prev = document.createElement("div") 
+            swiper_button_prev.classList.add("swiper-button-prev") 
+
+            let swiper_button_next = document.createElement("div") 
+            swiper_button_next.classList.add("swiper-button-next") 
+
+            swiper_container.appendChild(swiper_wrapper)
+
+            swiper_container.appendChild(swiper_button_prev)
+
+            swiper_container.appendChild(swiper_button_next)
+
+            this.child.appendChild(swiper_container) 
+        
+        }
+        else {
+            let image_container = document.createElement("div") 
+            image_container.classList.add("img-holder") 
+    
+            let image = document.createElement("img")
+            image.classList.add("img-content", "lazy") 
+    
+            image.setAttribute('src', element.url)
+            image.setAttribute('alt', element.alt)
+            image_container.appendChild(image)
+    
+            this.child.appendChild(image_container) 
+        }
+
     }
 
     createReturn(element) {

@@ -33,9 +33,11 @@ html,body
     display flex 
     flex-flow column nowrap
     justify-content space-between
+    align-items center
     top 10%
     left 50%
     height 80%
+    width 100%
     transform translate(-50%)
     opacity 1 
     transition 1s ease all
@@ -91,8 +93,9 @@ html,body
 
 video 
     width 100%
-    height auto
+    height 500px
     cursor pointer
+    object-fit cover
 
 .medium-vid
     height 60%
@@ -359,8 +362,9 @@ video
     z-index 1001
 
 .modal-video
-    width auto
+    width 80%
     height 80%
+    object-fit contain
 
 .video-ctn 
     position relative
@@ -372,7 +376,7 @@ video
 
 .cross-ctn 
     position absolute 
-    right 0 
+    right 40px 
     top 40px
     width 30px
     height 30px
@@ -432,10 +436,39 @@ video
 
 .img-holder
     width 100%
+    height 500px
 
 .img-content
-    height auto 
+    height 100% 
     width 100%
+    object-fit contain
+
+.slider-arrow
+    position absolute
+    top 50%
+    transform translateY(-50%)
+    height 50px
+    width 50px
+    z-index 1000
+    cursor pointer
+
+.slider-arrow img
+    width 100%
+    height 100%
+    object-fit contain
+
+.slider-arrow-left 
+    left 5%
+
+.slider-arrow-right 
+    right 5%
+    transform-origin center
+    transform rotate(180deg) translateY(50%)
+
+.swiper-slide
+    height 100%
+.swiper-wrapper 
+    height 100%
 
 @keyframes translate {
   0% {
@@ -617,26 +650,19 @@ video
     .cross-ctn 
         right 5%
     .ctn-home 
-        left 65%
-        transform translate(-50%, -50%)
         z-index 1000
     .text-inner 
         font-size 1.2em
     .ctn-home h1
         font-size 3em
-    .overflow-txt
-        height 40px
-    .numerotation 
-        width 200px
-    .btn-ctn 
-        width 300px
-        margin-top 0px
+
+
     
 
 @media only screen and (max-width: 700px)
     .content-container
         width 80%
-        left 50% 
+        left 10% 
         transform translate(-50%, -50%)
     .big-nb
         left -2%
@@ -701,9 +727,6 @@ video
         font-size 8em
     .dumb-btn
         font-size 1em
-    .numerotation
-        margin-right 5px
-        width 180px
 
 @media only screen and (max-width: 400px)
     h2
