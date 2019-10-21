@@ -6,6 +6,7 @@ import * as THREE from 'three'
 
 import * as OBJECT from './Core/ThreeElements.js'
 
+import * as HELLO from './Core/Separator.js'
 
 import * as DOM from './Core/data.js'
 
@@ -79,6 +80,29 @@ let scene_show = false
 
 let modal_show = false
 
+let change_color = false
+
+let text_html = document.querySelector('.launch-text')
+let container_html = document.querySelector('.separator')
+let container_btn = document.querySelector('.launch_btn')
+
+let seperator = new HELLO.Seperator(text_html,container_html)
+
+container_btn.addEventListener('mouseenter', () => {
+    change_color = true
+    seperator.changeColor();
+})
+
+container_btn.addEventListener('mouseleave', () => {
+    seperator.resetColor();
+    change_color = false
+})
+
+setInterval(() => {
+    if(change_color) {
+        seperator.changeColor();
+    } 
+}, 250);
 
 /**
  * Slider arrow
@@ -415,6 +439,9 @@ function animationStart(interval, intro_container) {
     let timeout_y = 0
     let interval_y 
 
+    document.querySelector('.credit').style.opacity = "0"
+    document.querySelector('.credit').style.visibility = "hidden"
+
     setTimeout(() => {
         //returnFonction()
         clearInterval(interval);
@@ -671,7 +698,7 @@ function moveBetweenElements(timeout) {
         showEl(contentSelected)
     }, timeout);
     setTimeout(() => {
-        cameraControls.truck(-2, 0, true)
+        cameraControls.truck(-4, 0, true)
     }, 500);
 
 }
@@ -711,7 +738,7 @@ const loop = () =>
 }
 loop()
 window.addEventListener( 'mousemove', onMouseMove, false );
-window.addEventListener( 'click', () => {
+window.addEventListener( 'mousedown', () => {
     if(x == 0) {
         cubeObj.isClicked(cursor, camera, raycaster, seeMenu)
     }
@@ -728,6 +755,8 @@ window.addEventListener( 'click', () => {
 window.addEventListener( 'touchstart', () => {
     if(x == 0) {
         cubeObj.isClickedTouch(cursor, camera, raycaster, seeMenu)
+        
+        
     }
     else if(x == 10) {
         coneObj.isClickedTouch(cursor, camera, raycaster, seeMenu)

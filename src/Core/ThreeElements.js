@@ -16,7 +16,7 @@ export class Element{
         this.definition = definition
         this.color = color 
         this.type = type 
-        this.force = 0
+        this.force = Math.random()*100
         this.rotation_force = 0 
         this.increment = 4 
         this.randforce = 0.001 + Math.random()/400
@@ -32,6 +32,7 @@ export class Element{
         this.cameraAmpl = { x: 0.1, y: 0.1 };
 
         this.rotate = rotate
+        this.init_rotate = rotate
 
         if(isObj) {
             this.setRotate()
@@ -198,6 +199,16 @@ export class Element{
             
                 } );
 
+                let element = {}
+                element.geometry = new THREE.BoxBufferGeometry(1.5, 1.5, 1.5)
+                element.material = new THREE.MeshStandardMaterial({
+                    color: 0xFF0000, 
+                    transparent: true,
+                    opacity: 0,
+                })
+        
+                element.mesh = new THREE.Mesh(element.geometry, element.material)
+                container.add(element.mesh)
                 container.add( object );
                 
 
@@ -269,7 +280,7 @@ export class Element{
 
     animationObj(force) {
         this.force += 0.01
-        this.container.position.y = this.posy + Math.sin(this.force)/4
+        this.container.position.y = this.posy + Math.sin(this.force)/10
     }
     setRandomAnimation(){
         for (let i = 0; i < this.smallElement.length; i++) {
@@ -368,18 +379,21 @@ export class Element{
     }
 
     isClickedTouch(cursor, camera, raycaster, callback, index) {
-        if(this.isOn) {
-            callback(index)
-        }     
-        else {
+        raycaster.setFromCamera( cursor, camera );
 
-        }   
+        // calculate objects intersecting the picking ray
+        var intersects = raycaster.intersectObject( this.container, true );
         
+        for ( var i = 0; i < intersects.length; i++ ) {
+
+            callback(index)
+            console.log("hello");
+        }     
     }
 
     onDocumentMouseMove( mouse, ratio ) {
 
-        this.container.rotation.y = (mouse.x/ratio) ;
+        this.container.rotation.y = this.init_rotate + (mouse.x/ratio) ;
         this.container.rotation.x = (-mouse.y/ratio) ;
     }
 
