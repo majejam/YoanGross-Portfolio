@@ -88,6 +88,20 @@ let container_btn = document.querySelector('.launch_btn')
 
 let seperator = new HELLO.Seperator(text_html,container_html)
 
+prod(false)
+
+function prod(bool) {
+    if(bool) {
+        console.log = function() {}
+
+        console.warn = function() {}
+        
+        console.timeEnd = function() {}
+        
+        console.time = function() {}
+    }
+}
+
 container_btn.addEventListener('mouseenter', () => {
     change_color = true
     seperator.changeColor();
