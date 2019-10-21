@@ -4,7 +4,7 @@ OBJLoader(THREE);
 
 export class Element{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
-    constructor(color, scene, type, radius, height, definition, size, posx, posy, posz, isObj = false){
+    constructor(color, scene, type, radius, height, definition, size, posx, posy, posz, isObj = false, scale = 1, rotate = 0, isRotate = false){
         this.scene = scene 
         this.container = new THREE.Object3D()
         this.posx = posx
@@ -24,11 +24,25 @@ export class Element{
         this.isObj = isObj
         this.time = 0
         this.isOn = false
-        this.scale = 1
+        this.scale = scale
+        this.scale_init = scale
+        this.slowingFactor = 0.05
+        this.movingEl = false
+        this.mousePosition = { x: 0, y: 0 };
+        this.cameraAmpl = { x: 0.1, y: 0.1 };
+
+        this.rotate = rotate
+
+        if(isObj) {
+            this.setRotate()
+        }
 
         this.setMesh()
         this.setScene()
 
+    }
+    setRotate() {
+        this.container.rotation.y = this.rotate
     }
     setMesh()
     {
@@ -275,12 +289,6 @@ export class Element{
         return -c/2 * (t*(t-2) - 1) + b;
     };
 
-    debug(time) {
-        
-        
-        console.log(this.easeInOutQuad(time, 0, 1, 2));
-        
-    }
 
     isHovered(cursor, camera, raycaster, time) {
 
@@ -321,17 +329,19 @@ export class Element{
         //console.log(intersects);
         if(intersects.length === 0) {
             this.isOn = false
+            document.body.style.cursor = "default";
         }
 
-        if(intersects.length === 0 && this.scale > 1) {
+        if(intersects.length === 0 && this.scale > this.scale_init) {
             this.scale -= 0.008
         }
         
         for ( var i = 0; i < intersects.length; i++ ) {
 
-            if (this.scale < 1.1) {
+            if (this.scale <  this.scale_init + 0.05) {
                 this.scale += 0.01
             }
+            document.body.style.cursor = "pointer";
             this.isOn = true
         }   
         this.container.scale.set(this.scale,this.scale,this.scale);            
@@ -356,6 +366,34 @@ export class Element{
         }   
         
     }
+
+    onDocumentMouseMove( mouse, ratio ) {
+
+        this.container.rotation.y = (mouse.x/ratio) ;
+        this.container.rotation.x = (-mouse.y/ratio) ;
+    }
+
+    onDocumentMouseMoveEl( mouse, ratio ) {
+
+        this.element.mesh.rotation.y += (mouse.x/ratio) * this.slowingFactor;
+        this.element.mesh.rotation.x += (-mouse.y/ratio) * this.slowingFactor;
+    }
+
+    onDocumentMouseDown( mouse, ratio ) {
+        if(this.movingEl) {
+            this.container.rotation.y = this.rotate + (mouse.x/ratio)
+            this.container.rotation.x = (-mouse.y/ratio) 
+        }
+    }
+
+    onDown() {
+        this.movingEl = true
+    }
+
+    onUp() {
+        this.movingEl = false
+    }
+
 
     returnObj()
     {
@@ -450,6 +488,14 @@ export class Scene{
         for (let index = 0; index < this.arrayElement.length; index++) {  
             this.arrayElement[index].setAnimationRand(0.01, animationUp, animationX, animationY, animationZ,4)
         }
+    }
+
+    mouseMoveScene( mouse, ratio ) {
+
+        for (let index = 0; index < this.arrayElement.length; index++) {  
+            this.arrayElement[index].onDocumentMouseMoveEl( mouse, ratio )
+        }
+    
     }
 
     returnObj()

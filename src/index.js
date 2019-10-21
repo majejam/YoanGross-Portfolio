@@ -108,7 +108,13 @@ for (let i = 0; i < return_home.length; i++) {
  function returnFonction(bool = false){
 
     setBoolEnvironnement(false, true, false, false)
-    cameraControls.setLookAt(x/2.5, 0, 5, 10, 0, -115, true )
+    if(sizes.width > 600) {
+        cameraControls.setLookAt(x/2.5, 0, 6, 10, 0, -115, true )
+    }
+    else {
+        cameraControls.setLookAt(x/2.5, 0, 8, 10, 0, -115, true )
+    }
+    
     clearEverythingSingle(contentSelected[indexElementMoving])
 
     if(!bool) {
@@ -129,7 +135,6 @@ for (let i = 0; i < return_home.length; i++) {
  for (let i = 0; i < modalsbtn.length; i++) {
     modalsbtn[i].addEventListener('click', (_event) =>
     {   
-        console.log(i);
         setBoolEnvironnement(false, false, false, true)
         modalsctn[i].style.display = 'flex'
         setTimeout(() => {
@@ -334,21 +339,22 @@ scene.add( light );
 /**
  * Menu object
  */
-let cubeObj = new OBJECT.Element(0x7fff7f, scene, 'clap', 1, 1, 1, 1, 0, 0, 2, true)
-let coneObj = new OBJECT.Element(0x3a82fa, scene, 'Monkey', 0.5, 1.5, 320, 0, 4, 0, 2, true)
-let dodeObj = new OBJECT.Element(0xfa1212, scene, 'brackets', 1, 1, 1, 1, 8, 0, 2, true)
-let octaObj = new OBJECT.Element(0x3f42fa, scene, 'screen', 0.5, 1, 0, 1, 12, 0, 2, true)
+let cubeObj = new OBJECT.Element(0x2A9D8F, scene, 'clap', 1, 1, 1, 1, 0, 0, 2, true, 0.8, -0.4)
+let coneObj = new OBJECT.Element(0xFFD166, scene, 'Monkey', 0.5, 1.5, 320, 0, 4, 0, 2, true, 1)
+let dodeObj = new OBJECT.Element(0xE76F51, scene, 'brackets', 1, 1, 1, 1, 8, 0, 2, true, 1)
+let octaObj = new OBJECT.Element(0x118AB2, scene, 'screen', 0.5, 1, 0, 1, 12, 0, 2, true, 1)
 
 
 /**
  * Scene
  */
-let sceneColor = new Array(0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939,0xffb3ba,0x4286f4,0x42f4a1,0xe8ca35,0xd1302e,0xb02ed1,0xe52993,0x27f3f7,0xbae1ff,0xed2939)
-let firstscene = new OBJECT.Scene(scene, 0, 40, 25, contentManagerMotion, 'Cube', 1, 1, 1, 1, 0x7fff7f)
-let secondscene = new OBJECT.Scene(scene, 10, 60, 25, contentManager3D, 'Cone', 1, 1, 1, 1, 0x3a82fa)
-let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, contentManagerDev, 'Dodecahedron', 1, 1, 1, 1, 0xfa1212)
-let fourthscene = new OBJECT.Scene(scene, 30, 80, 25, contentManagerDesign, 'Octahedron', 1, 1, 1, 1, 0x3a82fa)
+let sceneColor = new Array(0xEF476F,0xFFD166,0x06D6A0,0x118AB2,0x073B4C,0x264653,0x2A9D8F,0xE9C46A,0xF4A261,0xE76F51)
+let firstscene = new OBJECT.Scene(scene, 0, 40, 25, contentManagerMotion, 'Cube', 1, 1, 1, 1, 0x2A9D8F)
+let secondscene = new OBJECT.Scene(scene, 10, 60, 25, contentManager3D, 'Cone', 1, 1, 1, 1, 0xFFD166)
+let thirdscene = new OBJECT.Scene(scene, 20, 30, 25, contentManagerDev, 'Dodecahedron', 1, 1, 1, 1, 0xE76F51)
+let fourthscene = new OBJECT.Scene(scene, 30, 80, 25, contentManagerDesign, 'Octahedron', 1, 1, 1, 1, 0x118AB2)
 let random = new OBJECT.RandomElement(scene, 0, 0, -50, 1000, 1, 1, 1, 1, sceneColor)
+
 
 
 
@@ -664,7 +670,7 @@ function moveBetweenElements(timeout) {
     }, timeout);
     setTimeout(() => {
         cameraControls.truck(-2, 0, true)
-    }, 800);
+    }, 500);
 
 }
 
@@ -682,6 +688,21 @@ const loop = () =>
     animationObj()
 
     objHovered()
+
+    
+
+    if(x == 0) {
+        cubeObj.onDocumentMouseMove(mouse, 20)
+    }
+    else if(x == 10) {
+        coneObj.onDocumentMouseMove(mouse, 20)
+    }
+    else if(x == 20) {
+        dodeObj.onDocumentMouseMove(mouse, 20)
+    }
+    else if(x == 30) {
+        octaObj.onDocumentMouseMove(mouse, 20)
+    }
  
     renderer.render(scene, camera)
 
@@ -713,6 +734,11 @@ function animationObj() {
     secondscene.animationPlay(true, true, true, false)
     thirdscene.animationPlay(true, true, true, true)
     fourthscene.animationPlay(true, true, true, true)
+
+    firstscene.mouseMoveScene(mouse, 5)
+    secondscene.mouseMoveScene(mouse, 5)
+    thirdscene.mouseMoveScene(mouse, 5)
+    fourthscene.mouseMoveScene(mouse, 5)
 
     random.animationPlay()
 }
