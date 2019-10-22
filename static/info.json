@@ -242,11 +242,23 @@
     "link": false,
     "slider": [
       {
-        "url": "images/mockups/airbnb/1.png",
+        "url": "images/mockups/airbnb/2.png",
         "alt": "Airbnb Weekends Mockup Image"
       },
       {
-        "url": "images/mockups/airbnb/1.png",
+        "url": "images/mockups/airbnb/3.png",
+        "alt": "Airbnb Weekends Mockup Image"
+      },
+      {
+        "url": "images/mockups/airbnb/4.png",
+        "alt": "Airbnb Weekends Mockup Image"
+      },
+      {
+        "url": "images/mockups/airbnb/5.png",
+        "alt": "Airbnb Weekends Mockup Image"
+      },
+      {
+        "url": "images/mockups/airbnb/6.png",
         "alt": "Airbnb Weekends Mockup Image"
       }
     ]
@@ -263,12 +275,16 @@
     "link": false,
     "slider": [
       {
-        "url": "images/mockups/petters/1.png",
+        "url": "images/mockups/petters/2.png",
         "alt": "Petters Mockup Image"
       },
       {
-        "url": "images/mockups/petters/1.png",
-        "alt": "Airbnb Weekends Mockup Image"
+        "url": "images/mockups/petters/3.png",
+        "alt": "Petters Weekends Mockup Image"
+      },
+      {
+        "url": "images/mockups/petters/4.png",
+        "alt": "Petters Weekends Mockup Image"
       }
     ]
   },
@@ -281,6 +297,28 @@
     "media": "image",
     "url": "images/mockups/zbarwars/1.png",
     "alt": "Z'Bar Wars Mockup Image",
-    "link": "https://www.grossyoan.fr/zbarwars/"
+    "link": "https://www.grossyoan.fr/zbarwars/",
+    "slider": [
+      {
+        "url": "images/mockups/zbarwars/2.png",
+        "alt": "Z'Bar Wars Mockup Image"
+      },
+      {
+        "url": "images/mockups/zbarwars/3.png",
+        "alt": "Z'Bar Wars Mockup Image"
+      },
+      {
+        "url": "images/mockups/zbarwars/4.png",
+        "alt": "Z'Bar Wars Mockup Image"
+      },
+      {
+        "url": "images/mockups/zbarwars/5.png",
+        "alt": "Z'Bar Wars Mockup Image"
+      },
+      {
+        "url": "images/mockups/zbarwars/6.png",
+        "alt": "Z'Bar Wars Mockup Image"
+      }
+    ]
   }
 ]

@@ -42,6 +42,13 @@ html,body
     opacity 1 
     transition 1s ease all
 
+.logo_sml
+    position absolute 
+    top 20px
+    left 20px
+    transition 0.5s ease-in-out all
+    opacity 0
+
 .ctn-home h1
     font-size 5em
 
@@ -421,9 +428,20 @@ video
     opacity 0
     transform translate(-50%,0%)
     width 100%
-    z-index -1
+    z-index 0
     text-align center
     will-change opacity 
+
+.scroll-msg
+    position absolute
+    display none
+    bottom 75px
+    left 50%
+    transform translate(-50%,0%)
+    height: 40px
+    width: 2px
+    background black
+    animation scroll 1s ease-in-out 0s 4 normal forwards 
 
 .responsive-msg-cursor
     position absolute
@@ -440,6 +458,15 @@ video
 .img-holder
     width 100%
     height 500px
+
+.swiper-slide
+    display flex
+    justify-content center
+
+.img-content-double
+    height 100% 
+    width 35%
+    object-fit contain
 
 .img-content
     height 100% 
@@ -499,6 +526,27 @@ video
         opacity 0
   }
 }
+
+@keyframes scroll {
+  0% {
+        transform translate(-50%, 0) scaleY(0)
+        transform-origin bottom
+  }
+  49% {
+        transform translate(-50%, 0) scaleY(1)
+        transform-origin bottom
+    }
+  51% {
+          transform translate(-50%, 0) scaleY(1)
+          transform-origin top
+    }
+
+  100% {
+        transform translate(-50%, 0) scaleY(0)
+        transform-origin top
+  }
+}
+
 @keyframes loading-forward {
   0% {
       transform translateY(13px)
@@ -642,6 +690,12 @@ video
 
 /* RESPONSIVE */
 
+
+@media only screen and (min-height: 1000px)
+    .content-container  
+        top 50%
+
+
 @media only screen and (max-width: 1400px)
     .big-nb
         font-size 11em 
@@ -679,12 +733,14 @@ video
         animation blink 2s linear 0s 4 normal forwards 
     .responsive-msg-cursor
         display block
+    .scroll-msg
+        display: none !important
 
     
 
 @media only screen and (max-height: 900px) and (min-width: 800px)
     .content-container
-        width 40%
+        width 
     .modal-video 
         width 90%
         height auto
