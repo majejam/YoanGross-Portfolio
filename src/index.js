@@ -44,6 +44,32 @@ var mySwiper = new Swiper('.swiper-container', {
 });
 
 
+var watchScroll = new Swiper('.swiper-scroll', {
+    speed: 1,
+    spaceBetween: 100,
+    loop: true,
+    on: {
+        slideNextTransitionStart: function () {
+          /* do something */
+          console.log('hello');
+          if(menu_show) {
+            changeNum(-10)
+          }
+          
+        },
+        slidePrevTransitionStart: function () {
+            /* do something */
+            console.log('hello');
+            if(menu_show) {
+              changeNum(10)
+            }
+            
+          },
+      }
+});
+
+
+
 
 document.addEventListener("DOMContentLoaded", function() {
     var lazyLoadInstance = new LazyLoad({
@@ -66,6 +92,8 @@ const respo = document.querySelector('.responsive-msg')
 const scrollEl = document.querySelector('.scroll_container')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 const responsive = document.querySelector('.right-click')
+const respo_btn = document.querySelector('.responsive-btn')
+const btn_ctn_numero = document.querySelector('.btn-ctn')
 numerotation[0].style.color = '#000000'
 
 const arrowSliderLeft = document.querySelector('.slider-arrow-left')
@@ -89,7 +117,7 @@ let container_btn = document.querySelector('.launch_btn')
 
 let seperator = new HELLO.Seperator(text_html,container_html)
 
-prod(false)
+prod(true)
 
 function prod(bool) {
     if(bool) {
@@ -159,11 +187,8 @@ for (let i = 0; i < return_home.length; i++) {
 
     if(!bool) {
         setTimeout(() => {
-            ctn_home.style.display = 'flex'
+            showMenu()
         }, 1000);
-        setTimeout(() => {
-            ctn_home.style.opacity = 1
-        }, 1050);
     }
  }
 /**
@@ -443,8 +468,7 @@ introduction()
 selectedscene = firstscene
 
 function introduction(bool) {
-    ctn_home.style.display = "none"
-    ctn_home.style.opacity = "0"
+    hideMenu()
     cameraControls.setLookAt(0, 0, 0, 0, 0, 0, false)
     cameraControls.dolly( 200, false )
 
@@ -512,7 +536,7 @@ function showEl(el){
     el[indexElementMoving].style.display = 'flex'
     el[indexElementMoving].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
     respo.style.display = 'block'
-    scrollEl.style.display = 'block'
+    scrollEl.style.display = 'flex'
     updateSwiper()
 
     setTimeout(() => {
@@ -524,13 +548,49 @@ function showEl(el){
  * Hide Main Navigation Menu
  */
 function hideMenu() {
-    ctn_home.style.opacity = '0'
+    const arrows = document.querySelectorAll('.slider-arrow')
 
+    arrows.forEach(element => {
+        element.style.opacity = '0'
+
+        setTimeout(() => {
+            element.style.display = 'none'
+        }, 1050); 
+    });
+
+    ctn_home.style.opacity = '0'
+    respo_btn.style.opacity = '0'
+    btn_ctn_numero.style.opacity = '0'
     setTimeout(() => {
         ctn_home.style.display = 'none'
+        respo_btn.style.display = 'none'
+        btn_ctn_numero.style.display = 'none'
     }, 1050); 
 }
 
+function showMenu() {
+    const arrows = document.querySelectorAll('.slider-arrow')
+
+    arrows.forEach(element => {
+        element.style.display = 'block'
+        setTimeout(() => {
+            element.style.opacity = '1'
+        }, 550); 
+    });
+
+    ctn_home.style.display = 'flex'
+    btn_ctn_numero.style.display = 'flex'
+    if(sizes.width < 480) {
+        respo_btn.style.display = 'flex'
+    }
+    setTimeout(() => {
+        ctn_home.style.opacity = '1'
+        btn_ctn_numero.style.opacity = '1'
+        if(sizes.width < 480) {
+            respo_btn.style.opacity = '1'
+        }
+    }, 550); 
+}
 /**
  * On click menu go to first element
  */
@@ -600,6 +660,11 @@ function onMouseWheel( ) {
         moveCamera(0,selectedscene)
 };
 
+respo_btn.addEventListener('click', () => {
+    if(menu_show) {
+        seeMenu()
+    }
+})
 /**
  * Key Handlers
  */
@@ -764,7 +829,7 @@ const loop = () =>
 }
 loop()
 window.addEventListener( 'mousemove', onMouseMove, false );
-window.addEventListener( 'mousedown', () => {
+window.addEventListener( 'click', () => {
     if(x == 0) {
         cubeObj.isClicked(cursor, camera, raycaster, seeMenu)
     }

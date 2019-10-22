@@ -50,6 +50,7 @@ html,body
     transition 0.5s ease-in-out all
     opacity 0
     z-index: 1000
+    cursor pointer
 
 .ctn-home h1
     font-size 5em
@@ -104,7 +105,7 @@ video
     width 100%
     height 500px
     cursor pointer
-    object-fit cover
+    object-fit contain
 
 .medium-vid
     height 60%
@@ -153,6 +154,12 @@ video
     align-items center
     justify-content space-between
     margin-top 30px
+    position: absolute;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    transition 1s ease all
 
 .numerotation
     width 250px 
@@ -347,7 +354,7 @@ video
     transition 0.5s ease all
 
 .link-container 
-    z-index 0
+    z-index 10
 .big-nb
     position absolute 
     top -30%
@@ -440,7 +447,6 @@ video
     bottom 75px
     left 50%
     transform translate(-50%,0%)
-    display flex 
     justify-content center
     flex-flow column nowrap
     align-items center
@@ -495,6 +501,8 @@ video
     width 50px
     z-index 1000
     cursor pointer
+    transition 1s ease all
+    display none
 
 .slider-arrow img
     width 100%
@@ -513,6 +521,16 @@ video
     height 100%
 .swiper-wrapper 
     height 100%
+
+.swiper-scroll
+    position absolute
+    top 0
+    left 0
+    right 0
+    bottom 0 
+    z-index: 1
+    background red
+    opacity 0
 
 @keyframes translate {
   0% {
@@ -701,7 +719,15 @@ video
     height 50%
     object-fit contain
 
-
+.responsive-btn
+    position: absolute
+    bottom 120px
+    left 50%
+    transform translateX(-50%)
+    font-size 2em
+    display none  
+    transition 1s ease all
+    
 /* RESPONSIVE */
 
 
@@ -723,8 +749,6 @@ video
         height auto
     .cross-ctn 
         right 5%
-    .ctn-home 
-        z-index 1000
     .text-inner 
         font-size 2em
     .ctn-home h1
@@ -814,7 +838,8 @@ video
         height 200px
     .content-container
         top 45%
-
+    .responsive-btn
+            display block 
 @media only screen and (max-width: 400px)
     h2
         font-size 0.7em
@@ -825,6 +850,9 @@ video
     .link-container 
         bottom 30px
         width 100%
+    .btn-ctn
+        bottom 60px
+
     .modal-video 
         width 90%
         height auto
