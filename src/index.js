@@ -479,6 +479,10 @@ function animationStart(interval, intro_container) {
         clearInterval(interval_y);
         setBoolEnvironnement(false, true, false, false)
     }, 2000);
+
+    setTimeout(() => {
+        document.querySelector('.logo_sml').style.opacity = "1"
+    }, 4000);
 }
 
 /**

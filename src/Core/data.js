@@ -106,17 +106,33 @@ export class Reader {
             let swiper_wrapper = document.createElement("div") 
             swiper_wrapper.classList.add("swiper-wrapper") 
 
-            element.slider.forEach(el => {
+            if (!(element.slider.length % 2)) {
+                for (let index = 0; index < element.slider.length; index = index + 2) {
+                    let swiper_slide = document.createElement("div") 
+                    swiper_slide.classList.add("swiper-slide") 
+    
+                    swiper_slide.appendChild(this.createSimpleImage(element.slider[index].url, element.slider[index].alt, "img-content-double"))
+                    swiper_slide.appendChild(this.createSimpleImage(element.slider[index + 1].url, element.slider[index + 1].alt, "img-content-double"))
+                    swiper_wrapper.appendChild(swiper_slide)
+                }
+            }
+            else {
+                for (let index = 0; index < element.slider.length - 1; index = index + 2) {
+                    let swiper_slide = document.createElement("div") 
+                    swiper_slide.classList.add("swiper-slide") 
+    
+                    swiper_slide.appendChild(this.createSimpleImage(element.slider[index].url, element.slider[index].alt, "img-content-double"))
+                    swiper_slide.appendChild(this.createSimpleImage(element.slider[index + 1].url, element.slider[index + 1].alt, "img-content-double"))
+                    swiper_wrapper.appendChild(swiper_slide)
+                }
+
                 let swiper_slide = document.createElement("div") 
                 swiper_slide.classList.add("swiper-slide") 
 
-                let image = document.createElement("img")
-                image.classList.add("img-content", "lazy") 
-                image.setAttribute('src', el.url)
-                image.setAttribute('alt', el.alt)
-                swiper_slide.appendChild(image)
+                swiper_slide.appendChild(this.createSimpleImage(element.slider[(element.slider.length - 1)].url,  element.slider[(element.slider.length - 1)].alt, "img-content"))
+                
                 swiper_wrapper.appendChild(swiper_slide)
-            });
+            }
 
             let swiper_button_prev = document.createElement("div") 
             swiper_button_prev.classList.add("swiper-button-prev") 
@@ -147,6 +163,15 @@ export class Reader {
             this.child.appendChild(image_container) 
         }
 
+    }
+
+    createSimpleImage(url, alt, type) {
+        let image = document.createElement("img")
+        image.classList.add(type, "lazy") 
+        image.setAttribute('src', url)
+        image.setAttribute('alt', alt)
+
+        return image
     }
 
     createReturn(element) {
