@@ -16,6 +16,8 @@ import LazyLoad from "vanilla-lazyload";
 
 import Swiper from 'swiper'
 
+import { throttle, debounce } from 'throttle-debounce';
+
 CameraControls.install( { THREE: THREE } );
 
 
@@ -29,6 +31,8 @@ function onMouseMove( event ) {
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
 }
+
+prod(true)
 
 const parent__container = document.querySelector('.content-container')
 let dom = new DOM.Reader(parent__container)
@@ -45,15 +49,15 @@ var mySwiper = new Swiper('.swiper-container', {
 
 
 var watchScroll = new Swiper('.swiper-scroll', {
-    speed: 1,
+    speed: 400,
     spaceBetween: 100,
-    loop: true,
+    longSwipesRatio: 0.1,
     on: {
         slideNextTransitionStart: function () {
           /* do something */
           console.log('hello');
           if(menu_show) {
-            changeNum(-10)
+            changeNum(watchScroll.activeIndex, false)
           }
           
         },
@@ -61,7 +65,7 @@ var watchScroll = new Swiper('.swiper-scroll', {
             /* do something */
             console.log('hello');
             if(menu_show) {
-              changeNum(10)
+              changeNum(watchScroll.activeIndex, false)
             }
             
           },
@@ -117,7 +121,6 @@ let container_btn = document.querySelector('.launch_btn')
 
 let seperator = new HELLO.Seperator(text_html,container_html)
 
-prod(true)
 
 function prod(bool) {
     if(bool) {
@@ -152,13 +155,13 @@ setInterval(() => {
  */
 arrowSliderLeft.addEventListener('click', () => {
     if(menu_show) {
-        changeNum(10)
+        watchScroll.slidePrev()
     }
 })
 
 arrowSliderRight.addEventListener('click', () => {
     if(menu_show) {
-        changeNum(-10)
+        watchScroll.slideNext()
     }
 })
 
@@ -182,11 +185,14 @@ for (let i = 0; i < return_home.length; i++) {
     else {
         cameraControls.setLookAt(x/2.5, 0, 8, 10, 0, -115, true )
     }
+
+   
     
     clearEverythingSingle(contentSelected[indexElementMoving])
 
     if(!bool) {
         setTimeout(() => {
+            parent__container.style.display = 'none'
             showMenu()
         }, 1000);
     }
@@ -248,6 +254,7 @@ window.addEventListener('mousemove', (_event) =>
 {
     cursor.x = ( event.clientX / window.innerWidth ) * 2 - 1
     cursor.y = -( event.clientX / window.innerWidth ) * 2 - 1
+    
 })
 
 
@@ -261,7 +268,8 @@ let y = 0
 for (let i = 0; i < numerotation.length; i++) {
     numerotation[i].addEventListener('click', (_event) =>
     {
-        changeNum(i)
+        //changeNum(i, true, i)
+        watchScroll.slideTo(i)
     })
  }
 
@@ -285,10 +293,12 @@ function transitionHome(index, orientation){
     }
 
 }
-function changeNum(index){
+function changeNum(index, bool = true, i = 0){
+            
         if(index == -10){
             x += 10
             y += 400
+            
         }
         else if(index == 10){
             x -= 10
@@ -341,7 +351,7 @@ function changeNum(index){
             }
         }
 
-        returnFonction(true)
+        //returnFonction(true)
 
         inner_text.style.transform = `translateX(${-y}px)`
 }
@@ -598,6 +608,8 @@ function seeMenu(){
     setBoolEnvironnement(false, false, true, false)
     indexElementMoving = 0
 
+    parent__container.style.display = 'block'
+
     if(x == 0){
         selectedscene = firstscene
         contentSelected = contentManagerMotion
@@ -652,12 +664,11 @@ function seeMenu(){
  * Scroll handlers
  */
 let movingScroll = true
-window.addEventListener( 'wheel', onMouseWheel, false );
-window.addEventListener( 'scroll', onMouseWheel, false );
-
+window.addEventListener( 'wheel', debounce(300, true, onMouseWheel), false );
 function onMouseWheel( ) {
     if(scene_show)
-        moveCamera(0,selectedscene)
+            moveCamera(0,selectedscene)
+            
 };
 
 respo_btn.addEventListener('click', () => {
@@ -680,10 +691,11 @@ window.addEventListener('keydown', function(event) {
         closeModals()
     }   
     else if(key === "ArrowLeft" && menu_show){
-        changeNum(10)
+        watchScroll.slidePrev()
+        
     }
     else if (key === "ArrowRight" && menu_show){
-        changeNum(-10)
+        watchScroll.slideNext()
     }
     else if (key === "Enter" && menu_show){
         seeMenu()
@@ -751,9 +763,11 @@ evironnement(1000)
 let moving = 1
 let indexElementMoving = 0
 function moveCamera(key = 0, scene){
+    
+    console.log(event.deltaY);
     closeModals() 
     if(key != 39 || key != 37){
-        if((((event.deltaY/100) < -0.8) || key === 'ArrowUp') && movingScroll){
+        if((((event.deltaY) < -0.1) || key === 'ArrowUp') && movingScroll){
             clearEverythingSingle(contentSelected[indexElementMoving])
             moving = 1
             indexElementMoving += 1
@@ -764,7 +778,7 @@ function moveCamera(key = 0, scene){
             moveBetweenElements(150)
 
         } 
-        if((((event.deltaY/100) > 0.8) || key === 'ArrowDown') && movingScroll){
+        if((((event.deltaY) > 0.1) || key === 'ArrowDown') && movingScroll){
             clearEverythingSingle(contentSelected[indexElementMoving])
             moving = -1
             indexElementMoving -= 1
@@ -783,7 +797,7 @@ function moveBetweenElements(timeout) {
     cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz,true)
     cameraControls.dolly(-distance + 4, true)
    
-    movingScroll = false
+    movingScroll = true
     setTimeout(() => {
         movingScroll = true
         showEl(contentSelected)
@@ -822,6 +836,16 @@ const loop = () =>
     }
     else if(x == 30) {
         octaObj.onDocumentMouseMove(mouse, 20)
+    }
+
+    if(menu_show) {
+        console.log(watchScroll.progress);
+        if(sizes.width > 600) {
+            cameraControls.setLookAt((watchScroll.progress*12), 0, 6, 10, 0, -115, true )
+        }
+        else {
+            cameraControls.setLookAt((watchScroll.progress*12), 0, 8, 10, 0, -115, true )
+        }
     }
  
     renderer.render(scene, camera)
