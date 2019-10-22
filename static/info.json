@@ -242,6 +242,10 @@
     "link": false,
     "slider": [
       {
+        "url": "images/mockups/airbnb/1.png",
+        "alt": "Airbnb Weekends Mockup Image"
+      },
+      {
         "url": "images/mockups/airbnb/2.png",
         "alt": "Airbnb Weekends Mockup Image"
       },
@@ -275,6 +279,10 @@
     "link": false,
     "slider": [
       {
+        "url": "images/mockups/petters/1.png",
+        "alt": "Petters Mockup Image"
+      },
+      {
         "url": "images/mockups/petters/2.png",
         "alt": "Petters Mockup Image"
       },
@@ -299,6 +307,10 @@
     "alt": "Z'Bar Wars Mockup Image",
     "link": "https://www.grossyoan.fr/zbarwars/",
     "slider": [
+      {
+        "url": "images/mockups/zbarwars/1.png",
+        "alt": "Z'Bar Wars Mockup Image"
+      },
       {
         "url": "images/mockups/zbarwars/2.png",
         "alt": "Z'Bar Wars Mockup Image"
