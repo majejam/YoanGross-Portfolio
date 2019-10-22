@@ -432,11 +432,17 @@ let interval = setInterval(() => {
     cameraControls.rotateTo(timeout_x, 0, true)
 }, 200);
 
+const returnAll = document.querySelector('.logo_sml')
+returnAll.addEventListener('click', () => {
+    returnFonction()
+})
+
+
 introduction()
 
 selectedscene = firstscene
 
-function introduction() {
+function introduction(bool) {
     ctn_home.style.display = "none"
     ctn_home.style.opacity = "0"
     cameraControls.setLookAt(0, 0, 0, 0, 0, 0, false)
