@@ -63,6 +63,7 @@ const return_home = document.querySelectorAll('.return-home')
 const modalsbtn = document.querySelectorAll('.video-modal')
 const modalsctn = document.querySelectorAll('.modal-container')
 const respo = document.querySelector('.responsive-msg')
+const scrollEl = document.querySelector('.scroll-msg')
 const numerotation_bar = document.querySelectorAll('.num_bar')
 const responsive = document.querySelector('.right-click')
 numerotation[0].style.color = '#000000'
@@ -492,6 +493,7 @@ function clearEverythingSingle(el){
     el.style.opacity = 0
     el.style.transform = `rotate3d(0,1,0,3deg) translateZ(${500*moving}px)`
     respo.style.display = 'none'
+    scrollEl.style.display = 'none'
         setTimeout(() => {
             el.style.display = 'none'
         }, 250);
@@ -504,7 +506,7 @@ function showEl(el){
     el[indexElementMoving].style.display = 'flex'
     el[indexElementMoving].style.transform = `rotate3d(0,1,0,3deg) translateZ(0px)`
     respo.style.display = 'block'
-
+    scrollEl.style.display = 'block'
     updateSwiper()
 
     setTimeout(() => {
