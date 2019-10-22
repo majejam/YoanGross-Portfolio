@@ -434,16 +434,28 @@ video
     text-align center
     will-change opacity 
 
-.scroll-msg
+.scroll_container
     position absolute
     display none
     bottom 75px
     left 50%
     transform translate(-50%,0%)
-    height: 40px
+    display flex 
+    justify-content center
+    flex-flow column nowrap
+    align-items center
+    opacity 0.7
+
+.scroll_container span
+    font-size 0.8em
+    margin-top: 10px
+
+.scroll-msg
+    height: 30px
     width: 2px
     background black
-    animation scroll 1s ease-in-out 0s 4 normal forwards 
+    margin auto
+    animation scroll 1s ease-in-out 0s infinite normal forwards 
 
 .responsive-msg-cursor
     position absolute
@@ -531,20 +543,20 @@ video
 
 @keyframes scroll {
   0% {
-        transform translate(-50%, 0) scaleY(0)
+        transform scaleY(0)
         transform-origin bottom
   }
   49% {
-        transform translate(-50%, 0) scaleY(1)
+        transform scaleY(1)
         transform-origin bottom
     }
   51% {
-          transform translate(-50%, 0) scaleY(1)
+          transform scaleY(1)
           transform-origin top
     }
 
   100% {
-        transform translate(-50%, 0) scaleY(0)
+        transform scaleY(0)
         transform-origin top
   }
 }
@@ -732,10 +744,10 @@ video
         bottom 20px
         width 80%
     .responsive-msg
-        animation blink 2s linear 0s 4 normal forwards 
+        animation blink 2s linear 0s infinite normal forwards 
     .responsive-msg-cursor
         display block
-    .scroll-msg
+    .scroll_container
         display: none !important
 
     
@@ -800,6 +812,8 @@ video
         height 200px
     .img-holder
         height 200px
+    .content-container
+        top 45%
 
 @media only screen and (max-width: 400px)
     h2
