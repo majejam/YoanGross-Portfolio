@@ -24,11 +24,21 @@ CameraControls.install( { THREE: THREE } );
 let raycaster = new THREE.Raycaster();
 var mouse = new THREE.Vector2();
 
+var touch = new THREE.Vector2();
+
 
 function onMouseMove( event ) {
 
 	mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
 	mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+}
+
+
+function onTouchMove( event ) {
+
+	touch.x = ( event.touches[0].clientX / window.innerWidth ) * 2 - 1;
+	touch.y = - ( event.touches[0].clientY / window.innerHeight ) * 2 + 1;
 
 }
 
@@ -186,6 +196,7 @@ for (let i = 0; i < return_home.length; i++) {
         cameraControls.setLookAt(x/2.5, 0, 8, 10, 0, -115, true )
     }
 
+    responsive.style.display = "none"
    
     
     clearEverythingSingle(contentSelected[indexElementMoving])
@@ -796,7 +807,7 @@ function moveBetweenElements(timeout) {
     let distance = cameraPos.distanceTo(selectedscene.arrayElement[indexElementMoving].element.mesh.position)
     cameraControls.setTarget(selectedscene.arrayElement[indexElementMoving].posx,selectedscene.arrayElement[indexElementMoving].posy,selectedscene.arrayElement[indexElementMoving].posz,true)
     cameraControls.dolly(-distance + 4, true)
-   
+    responsive.style.display = "block"
     movingScroll = true
     setTimeout(() => {
         movingScroll = true
@@ -853,7 +864,9 @@ const loop = () =>
 }
 loop()
 window.addEventListener( 'mousemove', onMouseMove, false );
-window.addEventListener( 'click', () => {
+window.addEventListener( 'touchstart', onTouchMove, false );
+
+window.addEventListener( 'mousedown', () => {
     if(x == 0) {
         cubeObj.isClicked(cursor, camera, raycaster, seeMenu)
     }
@@ -866,22 +879,25 @@ window.addEventListener( 'click', () => {
     else if(x == 30) {
         octaObj.isClicked(cursor, camera, raycaster, seeMenu)
     }
+    console.log('hello');
+    
 });
-window.addEventListener( 'touchstart', () => {
+
+window.addEventListener( 'touchend', () => {
+
     if(x == 0) {
-        cubeObj.isClickedTouch(cursor, camera, raycaster, seeMenu)
-        
-        
+        cubeObj.isClickedTouch(touch, camera, raycaster, seeMenu)
     }
     else if(x == 10) {
-        coneObj.isClickedTouch(cursor, camera, raycaster, seeMenu)
+        coneObj.isClickedTouch(touch, camera, raycaster, seeMenu)
     }
     else if(x == 20) {
-        dodeObj.isClickedTouch(cursor, camera, raycaster, seeMenu)
+        dodeObj.isClickedTouch(touch, camera, raycaster, seeMenu)
     }
     else if(x == 30) {
-        octaObj.isClickedTouch(cursor, camera, raycaster, seeMenu)
+        octaObj.isClickedTouch(touch, camera, raycaster, seeMenu)
     }
+    console.log(touch);
 });
 
 function animationObj() {

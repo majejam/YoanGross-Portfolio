@@ -361,6 +361,7 @@ export class Element{
 
     isClicked(cursor, camera, raycaster, callback, index) {
 
+        
         let force = 0.01 
         if(this.isOn) {
             callback(index)
