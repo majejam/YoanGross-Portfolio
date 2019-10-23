@@ -4,7 +4,7 @@ OBJLoader(THREE);
 
 export class Element{
     // Element(0xffffff, scene, 'Dodecahedron', 1, 1, 1, 1, 0, 0, 0)
-    constructor(color, scene, type, radius, height, definition, size, posx, posy, posz, isObj = false, scale = 1, rotate = 0, isRotate = false){
+    constructor(color, scene, type, radius, height, definition, size, posx, posy, posz, isObj = false, scale = 1, rotate = 0, isRotate = false, isGLTF = false){
         this.scene = scene 
         this.container = new THREE.Object3D()
         this.posx = posx
@@ -30,6 +30,7 @@ export class Element{
         this.movingEl = false
         this.mousePosition = { x: 0, y: 0 };
         this.cameraAmpl = { x: 0.1, y: 0.1 };
+        this.isGLTF = isGLTF
 
         this.rotate = rotate
         this.init_rotate = rotate
@@ -62,8 +63,11 @@ export class Element{
         else if(this.type == 'Cube'){
             this.setCube()   
         }
-        else if(this.isObj){
+        else if(this.isObj && !this.isGLTF){
             this.setObject(this.container)
+        }
+        else if (this.isObj && this.isGLTF) {
+            this.setObjectGLTF(this.container)
         }
 
     }
@@ -178,6 +182,7 @@ export class Element{
         this.THREE = THREE;
         const objLoader = new this.THREE.OBJLoader();
         let color = this.color
+        let scaleInit = this.scale_init
         // load a resource
         objLoader.load(
             // resource URL
@@ -209,6 +214,7 @@ export class Element{
         
                 element.mesh = new THREE.Mesh(element.geometry, element.material)
                 container.add(element.mesh)
+                container.scale.set(scaleInit,scaleInit,scaleInit);        
                 container.add( object );
                 
 
@@ -228,6 +234,71 @@ export class Element{
         );
 
         this.setPositionContainer()
+    }
+
+    setObjectGLTF(container) {
+        // Instantiate a loader
+        var loader = new THREE.GLTFLoader();
+
+        let color = this.color
+        let scaleInit = this.scale_init
+
+        // Load a glTF resource
+        loader.load(
+            // resource URL
+            `./obj/${this.type}.gltf`,
+            // called when the resource is loaded
+            function ( gltf ) {
+
+                scene.add( gltf.scene );
+
+                gltf.animations; // Array<THREE.AnimationClip>
+                gltf.scene; // THREE.Scene
+                gltf.scenes; // Array<THREE.Scene>
+                gltf.cameras; // Array<THREE.Camera>
+                gltf.asset; // Object
+
+                gltf.asset.traverse( function ( child ) {
+
+                    if ( child instanceof THREE.Mesh ) {
+            
+                        child.material =  new THREE.MeshStandardMaterial({
+                            color: color, 
+                            metalness: 0.5,
+                            roughness: 1,
+                        })
+            
+                    }
+            
+                } );
+
+                let element = {}
+                element.geometry = new THREE.BoxBufferGeometry(1.5, 1.5, 1.5)
+                element.material = new THREE.MeshStandardMaterial({
+                    color: 0xFF0000, 
+                    transparent: true,
+                    opacity: 0,
+                })
+        
+                element.mesh = new THREE.Mesh(element.geometry, element.material)
+                container.add(element.mesh)
+                container.scale.set(scaleInit,scaleInit,scaleInit);        
+                container.add( gltf.asset );
+
+            },
+            // called while loading is progressing
+            function ( xhr ) {
+
+                console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+
+            },
+            // called when loading has errors
+            function ( error ) {
+
+                console.log( 'An error happened' );
+
+            }
+        );
     }
 
     upDownAnimation(force, increment)

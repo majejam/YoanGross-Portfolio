@@ -190,10 +190,10 @@ for (let i = 0; i < return_home.length; i++) {
 
     setBoolEnvironnement(false, true, false, false)
     if(sizes.width > 600) {
-        cameraControls.setLookAt(x/2.5, 0, 6, 10, 0, -115, true )
+        cameraControls.setLookAt((watchScroll.progress*16), 0, 6, 8, 0, -115, true )
     }
     else {
-        cameraControls.setLookAt(x/2.5, 0, 8, 10, 0, -115, true )
+        cameraControls.setLookAt((watchScroll.progress*16) + ((watchScroll.progress - 0.5) * 3), 0, 6, 8, 0, -115, true )
     }
 
     responsive.style.display = "none"
@@ -323,7 +323,7 @@ function changeNum(index, bool = true, i = 0){
             x = 30
             y = 400 * 3
         }
-        else if(x == 40){
+        else if(x == 50){
             x = 0
             y = 0
         }
@@ -357,8 +357,19 @@ function changeNum(index, bool = true, i = 0){
         if(x == 30){
             resetColor(numerotation, '#aaaaaa')
             numerotation[3].style.color = '#000000'
+            
             if(index == -10){
                 transitionHome(2, 'left')
+            }
+            else if (index == 10){
+                transitionHome(3, 'right')
+            } 
+        }
+        if(x == 40){
+            resetColor(numerotation, '#aaaaaa')
+            numerotation[4].style.color = '#000000'
+            if(index == -10){
+                transitionHome(3, 'left')
             }
         }
 
@@ -425,10 +436,11 @@ scene.add( light );
 /**
  * Menu object
  */
-let cubeObj = new OBJECT.Element(0x2A9D8F, scene, 'clap', 1, 1, 1, 1, 0, 0, 2, true, 0.8, -0.4)
-let coneObj = new OBJECT.Element(0xFFD166, scene, 'Monkey', 0.5, 1.5, 320, 0, 4, 0, 2, true, 1)
-let dodeObj = new OBJECT.Element(0xE76F51, scene, 'brackets', 1, 1, 1, 1, 8, 0, 2, true, 1)
-let octaObj = new OBJECT.Element(0x118AB2, scene, 'screen', 0.5, 1, 0, 1, 12, 0, 2, true, 1)
+let cubeObj = new OBJECT.Element(0x2A9D8F, scene, 'clap', 1, 1, 1, 1, 0, 0, 2, true, 0.8, -0.4, false, false)
+let coneObj = new OBJECT.Element(0xFFD166, scene, 'Monkey', 0.5, 1.5, 320, 0, 4, 0, 2, true, 1, 0, false, false)
+let dodeObj = new OBJECT.Element(0xE76F51, scene, 'brackets', 1, 1, 1, 1, 8, 0, 2, true, 1, 0, false, false)
+let octaObj = new OBJECT.Element(0x118AB2, scene, 'screen', 0.5, 1, 0, 1, 12, 0, 2, true, 1, 0, false, false)
+let resumeObj = new OBJECT.Element(0xE9C46A, scene, 'Envelop', 0.5, 1, 0, 1, 16, 0, 2, true, 0.6, 0.4, false, false)
 
 
 /**
@@ -709,7 +721,12 @@ window.addEventListener('keydown', function(event) {
         watchScroll.slideNext()
     }
     else if (key === "Enter" && menu_show){
-        seeMenu()
+        if (x == 40) {
+            openInNewTab()
+        }
+        else {
+            seeMenu()
+        }
     }
     else if (key === "Enter" && intro_show){
         animationStart(interval, intro_container)
@@ -848,14 +865,17 @@ const loop = () =>
     else if(x == 30) {
         octaObj.onDocumentMouseMove(mouse, 20)
     }
+    else if(x == 40) {
+        resumeObj.onDocumentMouseMove(mouse, 20)
+    }
 
     if(menu_show) {
         console.log(watchScroll.progress);
         if(sizes.width > 600) {
-            cameraControls.setLookAt((watchScroll.progress*12), 0, 6, 10, 0, -115, true )
+            cameraControls.setLookAt((watchScroll.progress*16 + ((watchScroll.progress - 0.5) * 0.5)), 0, 6, 8, 0, -115, true )
         }
         else {
-            cameraControls.setLookAt((watchScroll.progress*12), 0, 8, 10, 0, -115, true )
+            cameraControls.setLookAt((watchScroll.progress*16  + ((watchScroll.progress - 0.5) * 0.8)), 0, 8, 8, 0, -115, true )
         }
     }
  
@@ -879,9 +899,18 @@ window.addEventListener( 'mousedown', () => {
     else if(x == 30) {
         octaObj.isClicked(cursor, camera, raycaster, seeMenu)
     }
+    else if(x == 40) {
+        resumeObj.isClicked(cursor, camera, raycaster, openInNewTab)
+    }
     console.log('hello');
     
 });
+
+
+function openInNewTab() {
+    var win = window.open('https://www.grossyoan.fr/resume/resume.pdf', '_blank');
+    win.focus();
+  }
 
 window.addEventListener( 'touchend', () => {
 
@@ -897,6 +926,9 @@ window.addEventListener( 'touchend', () => {
     else if(x == 30) {
         octaObj.isClickedTouch(touch, camera, raycaster, seeMenu)
     }
+    else if(x == 40) {
+        resumeObj.isClickedTouch(touch, camera, raycaster, openInNewTab)
+    }
     console.log(touch);
 });
 
@@ -905,6 +937,7 @@ function animationObj() {
     coneObj.animationObj()
     dodeObj.animationObj()
     octaObj.animationObj()
+    resumeObj.animationObj()
 
     firstscene.animationPlay(true, true, true, true)
     secondscene.animationPlay(true, true, true, false)
@@ -931,6 +964,9 @@ function objHovered() {
     }
     else if(x == 30) {
         octaObj.isHoveredObj(mouse, camera, raycaster)
+    }
+    else if(x == 40) {
+        resumeObj.isHoveredObj(mouse, camera, raycaster)
     }
 }
 
