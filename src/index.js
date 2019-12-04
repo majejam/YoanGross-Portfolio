@@ -42,7 +42,7 @@ function onTouchMove( event ) {
 
 }
 
-prod(true)
+prod(false)
 
 const parent__container = document.querySelector('.content-container')
 let dom = new DOM.Reader(parent__container)
@@ -244,7 +244,8 @@ for (let i = 0; i < return_home.length; i++) {
         setBoolEnvironnement(false, false, true, false)
     })
  }
- function closeModals(){
+
+function closeModals(){
     setBoolEnvironnement(false, false, true, false)
     for (let i = 0; i < modalsctn.length; i++) {
         modalsctn[i].style.opacity = 0
@@ -252,7 +253,8 @@ for (let i = 0; i < return_home.length; i++) {
             modalsctn[i].style.display = 'none'
         }, 550);
      }
- }
+}
+
 
 /**
  * Cursor
@@ -495,6 +497,20 @@ returnAll.addEventListener('click', () => {
     returnFonction()
 })
 
+let zoomBool = false
+
+document.addEventListener('mousedown', () => {
+    if(menu_show) {
+        zoomBool = true
+    }
+})
+
+
+document.addEventListener('mouseup', () => {
+    if(menu_show) {
+        zoomBool = false
+    }
+})
 
 introduction()
 
@@ -851,7 +867,9 @@ const loop = () =>
 
     objHovered()
 
-    
+    if(!menu_show) {
+        zoomBool = false
+    }    
 
     if(x == 0) {
         cubeObj.onDocumentMouseMove(mouse, 20)
@@ -869,13 +887,23 @@ const loop = () =>
         resumeObj.onDocumentMouseMove(mouse, 20)
     }
 
-    if(menu_show) {
+    if(menu_show && !zoomBool) {
         console.log(watchScroll.progress);
         if(sizes.width > 600) {
             cameraControls.setLookAt((watchScroll.progress*16 + ((watchScroll.progress - 0.5) * 0.5)), 0, 6, 8, 0, -115, true )
         }
         else {
             cameraControls.setLookAt((watchScroll.progress*16  + ((watchScroll.progress - 0.5) * 0.8)), 0, 8, 8, 0, -115, true )
+        }
+    }
+
+    if(menu_show && zoomBool) {
+        console.log(watchScroll.progress);
+        if(sizes.width > 600) {
+            cameraControls.setLookAt((watchScroll.progress*16 + ((watchScroll.progress - 0.5) * 0.5)), 0, 5.5, 8, 0, -115, true )
+        }
+        else {
+            cameraControls.setLookAt((watchScroll.progress*16  + ((watchScroll.progress - 0.5) * 0.8)), 0, 7.5, 8, 0, -115, true )
         }
     }
  
