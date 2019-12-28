@@ -77,6 +77,17 @@
     "link": "https://dribbble.com/shots/5960859-Hello-Dribbble"
   },
   {
+    "type": "content-manager-motion",
+    "number": 7,
+    "title": "Hello Dribbble",
+    "date": "January 2023",
+    "description": "Bah ça marche :/",
+    "media": "video",
+    "url": "videos/DribbbleAlex.m4v",
+    "alt": false,
+    "link": "https://dribbble.com/shots/5960859-Hello-Dribbble"
+  },
+  {
     "type": "content-manager-dev",
     "number": 0,
     "title": "The History Machine - Webdoc",
@@ -156,6 +167,27 @@
   {
     "type": "content-manager-3d",
     "number": 0,
+    "title": "Bouncing Balls",
+    "date": "December 2019",
+    "description": "Some experiment with xPresso and generative animation on Cinema4D.",
+    "media": "video",
+    "url": "videos/3DBalls.m4v",
+    "alt": false,
+    "link": "https://www.instagram.com/p/B52cQLEo5-5/"
+  },
+  {
+    "type": "content-manager-3d",
+    "number": 1,
+    "title": "Kila - Promotional Video",
+    "date": "December 2019",
+    "description": "A promotional video made for a school project around sport and 5G, with Orange.",
+    "media": "video",
+    "url": "videos/3DKila.m4v",
+    "alt": false
+  },
+  {
+    "type": "content-manager-3d",
+    "number": 2,
     "title": "Police Roadblock",
     "date": "September 2019",
     "description": "A night animation modeled and animated for an error page during my internship at Trusk.",
@@ -166,7 +198,18 @@
   },
   {
     "type": "content-manager-3d",
-    "number": 1,
+    "number": 3,
+    "title": "Fluid Pipe",
+    "date": "December 2019",
+    "description": "An experiment made with Blender and Flip Fluids as a first try with fluids simulation.",
+    "media": "video",
+    "url": "videos/3DPipe.m4v",
+    "alt": false,
+    "link": "https://dribbble.com/shots/9163516-Pipe-Water-Simulation"
+  },
+  {
+    "type": "content-manager-3d",
+    "number": 4,
     "title": "Gas Station",
     "date": "October 2019",
     "description": "A low poly 3D animation made as a Blender training.",
@@ -177,7 +220,7 @@
   },
   {
     "type": "content-manager-3d",
-    "number": 2,
+    "number": 5,
     "title": "Truck Tunnel",
     "date": "September 2019",
     "description": "Another animation modeled and animated for an error page during my internship at Trusk.",
@@ -188,7 +231,7 @@
   },
   {
     "type": "content-manager-3d",
-    "number": 3,
+    "number": 6,
     "title": "Truck Garage",
     "date": "September 2019",
     "description": "Another animation modeled and animated for an error page during my internship at Trusk.",
@@ -199,7 +242,7 @@
   },
   {
     "type": "content-manager-3d",
-    "number": 4,
+    "number": 7,
     "title": "Hello Dribbble",
     "date": "March 2019",
     "description": "A low poly 3D animation made for my Hello Dribbble shot using Cinema4D.",
@@ -210,7 +253,7 @@
   },
   {
     "type": "content-manager-3d",
-    "number": 5,
+    "number": 8,
     "title": "Fake Brand Showroom",
     "date": "December 2018",
     "description": "A showroom video made for a fake brand created for a communication course.",
@@ -221,7 +264,7 @@
   },
   {
     "type": "content-manager-3d",
-    "number": 5,
+    "number": 9,
     "title": "Cartier Champs-Élysées",
     "date": "April 2018",
     "description": "A 3D animation of the Cartier showroom located in the Champs-Élysées, created for a communication course.",
