@@ -42,7 +42,7 @@ function onTouchMove( event ) {
 
 }
 
-prod(false)
+prod(true)
 
 const parent__container = document.querySelector('.content-container')
 let dom = new DOM.Reader(parent__container)
